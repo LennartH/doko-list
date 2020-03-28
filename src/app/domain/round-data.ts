@@ -2,6 +2,7 @@ import { Announcement, Party } from './common';
 
 export interface RoundData {
   wasSolo: boolean;
+  consecutiveBockrounds: number;
   points: { re: number; contra: number };
   announcements: { re?: Announcement; contra?: Announcement };
 
@@ -16,6 +17,7 @@ export interface RoundData {
 class RoundDataBuilder {
 
   private wasSolo = false;
+  private consecutiveBockrounds = 0;
   private points = {re: 0, contra: 0};
   private announcements: { re?: Announcement; contra?: Announcement } = {};
   private doppelkopfs: Party[] = [];
@@ -27,6 +29,16 @@ class RoundDataBuilder {
 
   solo(wasSolo: boolean = true): RoundDataBuilder {
     this.wasSolo = wasSolo;
+    return this;
+  }
+
+  bockround(): RoundDataBuilder {
+    this.consecutiveBockrounds = 1;
+    return this;
+  }
+
+  withConsecutiveBockrounds(consecutiveBockrounds: number): RoundDataBuilder {
+    this.consecutiveBockrounds = consecutiveBockrounds;
     return this;
   }
 
@@ -42,12 +54,12 @@ class RoundDataBuilder {
     return this;
   }
 
-  withReAnnouncement(announcement: Announcement): RoundDataBuilder {
+  withReAnnouncement(announcement: Announcement = {lessThan: 120}): RoundDataBuilder {
     this.announcements.re = announcement;
     return this;
   }
 
-  withContraAnnouncement(announcement: Announcement): RoundDataBuilder {
+  withContraAnnouncement(announcement: Announcement = {lessThan: 120}): RoundDataBuilder {
     this.announcements.contra = announcement;
     return this;
   }
@@ -85,8 +97,12 @@ class RoundDataBuilder {
   }
 
   build(): RoundData {
+    if (this.points.re + this.points.contra !== 240) {
+      throw new Error('The points have not been set');
+    }
     return {
       wasSolo: this.wasSolo,
+      consecutiveBockrounds: this.consecutiveBockrounds,
       points: {...this.points},
       announcements: {...this.announcements},
       doppelkopfs: [...this.doppelkopfs],

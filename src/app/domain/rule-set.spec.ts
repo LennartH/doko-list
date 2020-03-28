@@ -1,20 +1,22 @@
 import { $enum } from 'ts-enum-util';
-import { AnnouncementBehaviour, BockroundAfter, ExtraScore } from './common';
+import { AnnouncementBehaviour, BockroundAfter, BonusScore } from './common';
 import { RoundData } from './round-data';
 import { RuleSetConfig, RuleSet } from './rule-set';
 
 const completeConfig: RuleSetConfig = {
   announcementBehaviour: undefined,
+  losingAnnouncementsGivesScore: true,
   soloWinsOnTie: true,
   losingPartyGetsNegatedScore: true,
-  extraScoreRules: $enum(ExtraScore).getValues(),
-  bockroundAfter: $enum(BockroundAfter).getValues()
+  bonusScoreRules: $enum(BonusScore).getValues(),
+  bonusScoresOnSolo: true,
+  bockroundAfter: $enum(BockroundAfter).getValues(),
+  consecutiveBockroundsStack: true
 };
 
 const reWon = {
   name: 're won',
-  builder: RoundData.create()
-    .withRePoints(140)
+  builder: RoundData.create().withRePoints(140)
 };
 const reWonWithDoppelkopf = {
   name: 're won with doppelkopf',
@@ -37,18 +39,16 @@ const reWonButContraDoppelkopfAndCaughtCharlie = {
 };
 const reWonBig = {
   name: 're won big',
-  builder: RoundData.create()
-    .withRePoints(239)
+  builder: RoundData.create().withRePoints(239)
 };
+
 const contraWon = {
   name: 'contra won',
-  builder: RoundData.create()
-    .withContraPoints(140)
+  builder: RoundData.create().withContraPoints(140)
 };
 const contraWonSchwarz = {
   name: 'contra won',
-  builder: RoundData.create()
-    .withRePoints(0)
+  builder: RoundData.create().withRePoints(0)
 };
 const contraWonWithCapturedDulle = {
   name: 'contra won with captured dulle',
@@ -71,8 +71,7 @@ const contraWonWithLastTrickByCharly = {
 
 const scoreTied = {
   name: 'scores tied',
-  builder: RoundData.create()
-    .withContraPoints(120)
+  builder: RoundData.create().withContraPoints(120)
 };
 
 const soloWon = {
@@ -94,22 +93,67 @@ const soloLost = {
     .solo()
     .withContraPoints(140)
 };
-const soloLostWithFoxCaught = {
+const soloLostButCaughtFox = {
   name: 'solo lost but caught fox',
   builder: RoundData.create()
     .solo()
     .withContraPoints(140)
     .foxCaughtBy('re')
 };
+const soloTies = {
+  name: 'solo ties',
+  builder: RoundData.create()
+    .solo()
+    .withRePoints(120)
+};
+const soloTiesWithAnnouncement = {
+  name: 'solo ties with announcement',
+  builder: RoundData.create()
+    .solo()
+    .withRePoints(120)
+    .withReAnnouncement()
+};
 
 const reWonWithAnnouncementLessThan90 = {
   name: 're won with announcement less than 90',
   builder: RoundData.create()
     .withContraPoints(89)
-    .withReAnnouncement({lessThan: 90})
+    .withReAnnouncement({ lessThan: 90 })
+};
+const reWonWithAnnouncementSchwarz = {
+  name: 're won with schwarz announcement',
+  builder: RoundData.create()
+    .withContraPoints(0)
+    .withReAnnouncement({ lessThan: 0 })
+};
+const reWonWithAnnouncementLessThan90AndContraAnnouncement = {
+  name: 're won with announcement less than 90 and contra announcement',
+  builder: RoundData.create()
+    .withContraPoints(89)
+    .withReAnnouncement({ lessThan: 90 })
+    .withContraAnnouncement()
+};
+const reLostWithAnnouncementLessThan90 = {
+  name: 're lost with announcement less than 90',
+  builder: RoundData.create()
+    .withContraPoints(90)
+    .withReAnnouncement({ lessThan: 90 })
 };
 
-describe(`RuleSet using announcement behaviour ${AnnouncementBehaviour.AllPlusOne}`, () => {
+const reWonInBockround = {
+  name: 're won in bockround',
+  builder: RoundData.create()
+    .bockround()
+    .withRePoints(140)
+};
+const reWonInTripleBockround = {
+  name: 're won in third consecutive bockround',
+  builder: RoundData.create()
+    .withConsecutiveBockrounds(3)
+    .withRePoints(140)
+};
+
+describe(`RuleSet using announcement behaviour ${AnnouncementBehaviour.FirstGetsPlusTwo}`, () => {
   [
     { data: reWon, expected: { re: 1, contra: -1, isBockroundNext: false } },
     { data: reWonWithDoppelkopf, expected: { re: 2, contra: -2, isBockroundNext: false } },
@@ -127,13 +171,21 @@ describe(`RuleSet using announcement behaviour ${AnnouncementBehaviour.AllPlusOn
 
     { data: soloWon, expected: { re: 3, contra: -1, isBockroundNext: true } },
     { data: soloWonWithDoppelkopf, expected: { re: 6, contra: -2, isBockroundNext: true } },
-    { data: soloLost, expected: { re: -3, contra: 1, isBockroundNext: true } },
-    { data: soloLostWithFoxCaught, expected: { re: -0, contra: 0, isBockroundNext: true } },
+    { data: soloLost, expected: { re: -6, contra: 2, isBockroundNext: true } },
+    { data: soloLostButCaughtFox, expected: { re: -3, contra: 1, isBockroundNext: true } },
+    { data: soloTies, expected: { re: 3, contra: -1, isBockroundNext: true } },
+    { data: soloTiesWithAnnouncement, expected: { re: -9, contra: 3, isBockroundNext: true } },
 
-    { data: reWonWithAnnouncementLessThan90, expected: { re: 3, contra: -3, isBockroundNext: false } },
+    { data: reWonWithAnnouncementLessThan90, expected: { re: 5, contra: -5, isBockroundNext: false } },
+    { data: reWonWithAnnouncementSchwarz, expected: { re: 11, contra: -11, isBockroundNext: true } },
+    { data: reWonWithAnnouncementLessThan90AndContraAnnouncement, expected: { re: 6, contra: -6, isBockroundNext: true } },
+    { data: reLostWithAnnouncementLessThan90, expected: { re: -4, contra: 4, isBockroundNext: true } },
+
+    { data: reWonInBockround, expected: { re: 2, contra: -2, isBockroundNext: false } },
+    { data: reWonInTripleBockround, expected: { re: 8, contra: -8, isBockroundNext: false } }
   ].forEach(({ data, expected }) => {
     it(`should calculate score for round data where ${data.name}`, () => {
-      const ruleSet = new RuleSet('test', { ...completeConfig, announcementBehaviour: AnnouncementBehaviour.AllPlusOne });
+      const ruleSet = new RuleSet('test', { ...completeConfig, announcementBehaviour: AnnouncementBehaviour.FirstGetsPlusTwo });
       expect(ruleSet.calculateScore(data.builder.build())).toEqual(expected);
     });
   });

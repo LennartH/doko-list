@@ -1,20 +1,26 @@
-import { AnnouncementBehaviour, BockroundAfter, ExtraScore, Party } from './common';
+import { AnnouncementBehaviour, BockroundAfter, BonusScore, Party, PointThreshold } from './common';
 import { RoundData } from './round-data';
 
 export interface RuleSetConfig {
   announcementBehaviour: AnnouncementBehaviour;
+  losingAnnouncementsGivesScore: boolean;
   soloWinsOnTie: boolean;
   losingPartyGetsNegatedScore: boolean;
-  extraScoreRules: ExtraScore[];
+  bonusScoreRules: BonusScore[];
+  bonusScoresOnSolo: boolean;
   bockroundAfter: BockroundAfter[];
+  consecutiveBockroundsStack: boolean;
 }
 
 export const defaultRuleSetConfig: RuleSetConfig = {
-  announcementBehaviour: AnnouncementBehaviour.AllPlusOne,
+  announcementBehaviour: AnnouncementBehaviour.FirstGetsPlusTwo,
+  losingAnnouncementsGivesScore: true,
   soloWinsOnTie: false,
   losingPartyGetsNegatedScore: true,
-  extraScoreRules: [ExtraScore.ForDoppelkopf],
-  bockroundAfter: []
+  bonusScoreRules: [BonusScore.WhenWinningAgainstDames, BonusScore.ForDoppelkopf, BonusScore.ForCaughtFox],
+  bonusScoresOnSolo: false,
+  bockroundAfter: [],
+  consecutiveBockroundsStack: false
 };
 
 export class RuleSet {
@@ -22,36 +28,94 @@ export class RuleSet {
 
   calculateScore(roundData: RoundData): RoundResult {
     const [winningParty, announcementWasLost] = this.determineWinningParty(roundData);
-    let winningPartyScore = 0;
+    const losingParty = this.otherParty(winningParty);
+    let winningPartyScore = 1;
 
     let isBockroundNext = announcementWasLost && this.bockroundAfter(BockroundAfter.LostAnnouncement);
-    isBockroundNext = roundData.points.re === 120 && this.bockroundAfter(BockroundAfter.ScoreTie);
+    isBockroundNext = isBockroundNext || (roundData.points.re === 120 && this.bockroundAfter(BockroundAfter.ScoreTie));
     isBockroundNext = isBockroundNext || (roundData.wasSolo && this.bockroundAfter(BockroundAfter.Solo));
 
-    const losingPartyPoints = roundData.points[this.otherParty(winningParty)];
+    // Score based on points
+    const losingPartyPoints = roundData.points[losingParty];
     if (losingPartyPoints === 0) {
       winningPartyScore++;
       isBockroundNext = isBockroundNext || this.bockroundAfter(BockroundAfter.WonSchwarz);
     }
-    for (const pointThreshold of [30, 60, 90]) {
+    for (const pointThreshold of PointThreshold.values().slice(1, -1)) {
       if (losingPartyPoints < pointThreshold) {
         winningPartyScore++;
       }
     }
-    winningPartyScore++;
-    if (winningParty === 'contra' && !roundData.wasSolo) {
-      // TODO Is this a special rule?
-      winningPartyScore++;
+
+    // TODO Cleanup
+    // Score based on announcements
+    if (winningParty in roundData.announcements) {
+      const winningPartyAnnouncement = roundData.announcements[winningParty];
+      switch (this.config.announcementBehaviour) {
+        case AnnouncementBehaviour.FirstGetsPlusTwo:
+          winningPartyScore += 2;
+          break;
+        case AnnouncementBehaviour.FirstDoubles:
+        case AnnouncementBehaviour.AllDouble:
+          winningPartyScore *= 2;
+          break;
+        default:
+          throw new Error(`Unknown announcement behaviour ${this.config.announcementBehaviour}`);
+      }
+      for (const threshold of PointThreshold.values().slice(0, -1)) {
+        if (threshold >= winningPartyAnnouncement.lessThan) {
+          switch (this.config.announcementBehaviour) {
+            case AnnouncementBehaviour.FirstGetsPlusTwo:
+            case AnnouncementBehaviour.FirstDoubles:
+              winningPartyScore++;
+              break;
+            case AnnouncementBehaviour.AllDouble:
+              winningPartyScore *= 2;
+              break;
+            default:
+              throw new Error(`Unknown announcement behaviour ${this.config.announcementBehaviour}`);
+          }
+        }
+      }
+    }
+    if (losingParty in roundData.announcements && this.config.losingAnnouncementsGivesScore) {
+      const losingPartyAnnouncement = roundData.announcements[losingParty];
+      for (const threshold of PointThreshold.values()) {
+        if (threshold >= losingPartyAnnouncement.lessThan) {
+          switch (this.config.announcementBehaviour) {
+            case AnnouncementBehaviour.FirstGetsPlusTwo:
+            case AnnouncementBehaviour.FirstDoubles:
+              winningPartyScore++;
+              break;
+            case AnnouncementBehaviour.AllDouble:
+              winningPartyScore *= 2;
+              break;
+            default:
+              throw new Error(`Unknown announcement behaviour ${this.config.announcementBehaviour}`);
+          }
+        }
+      }
     }
 
-    // TODO Apply announcements
+    // Bonus Scores
+    if (!roundData.wasSolo || this.config.bonusScoresOnSolo) {
+      winningPartyScore += this.config.bonusScoreRules
+        .map(r => this.extraScoreRuleDelta(winningParty, roundData, r))
+        .reduce((sum, delta) => sum + delta, 0);
+    }
 
-    winningPartyScore += this.config.extraScoreRules
-      .map(r => this.extraScoreRuleDelta(winningParty, roundData, r))
-      .reduce((sum, delta) => sum + delta, 0);
+    // Applying Bockrounds
+    if (roundData.consecutiveBockrounds > 0) {
+      let bockroundFactor = 2;
+      if (this.config.consecutiveBockroundsStack) {
+        bockroundFactor **= roundData.consecutiveBockrounds;
+      }
+      winningPartyScore *= bockroundFactor;
+    }
 
-    let losingPartyScore = this.config.losingPartyGetsNegatedScore ? -1 * winningPartyScore : 0;
+    // Finalizing result
     isBockroundNext = isBockroundNext || winningPartyScore === 0;
+    let losingPartyScore = this.config.losingPartyGetsNegatedScore ? -1 * winningPartyScore : 0;
 
     if (roundData.wasSolo) {
       if (winningParty === 're') {
@@ -60,6 +124,7 @@ export class RuleSet {
         losingPartyScore *= 3;
       }
     }
+
     return {
       re: winningParty === 're' ? winningPartyScore : losingPartyScore,
       contra: winningParty === 'contra' ? winningPartyScore : losingPartyScore,
@@ -68,10 +133,26 @@ export class RuleSet {
   }
 
   private determineWinningParty(roundData: RoundData): [Party, boolean] {
-    const partyWithMorePoints = roundData.points.re > roundData.points.contra ? 're' : 'contra';
-    const announcementWasLost = false;
-    // TODO Check announcements
-    return [partyWithMorePoints, announcementWasLost];
+    let partyWithMorePoints: Party;
+    if (roundData.points.re === 120 && roundData.wasSolo && this.config.soloWinsOnTie) {
+      partyWithMorePoints = 're';
+    } else {
+      partyWithMorePoints = roundData.points.re > roundData.points.contra ? 're' : 'contra';
+    }
+    const partyWithLessPoints = this.otherParty(partyWithMorePoints);
+
+    let winningParty: Party = partyWithMorePoints;
+    let announcementWasLost = partyWithLessPoints in roundData.announcements;
+    if (partyWithMorePoints in roundData.announcements) {
+      const lessPoints = roundData.points[partyWithLessPoints];
+      const announcementToCheck = roundData.announcements[partyWithMorePoints];
+      if (lessPoints !== 0 && lessPoints >= announcementToCheck.lessThan) {
+        winningParty = partyWithLessPoints;
+        announcementWasLost = true;
+      }
+    }
+
+    return [winningParty, announcementWasLost];
   }
 
   private bockroundAfter(bockroundAfter: BockroundAfter): boolean {
@@ -82,7 +163,7 @@ export class RuleSet {
     return party === 're' ? 'contra' : 're';
   }
 
-  private extraScoreRuleDelta(winningParty: Party, roundData: RoundData, rule: ExtraScore): number {
+  private extraScoreRuleDelta(winningParty: Party, roundData: RoundData, rule: BonusScore): number {
     const ruleDelta = (ruleParty: Party) => {
       let _delta = 0;
       if (ruleParty !== undefined) {
@@ -93,28 +174,34 @@ export class RuleSet {
 
     let delta = 0;
     switch (rule) {
-      case ExtraScore.ForDoppelkopf:
+      case BonusScore.WhenWinningAgainstDames:
+        // TODO Option for not when solo
+        if (winningParty === 'contra') {
+          delta = 1;
+        }
+        break;
+      case BonusScore.ForDoppelkopf:
         for (const doppelkopf of roundData.doppelkopfs) {
           delta += ruleDelta(doppelkopf);
         }
         break;
-      case ExtraScore.ForCaughtFox:
+      case BonusScore.ForCaughtFox:
         for (const caughtFox of roundData.foxesCaught) {
           delta += ruleDelta(caughtFox);
         }
         break;
-      case ExtraScore.WhenCharlieTakesLastTrick:
+      case BonusScore.WhenCharlieTakesLastTrick:
         delta = ruleDelta(roundData.charlyGotLastTrick);
         break;
-      case ExtraScore.ForCaughtCharlie:
+      case BonusScore.ForCaughtCharlie:
         for (const caughtCharlie of roundData.charliesCaught) {
           delta += ruleDelta(caughtCharlie);
         }
         break;
-      case ExtraScore.WhenFoxTakesLastTrick:
+      case BonusScore.WhenFoxTakesLastTrick:
         delta = ruleDelta(roundData.foxGotLastTrick);
         break;
-      case ExtraScore.WhenDulleCapturesDulle:
+      case BonusScore.WhenDulleCapturesDulle:
         delta = ruleDelta(roundData.dulleCaughtDulle);
         break;
       default:

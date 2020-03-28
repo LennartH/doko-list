@@ -5,7 +5,7 @@
     </ion-buttons>
     <ion-title>create</ion-title>
     <ion-buttons slot="primary">
-      <ion-button>
+      <ion-button (click)="onConfirm()">
         <ion-icon name="checkmark" slot="icon-only"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -13,5 +13,131 @@
 </ion-header>
 
 <ion-content>
+  <form [formGroup]="form">
+    <ion-grid class="ion-no-padding">
+      <ion-row>
+        <ion-col>
+          <ion-item class="name-input" lines="inset">
+            <ion-label position="floating">Name</ion-label>
+            <ion-input type="text" formControlName="name" autocapitalize autofocus></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
 
+      <ion-row>
+        <ion-col>
+          <ion-item-group>
+            <ion-item-divider>
+              <ion-text color="primary">
+                <h2>An- und Absagen</h2>
+              </ion-text>
+            </ion-item-divider>
+
+            <ion-item lines="none">
+              <ion-label position="floating">Verhalten</ion-label>
+              <ion-select interface="popover" formControlName="announcementBehaviour">
+                <ion-select-option *ngFor="let behaviour of possibleBehaviours" [value]="behaviour.value">
+                  <ion-text>{{ behaviour.text }}</ion-text>
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
+            <ion-item lines="none">
+              <ion-label>Verlorene An-/Absagen geben Punkte</ion-label>
+              <ion-toggle color="primary" formControlName="losingAnnouncementsGivesScore"></ion-toggle>
+            </ion-item>
+          </ion-item-group>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-item-group>
+            <ion-item-divider>
+              <ion-text color="primary">
+                <h2>Sonderpunkte</h2>
+              </ion-text>
+            </ion-item-divider>
+
+            <ion-item class="ion-no-padding ion-text-center" lines="none">
+              <div style="padding-top: 10px;" formGroupName="bonusScoreRules">
+                <ion-chip class="toggle-chip" *ngFor="let bonusScore of possibleBonusScores"
+                  [class]="form.value.bonusScoreRules[bonusScore.value] ? 'selected-chip' : ''"
+                  (click)="toggleBonusScore(bonusScore.value)">
+                  <ion-label>{{ bonusScore.text }}</ion-label>
+                </ion-chip>
+              </div>
+            </ion-item>
+            <ion-item lines="none">
+              <ion-label>Auch bei Solo Spielen</ion-label>
+              <ion-toggle color="primary" formControlName="bonusScoresOnSolo"></ion-toggle>
+            </ion-item>
+          </ion-item-group>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-item-group>
+            <ion-item-divider>
+              <ion-text color="primary">
+                <h2>Bockrunden</h2>
+              </ion-text>
+            </ion-item-divider>
+
+            <ion-item class="ion-no-padding ion-text-center" lines="none">
+              <div style="padding-top: 10px;" formGroupName="bockroundAfter">
+                <ion-chip class="toggle-chip" *ngFor="let bockroundAfter of possibleBockroundsAfter"
+                  [class]="form.value.bockroundAfter[bockroundAfter.value] ? 'selected-chip' : ''"
+                  (click)="toggleBockroundAfter(bockroundAfter.value)">
+                  <ion-label>{{ bockroundAfter.text }}</ion-label>
+                </ion-chip>
+              </div>
+            </ion-item>
+            <ion-item lines="none">
+              <ion-label>Bockrunden überlappen sich</ion-label>
+              <ion-toggle color="primary" formControlName="consecutiveBockroundsStack"></ion-toggle>
+            </ion-item>
+          </ion-item-group>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-item-group>
+            <ion-item-divider>
+              <ion-text color="primary">
+                <h2>Sonstiges</h2>
+              </ion-text>
+            </ion-item-divider>
+
+            <ion-item lines="none">
+              <ion-label>Solo gewinnt bei Gleichstand</ion-label>
+              <ion-toggle color="primary" formControlName="soloWinsOnTie"></ion-toggle>
+            </ion-item>
+            <ion-item lines="none">
+              <ion-label>Verlierer bekommen Minuspunkte</ion-label>
+              <ion-toggle color="primary" formControlName="losingPartyGetsNegatedScore"></ion-toggle>
+            </ion-item>
+          </ion-item-group>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
 </ion-content>
+
+<ion-footer>
+  <ion-grid class="ion-no-padding">
+    <ion-row class="ion-no-padding">
+      <ion-col class="ion-no-padding">
+        <ion-button class="footer-button ion-no-margin" strong expand="block" color="danger" fill="outline"
+          routerLink="/rule-set" routerDirection="back">
+          Abbrechen
+        </ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button class="footer-button ion-no-margin" strong expand="block" color="primary" (click)="onConfirm()">
+          Fertig</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-footer>

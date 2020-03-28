@@ -29,11 +29,11 @@ export enum BockroundAfter {
 export enum BonusScore {
     WhenWinningAgainstDames = 'WhenWinningAgainstDames',
     ForDoppelkopf = 'ForDoppelkopf',
+    WhenDulleCapturesDulle = 'WhenDulleCapturesDulle',
     ForCaughtFox = 'ForCaughtFox',
     WhenCharlieTakesLastTrick = 'WhenCharlieTakesLastTrick',
     ForCaughtCharlie = 'ForCaughtCharlie',
     WhenFoxTakesLastTrick = 'WhenFoxTakesLastTrick',
-    WhenDulleCapturesDulle = 'WhenDulleCapturesDulle'
 }
 
 export enum AnnouncementBehaviour {

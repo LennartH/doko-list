@@ -1,4 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { $enum } from 'ts-enum-util';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { AnnouncementBehaviour, BonusScore, BockroundAfter } from 'src/app/domain/common';
+import { Extractor } from '@angular/compiler';
+import { NavController } from '@ionic/angular';
+import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { defaultRuleSetConfig } from 'src/app/domain/rule-set';
 
 @Component({
   selector: 'app-create',
@@ -6,10 +12,89 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./create.page.scss'],
 })
 export class CreatePage implements OnInit {
+  possibleBehaviours = $enum(AnnouncementBehaviour).map(value => {
+    return {
+      value,
+      text: $enum.mapValue(value).with({
+        FirstGetsPlusTwo: 'Ansage +2, Absagen +1',
+        AllDouble: 'An- und Absagen verdoppeln',
+        FirstDoubles: 'Ansage verdoppelt, Absagen +1'
+      })
+    };
+  });
 
-  constructor() { }
+  possibleBonusScores = $enum(BonusScore).map(value => {
+    return {
+      value,
+      text: $enum.mapValue(value).with({
+        WhenWinningAgainstDames: 'Gegen die Alten',
+        ForDoppelkopf: 'Doppelkopf',
+        ForCaughtFox: 'Fuchs gefangen',
+        ForCaughtCharlie: 'Karlchen gefangen',
+        WhenCharlieTakesLastTrick: 'Letzter Stich mit Karlchen',
+        WhenFoxTakesLastTrick: 'Letzter Stich mit Fuchs',
+        WhenDulleCapturesDulle: 'Dulle gefangen'
+      })
+    };
+  });
+
+  possibleBockroundsAfter = $enum(BockroundAfter).map(value => {
+    return {
+      value,
+      text: $enum.mapValue(value).with({
+        Solo: 'Solo',
+        LostAnnouncement: 'Verlorener Ansage',
+        ScoreTie: 'Gleichstand',
+        WonSchwarz: 'Schwarz gewonnen',
+        ZeroScore: 'Null-Spiel'
+      })
+    };
+  });
+
+  form: FormGroup;
+
+  constructor(
+    private fb: FormBuilder,
+    private navController: NavController
+  ) { }
 
   ngOnInit() {
+    this.form = this.fb.group({
+      name: ['', Validators.required],
+
+      announcementBehaviour: [defaultRuleSetConfig.announcementBehaviour, Validators.required],
+      losingAnnouncementsGivesScore: [defaultRuleSetConfig.losingAnnouncementsGivesScore, Validators.required],
+      soloWinsOnTie: [defaultRuleSetConfig.soloWinsOnTie, Validators.required],
+      losingPartyGetsNegatedScore: [defaultRuleSetConfig.losingPartyGetsNegatedScore, Validators.required],
+
+      bonusScoreRules: this.fb.group(Object.fromEntries($enum(BonusScore).map(value => {
+        const isSelected = defaultRuleSetConfig.bonusScoreRules.some(v => v === value);
+        return [value, isSelected];
+      }))),
+      bonusScoresOnSolo: [defaultRuleSetConfig.bonusScoresOnSolo, Validators.required],
+
+      bockroundAfter: this.fb.group(Object.fromEntries($enum(BockroundAfter).map(value => {
+        const isSelected = defaultRuleSetConfig.bockroundAfter.some(v => v === value);
+        return [value, isSelected];
+      }))),
+      consecutiveBockroundsStack: [defaultRuleSetConfig.consecutiveBockroundsStack, Validators.required],
+    });
+  }
+
+  toggleBonusScore(value: string) {
+    this.form.patchValue({
+      bonusScoreRules: {[value]: !this.form.value.bonusScoreRules[value]}
+    });
+  }
+
+  toggleBockroundAfter(value: string) {
+    this.form.patchValue({
+      bockroundAfter: {[value]: !this.form.value.bockroundAfter[value]}
+    });
+  }
+
+  onConfirm() {
+    console.log(this.form.value)
   }
 
 }

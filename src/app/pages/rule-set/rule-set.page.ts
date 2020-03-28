@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { RuleSet } from 'src/app/domain/rule-set';
+import { RuleSetsService } from 'src/app/services/rule-sets.service';
 
 @Component({
   selector: 'app-rule-set',
@@ -7,9 +9,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RuleSetPage implements OnInit {
 
-  constructor() { }
+  ruleSets: RuleSet[];
+
+  constructor(
+    private ruleSetsService: RuleSetsService
+  ) { }
 
   ngOnInit() {
+    this.ruleSetsService.ruleSets.subscribe(ruleSets => this.ruleSets = ruleSets);
   }
 
 }

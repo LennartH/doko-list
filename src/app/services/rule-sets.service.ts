@@ -15,4 +15,9 @@ export class RuleSetsService {
   get ruleSets(): Observable<RuleSet[]> {
     return this.ruleSetsSubject.asObservable();
   }
+
+  addRuleSet(ruleSet: RuleSet) {
+    this._ruleSets.push(ruleSet);
+    this.ruleSetsSubject.next(this._ruleSets);
+  }
 }

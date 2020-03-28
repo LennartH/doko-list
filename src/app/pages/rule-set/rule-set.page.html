@@ -8,6 +8,19 @@
 </ion-header>
 
 <ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <
+        <ion-card *ngFor="let ruleSet of ruleSets">
+          <ion-card-header>
+            <ion-card-title>{{ ruleSet.name }}</ion-card-title>
+          </ion-card-header>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button routerLink="create">
       <ion-icon name="add"></ion-icon>

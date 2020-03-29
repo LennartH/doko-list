@@ -1,0 +1,36 @@
+<ion-card [button]="button">
+  <ion-card-header>
+    <ion-card-title class="ion-text-center">{{ ruleSet.name }}</ion-card-title>
+  </ion-card-header>
+  <ion-card-content>
+    <ion-grid class="ion-no-padding">
+      <ion-row>
+        <ion-col class="ion-text-center">
+          <ion-text *ngIf="ruleSet.config.losingPartyGetsNegatedScore">Verlierer bekommen Minuspunkte</ion-text>
+          <ion-text *ngIf="ruleSet.config.losingPartyGetsNegatedScore && ruleSet.config.soloWinsOnTie">, <br /></ion-text>
+          <ion-text *ngIf="ruleSet.config.soloWinsOnTie">Solo gewinnt bei Gleichstand</ion-text>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col><strong>An-/Absagen</strong></ion-col>
+        <ion-col>{{ ruleSet.config.announcementBehaviour | message }}</ion-col>
+      </ion-row>
+      <ion-row *ngIf="ruleSet.config.bonusScoreRules.length > 0">
+        <ion-col>
+          <strong>Sonderpunkte für</strong>
+          <ion-text *ngIf="ruleSet.config.bonusScoresOnSolo"> (auch bei Solo)</ion-text>
+        </ion-col>
+        <ion-col>{{ ruleSet.config.bonusScoreRules | message }}</ion-col>
+      </ion-row>
+      <ion-row *ngIf="ruleSet.config.bockroundAfter.length > 0">
+        <ion-col>
+          <strong>Bockrunden nach</strong>
+          <ion-text *ngIf="ruleSet.config.consecutiveBockroundsStack"> (die überlappen)</ion-text>
+        </ion-col>
+        <ion-col>{{ ruleSet.config.bockroundAfter | message }}</ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <ng-content></ng-content>
+  </ion-card-content>
+</ion-card>

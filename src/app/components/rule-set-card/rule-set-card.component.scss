@@ -1,0 +1,10 @@
+// TODO Cleaner selector
+ion-row + ion-row {
+  ion-col {
+    &:first-of-type {
+      text-align: right;
+      flex: 0 0 120px;
+      margin-right: 10px;
+    }
+  }
+}

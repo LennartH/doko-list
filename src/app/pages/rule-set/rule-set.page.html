@@ -3,20 +3,34 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>rule-set</ion-title>
+    <ion-title>Regelsätze</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-grid>
-    <ion-row>
-      <ion-col>
-        <
-        <ion-card *ngFor="let ruleSet of ruleSets">
-          <ion-card-header>
-            <ion-card-title>{{ ruleSet.name }}</ion-card-title>
-          </ion-card-header>
-        </ion-card>
+  <ion-grid class="ion-no-padding">
+    <ion-row class="ion-no-padding">
+      <ion-col class="ion-no-padding">
+        <ion-item-sliding *ngFor="let ruleSet of ruleSets">
+          <ion-item lines="none" class="ion-no-padding">
+            <app-rule-set-card [ruleSet]="ruleSet" style="width: 100%;" (click)="click()" button></app-rule-set-card>
+          </ion-item>
+
+          <ion-item-options>
+            <ion-list lines="none">
+              <ion-item>
+                <ion-button class="item-option-button" color="danger" fill="outline" size="large">
+                  <ion-icon name="trash"></ion-icon>
+                </ion-button>
+              </ion-item>
+              <ion-item>
+                <ion-button class="item-option-button" color="tertiary" fill="outline" size="large">
+                  <ion-icon name="copy"></ion-icon>
+                </ion-button>
+              </ion-item>
+            </ion-list>
+          </ion-item-options>
+        </ion-item-sliding>
       </ion-col>
     </ion-row>
   </ion-grid>

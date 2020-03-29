@@ -12,52 +12,21 @@ import { $enum } from 'ts-enum-util';
   styleUrls: ['./create.page.scss']
 })
 export class CreatePage implements OnInit {
-  possibleBehaviours = $enum(AnnouncementBehaviour).map(value => {
-    return {
-      value,
-      text: $enum.mapValue(value).with({
-        FirstGetsPlusTwo: 'Ansage +2, Absagen +1',
-        AllDouble: 'An- und Absagen verdoppeln',
-        FirstDoubles: 'Ansage verdoppelt, Absagen +1'
-      })
-    };
-  });
-
-  possibleBonusScores = $enum(BonusScore).map(value => {
-    return {
-      value,
-      text: $enum.mapValue(value).with({
-        WhenWinningAgainstDames: 'Gegen die Alten',
-        ForDoppelkopf: 'Doppelkopf',
-        ForCaughtFox: 'Fuchs gefangen',
-        ForCaughtCharlie: 'Karlchen gefangen',
-        WhenCharlieTakesLastTrick: 'Letzter Stich mit Karlchen',
-        WhenFoxTakesLastTrick: 'Letzter Stich mit Fuchs',
-        WhenDulleCapturesDulle: 'Dulle gefangen'
-      })
-    };
-  });
-
-  possibleBockroundsAfter = $enum(BockroundAfter).map(value => {
-    return {
-      value,
-      text: $enum.mapValue(value).with({
-        Solo: 'Solo',
-        LostAnnouncement: 'Verlorener Ansage',
-        ScoreTie: 'Gleichstand',
-        WonSchwarz: 'Schwarz gewonnen',
-        ZeroScore: 'Null-Spiel'
-      })
-    };
-  });
+  possibleBehaviours = $enum(AnnouncementBehaviour).getValues();
+  possibleBonusScores = $enum(BonusScore).getValues();
+  possibleBockroundsAfter = $enum(BockroundAfter).getValues();
 
   form: FormGroup;
 
-  constructor(private fb: FormBuilder, private ruleSetsService: RuleSetsService, private router: Router) {}
+  constructor(
+    private fb: FormBuilder,
+    private ruleSetsService: RuleSetsService,
+    private router: Router
+  ) { }
 
   ngOnInit() {
     this.form = this.fb.group({
-      name: ['', Validators.required],
+      name: ['', Validators.required],  // TODO Validate that name is unique
 
       announcementBehaviour: [defaultRuleSetConfig.announcementBehaviour, Validators.required],
       losingAnnouncementsGivesScore: [defaultRuleSetConfig.losingAnnouncementsGivesScore, Validators.required],

@@ -8,6 +8,15 @@
         </ion-item>
       </ion-col>
     </ion-row>
+    <ion-row *ngIf="name.invalid && (name.dirty || name.touched)">
+      <ion-col>
+        <ion-item class="error-item" lines="none">
+          <ion-text *ngIf="name.errors.duplicateName">
+            Ein Regelsatz mit diesem Namen existiert bereits.
+          </ion-text>
+        </ion-item>
+      </ion-col>
+    </ion-row>
 
     <ion-row>
       <ion-col>

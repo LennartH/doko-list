@@ -10,3 +10,9 @@
 .selected-chip {
   --background: #bde8c5;
 }
+
+.error-item {
+  --color: var(--ion-color-danger);
+  --inner-padding-top: 5px;
+  --min-height: 20px;
+}

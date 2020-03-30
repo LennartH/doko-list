@@ -4,6 +4,7 @@ import { RuleSetsService } from 'src/app/services/rule-sets.service';
 import { MessagesService } from 'src/app/services/messages.service';
 import { Subscription } from 'rxjs';
 import { AlertController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-rule-set',
@@ -15,7 +16,12 @@ export class RuleSetPage implements OnInit, OnDestroy {
   displayRuleSetDetail: { [name: string]: boolean } = {};
   private ruleSetsSubscription: Subscription;
 
-  constructor(public messages: MessagesService, private ruleSetsService: RuleSetsService, private alertController: AlertController) {}
+  constructor(
+    public messages: MessagesService,
+    private ruleSetsService: RuleSetsService,
+    private alertController: AlertController,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.ruleSetsSubscription = this.ruleSetsService.ruleSets.subscribe(ruleSets => {
@@ -45,8 +51,10 @@ export class RuleSetPage implements OnInit, OnDestroy {
         this.deleteRuleSet(ruleSet);
         break;
       case 'copy':
+        this.router.navigate(['/rule-set/create'], {queryParams: {basedOn: ruleSet.name}});
         break;
       case 'edit':
+        this.router.navigate(['/rule-set/edit', ruleSet.name]);
         break;
       default:
         throw new Error(`Unknown action ${action}`);

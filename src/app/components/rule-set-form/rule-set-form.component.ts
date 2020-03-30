@@ -1,8 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, FormControl, AbstractControl, ValidatorFn } from '@angular/forms';
 import { BockroundAfter, BonusScore, AnnouncementBehaviour } from 'src/app/domain/common';
 import { defaultRuleSetConfig, RuleSet, RuleSetConfig } from 'src/app/domain/rule-set';
 import { $enum } from 'ts-enum-util';
+import { RuleSetsService } from 'src/app/services/rule-sets.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-rule-set-form',
@@ -10,7 +12,7 @@ import { $enum } from 'ts-enum-util';
   styleUrls: ['./rule-set-form.component.scss']
 })
 // tslint:disable-next-line: component-class-suffix
-export class RuleSetForm implements OnInit {
+export class RuleSetForm implements OnInit, OnDestroy {
   possibleBehaviours = $enum(AnnouncementBehaviour).getValues();
   possibleBonusScores = $enum(BonusScore).getValues();
   possibleBockroundsAfter = $enum(BockroundAfter).getValues();
@@ -19,14 +21,21 @@ export class RuleSetForm implements OnInit {
   @Input() ruleSetName?: string;
   @Input() ruleSetConfig?: RuleSetConfig;
 
-  constructor(private fb: FormBuilder) {}
+  private ruleSetNames: string[];
+  private ruleSetsSubscription: Subscription;
+
+  constructor(private fb: FormBuilder, private ruleSetsService: RuleSetsService) {}
 
   ngOnInit() {
+    this.ruleSetsSubscription = this.ruleSetsService.ruleSets.subscribe(ruleSets => {
+      this.ruleSetNames = ruleSets.map(r => r.name);
+    });
+
     const initialName = this.ruleSetName || '';
     const initialConfig = this.ruleSetConfig || defaultRuleSetConfig;
 
     this.form = this.fb.group({
-      name: [initialName, Validators.required], // TODO Validate that name is unique
+      name: [initialName, [Validators.required, this.nameMustBeUnique()]], // TODO Validate that name is unique
 
       announcementBehaviour: [initialConfig.announcementBehaviour, Validators.required],
       losingAnnouncementsGivesScore: [initialConfig.losingAnnouncementsGivesScore, Validators.required],
@@ -55,6 +64,16 @@ export class RuleSetForm implements OnInit {
     });
   }
 
+  nameMustBeUnique(): ValidatorFn {
+    return control => {
+      const duplicate = this.ruleSetNames.some(n => n === control.value);
+      if (duplicate) {
+        return { duplicateName: { value: control.value } };
+      }
+      return null;
+    };
+  }
+
   toggleBonusScore(value: string) {
     this.form.patchValue({
       bonusScoreRules: { [value]: !this.form.value.bonusScoreRules[value] }
@@ -65,6 +84,10 @@ export class RuleSetForm implements OnInit {
     this.form.patchValue({
       bockroundAfter: { [value]: !this.form.value.bockroundAfter[value] }
     });
+  }
+
+  get name(): AbstractControl {
+    return this.form.get('name');
   }
 
   get valid(): boolean {
@@ -94,5 +117,9 @@ export class RuleSetForm implements OnInit {
       consecutiveBockroundsStack: formData.consecutiveBockroundsStack
     };
     return new RuleSet(formData.name, config);
+  }
+
+  ngOnDestroy() {
+    this.ruleSetsSubscription.unsubscribe();
   }
 }

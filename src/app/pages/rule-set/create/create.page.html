@@ -127,15 +127,15 @@
 
 <ion-footer>
   <ion-grid class="ion-no-padding">
-    <ion-row class="ion-no-padding">
+    <ion-row>
       <ion-col class="ion-no-padding">
-        <ion-button class="footer-button ion-no-margin" strong expand="block" color="danger" fill="outline"
+        <ion-button class="footer-button" strong expand="block" color="danger" fill="outline"
           routerLink="/rule-set" routerDirection="back">
           Abbrechen
         </ion-button>
       </ion-col>
       <ion-col>
-        <ion-button class="footer-button ion-no-margin" strong expand="block" color="primary" [disabled]="form.invalid"
+        <ion-button class="footer-button" strong expand="block" color="primary" [disabled]="form.invalid"
           (click)="onConfirm()">
           Fertig</ion-button>
       </ion-col>

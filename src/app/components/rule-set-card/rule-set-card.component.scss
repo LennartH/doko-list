@@ -1,10 +1,17 @@
-// TODO Cleaner selector
-ion-row + ion-row {
-  ion-col {
-    &:first-of-type {
-      text-align: right;
-      flex: 0 0 120px;
-      margin-right: 10px;
-    }
-  }
+ion-card-header {
+  padding: 10px;
+}
+
+ion-card-title {
+  font-size: 20px;
+}
+
+.title-column {
+  text-align: right;
+  flex: 0 0 120px;
+  margin-right: 10px;
+}
+
+.main-content {
+  padding: 0px 10px 10px 10px;
 }

@@ -41,4 +41,9 @@ export class RuleSetsService {
     this._ruleSets.push(ruleSet);
     this.ruleSetsSubject.next(this._ruleSets);
   }
+
+  deleteRuleSet(ruleSet: RuleSet) {
+    this._ruleSets = this._ruleSets.filter(r => r.name !== ruleSet.name);
+    this.ruleSetsSubject.next(this._ruleSets);
+  }
 }

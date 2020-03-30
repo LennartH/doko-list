@@ -24,3 +24,14 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+.footer-button {
+    --border-radius: 0px;
+    margin: 0px;
+}
+
+.alert-button.sc-ion-alert-md.danger,
+.alert-button.sc-ion-alert-ios.danger {
+    font-weight: bold;
+    color: var(--ion-color-danger);
+}

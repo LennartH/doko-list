@@ -9,28 +9,44 @@
 
 <ion-content>
   <ion-grid class="ion-no-padding">
-    <ion-row class="ion-no-padding">
+    <ion-row>
       <ion-col class="ion-no-padding">
-        <ion-item-sliding *ngFor="let ruleSet of ruleSets">
-          <ion-item lines="none" class="ion-no-padding">
-            <app-rule-set-card [ruleSet]="ruleSet" style="width: 100%;" (click)="click()" button></app-rule-set-card>
-          </ion-item>
-
-          <ion-item-options>
-            <ion-list lines="none">
-              <ion-item>
-                <ion-button class="item-option-button" color="danger" fill="outline" size="large">
-                  <ion-icon name="trash"></ion-icon>
+        <app-rule-set-card *ngFor="let ruleSet of ruleSets" [ruleSet]="ruleSet" style="width: 100%;"
+          (click)="onCardClick(ruleSet)" button>
+          <ion-grid class="ion-no-padding">
+            <ion-row class="tight-row">
+              <ion-col class="ion-text-center ion-no-padding">
+                <svg style="stroke: var(--ion-color-medium);" xmlns='http://www.w3.org/2000/svg' width='20' height='20'
+                  viewBox='0 0 512 512'>
+                  <polyline *ngIf="!displayRuleSetDetail[ruleSet.name]" points='112 184 256 328 400 184'
+                    style='fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:48px' />
+                  <polyline *ngIf="displayRuleSetDetail[ruleSet.name]" points='112 328 256 184 400 328'
+                    style='fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:48px' />
+                </svg>
+              </ion-col>
+            </ion-row>
+            <ion-row *ngIf="displayRuleSetDetail[ruleSet.name]">
+              <ion-col class="ion-no-padding">
+                <ion-button class="footer-button" expand="block" fill="clear" color="danger"
+                  (click)="onButtonClick($event, 'delete', ruleSet)">
+                  <ion-icon slot="icon-only" name="trash"></ion-icon>
                 </ion-button>
-              </ion-item>
-              <ion-item>
-                <ion-button class="item-option-button" color="tertiary" fill="outline" size="large">
-                  <ion-icon name="copy"></ion-icon>
+              </ion-col>
+              <ion-col class="ion-no-padding">
+                <ion-button class="footer-button" expand="block" fill="clear" color="tertiary"
+                  (click)="onButtonClick($event, 'copy', ruleSet)">
+                  <ion-icon slot="icon-only" name="copy"></ion-icon>
                 </ion-button>
-              </ion-item>
-            </ion-list>
-          </ion-item-options>
-        </ion-item-sliding>
+              </ion-col>
+              <ion-col class="ion-no-padding">
+                <ion-button class="footer-button" expand="block" fill="clear" color="primary"
+                  (click)="onButtonClick($event, 'edit', ruleSet)">
+                  <ion-icon slot="icon-only" name="create"></ion-icon>
+                </ion-button>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </app-rule-set-card>
       </ion-col>
     </ion-row>
   </ion-grid>

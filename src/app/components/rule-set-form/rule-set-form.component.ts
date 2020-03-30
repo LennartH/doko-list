@@ -18,24 +18,30 @@ export class RuleSetForm implements OnInit, OnDestroy {
   possibleBockroundsAfter = $enum(BockroundAfter).getValues();
 
   form: FormGroup;
+  @Input() mode: 'create' | 'edit' = 'create';
   @Input() ruleSetName?: string;
   @Input() ruleSetConfig?: RuleSetConfig;
 
+  private initialName: string;
   private ruleSetNames: string[];
   private ruleSetsSubscription: Subscription;
 
   constructor(private fb: FormBuilder, private ruleSetsService: RuleSetsService) {}
 
   ngOnInit() {
+    if (this.mode === 'edit' && (!this.ruleSetName || !this.ruleSetConfig)) {
+      throw new Error('Edit mode requires rule set name and config');
+    }
+
     this.ruleSetsSubscription = this.ruleSetsService.ruleSets.subscribe(ruleSets => {
       this.ruleSetNames = ruleSets.map(r => r.name);
     });
 
-    const initialName = this.ruleSetName || '';
+    this.initialName = this.ruleSetName || '';
     const initialConfig = this.ruleSetConfig || defaultRuleSetConfig;
 
     this.form = this.fb.group({
-      name: [initialName, [Validators.required, this.nameMustBeUnique()]], // TODO Validate that name is unique
+      name: [this.initialName, [Validators.required, this.nameMustBeUnique()]],
 
       announcementBehaviour: [initialConfig.announcementBehaviour, Validators.required],
       losingAnnouncementsGivesScore: [initialConfig.losingAnnouncementsGivesScore, Validators.required],
@@ -66,7 +72,10 @@ export class RuleSetForm implements OnInit, OnDestroy {
 
   nameMustBeUnique(): ValidatorFn {
     return control => {
-      const duplicate = this.ruleSetNames.some(n => n === control.value);
+      let duplicate = this.ruleSetNames.some(n => n === control.value);
+      if (this.mode === 'edit' && control.value === this.initialName) {
+        duplicate = false;
+      }
       if (duplicate) {
         return { duplicateName: { value: control.value } };
       }
@@ -98,7 +107,7 @@ export class RuleSetForm implements OnInit, OnDestroy {
     return this.form?.invalid;
   }
 
-  get value(): RuleSet | undefined {
+  get value(): RuleSet | {initialName: string, ruleSet: RuleSet} | undefined {
     if (this.invalid) {
       return undefined;
     }
@@ -116,7 +125,13 @@ export class RuleSetForm implements OnInit, OnDestroy {
       bockroundAfter: [...$enum(BockroundAfter).values()].filter(value => formData.bockroundAfter[value]),
       consecutiveBockroundsStack: formData.consecutiveBockroundsStack
     };
-    return new RuleSet(formData.name, config);
+
+    const ruleSet = new RuleSet(formData.name, config);
+    if (this.mode === 'create') {
+      return ruleSet;
+    } else {
+      return {initialName: this.initialName, ruleSet};
+    }
   }
 
   ngOnDestroy() {

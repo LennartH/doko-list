@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/rule-set"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Regelsatz Bearbeiten</ion-title>
+    <ion-buttons slot="primary">
+      <ion-button (click)="onConfirm()" [disabled]="f.invalid">
+        <ion-icon name="checkmark" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <app-rule-set-form #f mode="edit" [ruleSetName]="ruleSetName" [ruleSetConfig]="ruleSetConfig"></app-rule-set-form>
+</ion-content>
+
+<ion-footer>
+  <ion-grid class="ion-no-padding">
+    <ion-row>
+      <ion-col class="ion-no-padding">
+        <ion-button class="footer-button" strong expand="block" color="danger" fill="outline"
+          routerLink="/rule-set" routerDirection="back">
+          Abbrechen
+        </ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button class="footer-button" strong expand="block" color="primary" [disabled]="f.invalid"
+          (click)="onConfirm()">
+          Fertig</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-footer>

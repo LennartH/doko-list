@@ -46,4 +46,10 @@ export class RuleSetsService {
     this._ruleSets = this._ruleSets.filter(r => r.name !== ruleSet.name);
     this.ruleSetsSubject.next(this._ruleSets);
   }
+
+  editRuleSet(name: string, newValue: RuleSet) {
+    const index = this._ruleSets.findIndex(r => r.name === name);
+    this._ruleSets[index] = newValue;
+    this.ruleSetsSubject.next(this._ruleSets);
+  }
 }

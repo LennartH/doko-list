@@ -1,15 +1,15 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { RuleSetForm } from 'src/app/components/rule-set-form/rule-set-form.component';
-import { RuleSetsService } from 'src/app/services/rule-sets.service';
 import { RuleSetConfig, RuleSet } from 'src/app/domain/rule-set';
+import { RuleSetForm } from 'src/app/components/rule-set-form/rule-set-form.component';
+import { ActivatedRoute, Router } from '@angular/router';
+import { RuleSetsService } from 'src/app/services/rule-sets.service';
 
 @Component({
-  selector: 'app-create',
-  templateUrl: './create.page.html',
-  styleUrls: ['./create.page.scss']
+  selector: 'app-edit',
+  templateUrl: './edit.page.html',
+  styleUrls: ['./edit.page.scss'],
 })
-export class CreatePage implements OnInit {
+export class EditPage implements OnInit {
   ruleSetName: string;
   ruleSetConfig: RuleSetConfig;
 
@@ -22,14 +22,15 @@ export class CreatePage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.activatedRoute.queryParams.subscribe(params => {
-      if ('basedOn' in params) {
-        this.ruleSetsService.ruleSet(params.basedOn).subscribe(ruleSet => {
+    this.activatedRoute.params.subscribe(params => {
+      if ('ruleSetName' in params) {
+        this.ruleSetsService.ruleSet(params.ruleSetName).subscribe(ruleSet => {
           if (ruleSet === undefined) {
+            this.router.navigateByUrl('/rule-set');
             return;
           }
 
-          this.ruleSetName = ruleSet.name + ' - Kopie';
+          this.ruleSetName = ruleSet.name;
           this.ruleSetConfig = ruleSet.config;
         });
       }
@@ -40,7 +41,8 @@ export class CreatePage implements OnInit {
     if (this.form.invalid) {
       return;
     }
-    this.ruleSetsService.addRuleSet(this.form.value as RuleSet);
+    const result = this.form.value as {initialName: string, ruleSet: RuleSet};
+    this.ruleSetsService.editRuleSet(result.initialName, result.ruleSet);
     this.form.form.reset();
     this.router.navigateByUrl('/rule-set');
   }

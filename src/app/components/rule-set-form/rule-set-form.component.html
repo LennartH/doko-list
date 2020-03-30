@@ -1,0 +1,109 @@
+<form [formGroup]="form">
+  <ion-grid class="ion-no-padding">
+    <ion-row>
+      <ion-col>
+        <ion-item class="name-input" lines="inset">
+          <ion-label position="floating">Name</ion-label>
+          <ion-input type="text" formControlName="name" autocapitalize autofocus></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col>
+        <ion-item-group>
+          <ion-item-divider>
+            <ion-text color="primary">
+              <h2>Allgemeines</h2>
+            </ion-text>
+          </ion-item-divider>
+
+          <ion-item lines="none">
+            <ion-label>Verlierer bekommen Minuspunkte</ion-label>
+            <ion-toggle color="primary" formControlName="losingPartyGetsNegatedScore"></ion-toggle>
+          </ion-item>
+          <ion-item lines="none">
+            <ion-label>Solo gewinnt bei Gleichstand</ion-label>
+            <ion-toggle color="primary" formControlName="soloWinsOnTie"></ion-toggle>
+          </ion-item>
+        </ion-item-group>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col>
+        <ion-item-group>
+          <ion-item-divider>
+            <ion-text color="primary">
+              <h2>An- und Absagen</h2>
+            </ion-text>
+          </ion-item-divider>
+
+          <ion-item lines="none">
+            <ion-label position="floating">Verhalten</ion-label>
+            <ion-select interface="popover" formControlName="announcementBehaviour">
+              <ion-select-option *ngFor="let behaviour of possibleBehaviours" [value]="behaviour">
+                <ion-text>{{ behaviour | message }}</ion-text>
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-item lines="none">
+            <ion-label>Verlorene An-/Absagen geben Punkte</ion-label>
+            <ion-toggle color="primary" formControlName="losingAnnouncementsGivesScore"></ion-toggle>
+          </ion-item>
+        </ion-item-group>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col>
+        <ion-item-group>
+          <ion-item-divider>
+            <ion-text color="primary">
+              <h2>Sonderpunkte für</h2>
+            </ion-text>
+          </ion-item-divider>
+
+          <ion-item class="ion-no-padding ion-text-center" lines="none">
+            <div style="padding-top: 10px;" formGroupName="bonusScoreRules">
+              <ion-chip class="toggle-chip" *ngFor="let bonusScore of possibleBonusScores"
+                [class.selected-chip]="form.value.bonusScoreRules[bonusScore]" (click)="toggleBonusScore(bonusScore)">
+                <ion-label>{{ bonusScore | message }}</ion-label>
+              </ion-chip>
+            </div>
+          </ion-item>
+          <ion-item lines="none">
+            <ion-label>Auch bei Solo Spielen</ion-label>
+            <ion-toggle color="primary" formControlName="bonusScoresOnSolo"></ion-toggle>
+          </ion-item>
+        </ion-item-group>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col>
+        <ion-item-group>
+          <ion-item-divider>
+            <ion-text color="primary">
+              <h2>Bockrunden nach</h2>
+            </ion-text>
+          </ion-item-divider>
+
+          <ion-item class="ion-no-padding ion-text-center" lines="none">
+            <div style="padding-top: 10px;" formGroupName="bockroundAfter">
+              <ion-chip class="toggle-chip" *ngFor="let bockroundAfter of possibleBockroundsAfter"
+                [class.selected-chip]="form.value.bockroundAfter[bockroundAfter]"
+                (click)="toggleBockroundAfter(bockroundAfter)">
+                <ion-label>{{ bockroundAfter | message }}</ion-label>
+              </ion-chip>
+            </div>
+          </ion-item>
+          <ion-item lines="none">
+            <ion-label>Bockrunden überlappen sich</ion-label>
+            <ion-toggle color="primary" formControlName="consecutiveBockroundsStack"></ion-toggle>
+          </ion-item>
+        </ion-item-group>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</form>

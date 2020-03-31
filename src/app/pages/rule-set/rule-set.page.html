@@ -14,6 +14,7 @@
         <app-rule-set-card *ngFor="let ruleSet of ruleSets" [ruleSet]="ruleSet" style="width: 100%;"
           (click)="onCardClick(ruleSet)" button>
           <ion-grid class="ion-no-padding">
+
             <ion-row class="tight-row">
               <ion-col class="ion-text-center ion-no-padding">
                 <svg style="stroke: var(--ion-color-medium);" xmlns='http://www.w3.org/2000/svg' width='20' height='20'
@@ -25,7 +26,17 @@
                 </svg>
               </ion-col>
             </ion-row>
-            <ion-row *ngIf="displayRuleSetDetail[ruleSet.name]">
+
+            <ion-row *ngIf="displayRuleSetDetail[ruleSet.name] && ruleSet.name === defaultRuleSetName">
+              <ion-col class="ion-no-padding">
+                <ion-button class="footer-button" expand="block" fill="clear" color="tertiary"
+                  (click)="onButtonClick($event, 'copy', ruleSet)">
+                  <ion-icon slot="start" name="copy"></ion-icon>Kopieren
+                </ion-button>
+              </ion-col>
+            </ion-row>
+
+            <ion-row *ngIf="displayRuleSetDetail[ruleSet.name] && ruleSet.name !== defaultRuleSetName">
               <ion-col class="ion-no-padding">
                 <ion-button class="footer-button" expand="block" fill="clear" color="danger"
                   (click)="onButtonClick($event, 'delete', ruleSet)">

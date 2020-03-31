@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { RuleSet } from 'src/app/domain/rule-set';
-import { RuleSetsService } from 'src/app/services/rule-sets.service';
+import { RuleSetsService, defaultRuleSet } from 'src/app/services/rule-sets.service';
 import { MessagesService } from 'src/app/services/messages.service';
 import { Subscription } from 'rxjs';
 import { AlertController } from '@ionic/angular';
@@ -12,6 +12,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./rule-set.page.scss']
 })
 export class RuleSetPage implements OnInit, OnDestroy {
+  defaultRuleSetName = defaultRuleSet.name;
+
   ruleSets: RuleSet[];
   displayRuleSetDetail: { [name: string]: boolean } = {};
   private ruleSetsSubscription: Subscription;

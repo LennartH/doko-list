@@ -5,13 +5,15 @@ import { defaultRuleSetConfig, RuleSet } from '../domain/rule-set';
 import { AnnouncementBehaviour, BonusScore, BockroundAfter } from '../domain/common';
 import { $enum } from 'ts-enum-util';
 
+export const defaultRuleSet = new RuleSet('Tunierspielregeln', defaultRuleSetConfig);
+
 @Injectable({
   providedIn: 'root'
 })
 export class RuleSetsService {
 
   private _ruleSets: RuleSet[] = [
-    new RuleSet('Tunierspielregeln', defaultRuleSetConfig),
+    defaultRuleSet,
     new RuleSet('Vollständig', {
       announcementBehaviour: AnnouncementBehaviour.FirstDoubles,
       losingAnnouncementsGivesScore: true,
@@ -43,11 +45,21 @@ export class RuleSetsService {
   }
 
   deleteRuleSet(ruleSet: RuleSet) {
+    if (ruleSet.name === defaultRuleSet.name) {
+      console.error('The rule set Tunierspielregeln can not be deleted.');
+      return;
+    }
+
     this._ruleSets = this._ruleSets.filter(r => r.name !== ruleSet.name);
     this.ruleSetsSubject.next(this._ruleSets);
   }
 
   editRuleSet(name: string, newValue: RuleSet) {
+    if (name === defaultRuleSet.name) {
+      console.error('The rule set Tunierspielregeln can not be changed.');
+      return;
+    }
+
     const index = this._ruleSets.findIndex(r => r.name === name);
     this._ruleSets[index] = newValue;
     this.ruleSetsSubject.next(this._ruleSets);

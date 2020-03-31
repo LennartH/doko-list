@@ -4,31 +4,52 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { RuleSetConfig } from '../domain/rule-set';
 import { take, map } from 'rxjs/operators';
 import * as uuid from 'uuid';
+import { Plugins } from '@capacitor/core';
+
+const { Storage } = Plugins;
+
+const storageKeyPrefix = 'list/';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ListsService {
-
   private _lists: GameList[] = [];
   private listsSubject = new BehaviorSubject<GameList[]>(this._lists);
 
-  constructor() { }
+  constructor() {
+    Storage.keys().then(({ keys }) => {
+      Promise.all(
+        keys.filter(k => k.startsWith(storageKeyPrefix))
+            .map(key => Storage.get({ key }))
+      ).then(values => {
+        this._lists = values.map(v => GameList.fromJson(v.value));
+        this.listsSubject.next(this._lists);
+      });
+    });
+  }
 
   get lists(): Observable<GameList[]> {
     return this.listsSubject.asObservable();
   }
 
   list(id: string): Observable<GameList> {
-    return this.lists.pipe(take(1), map(lists => lists.find(l => l.id === id)));
+    return this.lists.pipe(
+      take(1),
+      map(lists => lists.find(l => l.id === id))
+    );
   }
 
   addList(players: string[], ruleSetName: string, ruleSetConfig: RuleSetConfig): string {
     const id = uuid.v4();
     const startDate = new Date();
     startDate.setHours(0, 0, 0, 0);
-    this._lists.push(new GameList(id, startDate, players, ruleSetName, ruleSetConfig));
+
+    const list = new GameList(id, startDate, players, ruleSetName, ruleSetConfig);
+    Storage.set({key: storageKeyPrefix + id, value: list.toJson()});
+    this._lists.push(list);
     this.listsSubject.next(this._lists);
+
     return id;
   }
 

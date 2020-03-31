@@ -22,15 +22,6 @@ export class ListsPage implements OnInit, OnDestroy {
       this.activeLists = lists.filter(l => !l.isFinished);
       this.finishedLists = lists.filter(l => l.isFinished);
     });
-
-    let id = this.listsService.addList(
-      ['Lennart', 'Frederik', 'Axel', 'Herbert'], 'Flurm', defaultRuleSetConfig
-    )
-    this.listsService.finishList(id);
-    id = this.listsService.addList(
-      ['Lennart', 'Frederik', 'Axel', 'Alex'], 'Tunierspielregeln', defaultRuleSetConfig
-    );
-    // // this.listsService.finishList(id);
   }
 
   ngOnDestroy() {

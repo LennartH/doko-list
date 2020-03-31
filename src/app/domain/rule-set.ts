@@ -24,6 +24,12 @@ export const defaultRuleSetConfig: RuleSetConfig = {
 };
 
 export class RuleSet {
+
+  static fromJson(data: string) {
+    const json = JSON.parse(data);
+    return new RuleSet(json.name, json.config);
+  }
+
   constructor(public name: string, public config: RuleSetConfig) {}
 
   calculateScore(roundData: RoundData): RoundResult {
@@ -208,6 +214,10 @@ export class RuleSet {
         throw new Error(`Unknown extra score rule ${rule}`);
     }
     return delta;
+  }
+
+  toJson(): string {
+    return JSON.stringify({name: this.name, config: this.config});
   }
 }
 

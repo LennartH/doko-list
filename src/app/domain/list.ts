@@ -19,7 +19,7 @@ export class GameList {
     const json = JSON.parse(data);
     const list = new GameList(json.id, new Date(json.startDate), json.players, json.ruleSetName, json.ruleSetConfig);
     if ('rounds' in json) {
-      list.rounds.push(json.rounds);
+      list.rounds.push(...json.rounds);
     }
     if ('endDate' in json) {
       list.endDate = new Date(json.endDate);

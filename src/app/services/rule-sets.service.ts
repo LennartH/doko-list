@@ -4,6 +4,11 @@ import { take, map } from 'rxjs/operators';
 import { defaultRuleSetConfig, RuleSet, RuleSetConfig } from '../domain/rule-set';
 import { AnnouncementBehaviour, BonusScore, BockroundAfter } from '../domain/common';
 import { $enum } from 'ts-enum-util';
+import { Plugins } from '@capacitor/core';
+
+const { Storage } = Plugins;
+
+const storageKeyPrefix = 'rule/';
 
 export const defaultRuleSet = new RuleSet('Tunierspielregeln', defaultRuleSetConfig);
 
@@ -12,23 +17,21 @@ export const defaultRuleSet = new RuleSet('Tunierspielregeln', defaultRuleSetCon
 })
 export class RuleSetsService {
 
-  private _ruleSets: RuleSet[] = [
-    defaultRuleSet,
-    new RuleSet('Vollständig', {
-      announcementBehaviour: AnnouncementBehaviour.FirstDoubles,
-      losingAnnouncementsGivesScore: true,
-      soloWinsOnTie: true,
-      losingPartyGetsNegatedScore: true,
-      bonusScoreRules: $enum(BonusScore).getValues(),
-      bonusScoresOnSolo: true,
-      bockroundAfter: $enum(BockroundAfter).getValues(),
-      consecutiveBockroundsStack: true
-    })
-  ];
+  private _ruleSets: RuleSet[] = [];
   private ruleSetsSubject = new BehaviorSubject<RuleSet[]>(this._ruleSets);
 
   constructor(
   ) {
+    Storage.keys().then(({ keys }) => {
+      Promise.all(
+        keys.filter(k => k.startsWith(storageKeyPrefix))
+            .map(key => Storage.get({ key }))
+      ).then(values => {
+        this._ruleSets = [defaultRuleSet];
+        this._ruleSets.push(...values.map(v => RuleSet.fromJson(v.value)));
+        this.ruleSetsSubject.next(this._ruleSets);
+      });
+    });
   }
 
   get ruleSets(): Observable<RuleSet[]> {
@@ -40,7 +43,9 @@ export class RuleSetsService {
   }
 
   addRuleSet(name: string, config: RuleSetConfig) {
-    this._ruleSets.push(new RuleSet(name, config));
+    const ruleSet = new RuleSet(name, config);
+    Storage.set({key: storageKeyPrefix + ruleSet.name, value: ruleSet.toJson()});
+    this._ruleSets.push(ruleSet);
     this.ruleSetsSubject.next(this._ruleSets);
   }
 
@@ -50,6 +55,7 @@ export class RuleSetsService {
       return;
     }
 
+    Storage.remove({key: storageKeyPrefix + name});
     this._ruleSets = this._ruleSets.filter(r => r.name !== name);
     this.ruleSetsSubject.next(this._ruleSets);
   }
@@ -61,7 +67,9 @@ export class RuleSetsService {
     }
 
     const index = this._ruleSets.findIndex(r => r.name === name);
-    this._ruleSets[index] = new RuleSet(newName, newConfig);
+    const ruleSet = new RuleSet(newName, newConfig);
+    Storage.set({key: storageKeyPrefix + ruleSet.name, value: ruleSet.toJson()});
+    this._ruleSets[index] = ruleSet;
     this.ruleSetsSubject.next(this._ruleSets);
   }
 }

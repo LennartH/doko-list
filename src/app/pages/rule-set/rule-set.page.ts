@@ -78,7 +78,7 @@ export class RuleSetPage implements OnInit, OnDestroy {
         {
           text: 'Löschen',
           cssClass: 'danger',
-          handler: () => this.ruleSetsService.deleteRuleSet(ruleSet)
+          handler: () => this.ruleSetsService.deleteRuleSet(ruleSet.name)
         }
       ]
     });

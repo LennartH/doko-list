@@ -42,8 +42,8 @@ export class EditPage implements OnInit {
     if (this.form.invalid) {
       return;
     }
-    const result = this.form.value as {initialName: string, ruleSet: RuleSet};
-    this.ruleSetsService.editRuleSet(result.initialName, result.ruleSet);
+    const formData = this.form.value;
+    this.ruleSetsService.editRuleSet(formData.initialName, formData.name, formData.config);
     this.form.form.reset();
     this.router.navigateByUrl('/rule-set');
   }

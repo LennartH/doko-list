@@ -1,0 +1,12 @@
+<ion-card button (click)="onClick()">
+  <ion-card-header>
+    <ion-card-subtitle>{{ list.players.join(', ') }}</ion-card-subtitle>
+    <ion-card-title>
+      {{ list.startDate | date:'longDate' }}
+      <ng-container *ngIf="list.isFinished && list.startDate.getTime() !== list.endDate.getTime()">
+        - {{ list.endDate | date:'longDate' }}
+      </ng-container>
+    </ion-card-title>
+  </ion-card-header>
+  <ion-icon class="chevron-forward" name="chevron-forward"></ion-icon>
+</ion-card>

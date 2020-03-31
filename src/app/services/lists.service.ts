@@ -3,6 +3,7 @@ import { GameList } from '../domain/list';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { RuleSetConfig } from '../domain/rule-set';
 import { take, map } from 'rxjs/operators';
+import * as uuid from 'uuid';
 
 @Injectable({
   providedIn: 'root'
@@ -22,8 +23,22 @@ export class ListsService {
     return this.lists.pipe(take(1), map(lists => lists.find(l => l.id === id)));
   }
 
-  addList(id: string, players: string[], ruleSetConfig: RuleSetConfig) {
-    this._lists.push(new GameList(id, players, ruleSetConfig));
+  addList(players: string[], ruleSetName: string, ruleSetConfig: RuleSetConfig): string {
+    const id = uuid.v4();
+    const startDate = new Date();
+    startDate.setHours(0, 0, 0, 0);
+    this._lists.push(new GameList(id, startDate, players, ruleSetName, ruleSetConfig));
+    this.listsSubject.next(this._lists);
+    return id;
+  }
+
+  finishList(id: string) {
+    const list = this._lists.find(l => l.id === id);
+    if (list === undefined || list.endDate !== undefined) {
+      return;
+    }
+    list.endDate = new Date();
+    list.endDate.setHours(0, 0, 0, 0);
     this.listsSubject.next(this._lists);
   }
 

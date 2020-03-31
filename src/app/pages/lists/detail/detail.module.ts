@@ -4,19 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { ListsPageRoutingModule } from './lists-routing.module';
+import { DetailPageRoutingModule } from './detail-routing.module';
 
-import { ListsPage } from './lists.page';
-import { SharedModule } from 'src/app/shared.module';
+import { DetailPage } from './detail.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ListsPageRoutingModule,
-    SharedModule
+    DetailPageRoutingModule
   ],
-  declarations: [ListsPage]
+  declarations: [DetailPage]
 })
-export class ListsPageModule {}
+export class DetailPageModule {}

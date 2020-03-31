@@ -17,13 +17,8 @@
 
             <ion-row class="tight-row">
               <ion-col class="ion-text-center ion-no-padding">
-                <svg style="stroke: var(--ion-color-medium);" xmlns='http://www.w3.org/2000/svg' width='20' height='20'
-                  viewBox='0 0 512 512'>
-                  <polyline *ngIf="!displayRuleSetDetail[ruleSet.name]" points='112 184 256 328 400 184'
-                    style='fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:48px' />
-                  <polyline *ngIf="displayRuleSetDetail[ruleSet.name]" points='112 328 256 184 400 328'
-                    style='fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:48px' />
-                </svg>
+                <ion-icon [name]="displayRuleSetDetail[ruleSet.name] ? 'chevron-up' : 'chevron-down'"
+                  style="width: 20px; height: 20px;"></ion-icon>
               </ion-col>
             </ion-row>
 

@@ -5,14 +5,15 @@ import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { RuleSetForm } from './components/rule-set-form/rule-set-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { GameListCardComponent } from './components/game-list-card/game-list-card.component';
 
 @NgModule({
     imports: [CommonModule, IonicModule, ReactiveFormsModule],
     declarations: [
-        RuleSetCardComponent, MessagePipe, RuleSetForm
+        RuleSetCardComponent, MessagePipe, RuleSetForm, GameListCardComponent
     ],
     exports: [
-        RuleSetCardComponent, MessagePipe, RuleSetForm
+        RuleSetCardComponent, MessagePipe, RuleSetForm, GameListCardComponent
     ]
 })
 export class SharedModule {}

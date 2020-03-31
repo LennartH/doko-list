@@ -41,7 +41,8 @@ export class CreatePage implements OnInit {
     if (this.form.invalid) {
       return;
     }
-    this.ruleSetsService.addRuleSet(this.form.value as RuleSet);
+    const formData = this.form.value;
+    this.ruleSetsService.addRuleSet(formData.name, formData.config);
     this.form.form.reset();
     this.router.navigateByUrl('/rule-set');
   }

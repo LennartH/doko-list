@@ -11,13 +11,23 @@ export interface Round {
 export class GameList {
     readonly players: string[];
     readonly rounds: Round[];
-    isFinished = false;
+    endDate: Date;
 
-    private ruleSet: RuleSet;
+    ruleSet: RuleSet;
 
-    constructor(public readonly id: string, players: string[], ruleSetConfig: RuleSetConfig) {
+    constructor(
+        public readonly id: string,
+        public startDate: Date,
+        players: string[],
+        ruleSetName: string,
+        ruleSetConfig: RuleSetConfig
+    ) {
         this.players = [...players];
-        this.ruleSet = new RuleSet('', ruleSetConfig);
+        this.ruleSet = new RuleSet(ruleSetName, ruleSetConfig);
+    }
+
+    get isFinished(): boolean {
+        return this.endDate !== undefined;
     }
 
     addRound(playerParties: {[player: string]: Party}, roundData: RoundData) {

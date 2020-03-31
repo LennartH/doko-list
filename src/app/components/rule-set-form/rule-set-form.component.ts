@@ -107,7 +107,7 @@ export class RuleSetForm implements OnInit, OnDestroy {
     return this.form?.invalid;
   }
 
-  get value(): RuleSet | {initialName: string, ruleSet: RuleSet} | undefined {
+  get value(): {initialName?: string, name: string, config: RuleSetConfig} | undefined {
     if (this.invalid) {
       return undefined;
     }
@@ -126,12 +126,11 @@ export class RuleSetForm implements OnInit, OnDestroy {
       consecutiveBockroundsStack: formData.consecutiveBockroundsStack
     };
 
-    const ruleSet = new RuleSet(formData.name, config);
-    if (this.mode === 'create') {
-      return ruleSet;
-    } else {
-      return {initialName: this.initialName, ruleSet};
-    }
+    return {
+      initialName: this.initialName,
+      name: this.form.value.name,
+      config
+    };
   }
 
   ngOnDestroy() {

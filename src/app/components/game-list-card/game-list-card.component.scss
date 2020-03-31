@@ -1,0 +1,24 @@
+ion-card-header {
+    display: inline-block;
+    width: 100%;
+}
+
+ion-card-title {
+    font-size: 20px;
+}
+
+ion-card-subtitle {
+    font-size: 16px;
+    text-transform: none;
+    font-weight: normal;
+}
+
+.chevron-forward {
+    width: 20px;
+    height: 20px;
+
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+}

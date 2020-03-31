@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { take, map } from 'rxjs/operators';
-import { defaultRuleSetConfig, RuleSet } from '../domain/rule-set';
+import { defaultRuleSetConfig, RuleSet, RuleSetConfig } from '../domain/rule-set';
 import { AnnouncementBehaviour, BonusScore, BockroundAfter } from '../domain/common';
 import { $enum } from 'ts-enum-util';
 
@@ -39,29 +39,29 @@ export class RuleSetsService {
     return this.ruleSets.pipe(take(1), map(ruleSets => ruleSets.find(r => r.name === name)));
   }
 
-  addRuleSet(ruleSet: RuleSet) {
-    this._ruleSets.push(ruleSet);
+  addRuleSet(name: string, config: RuleSetConfig) {
+    this._ruleSets.push(new RuleSet(name, config));
     this.ruleSetsSubject.next(this._ruleSets);
   }
 
-  deleteRuleSet(ruleSet: RuleSet) {
-    if (ruleSet.name === defaultRuleSet.name) {
-      console.error('The rule set Tunierspielregeln can not be deleted.');
+  deleteRuleSet(name: string) {
+    if (name === defaultRuleSet.name) {
+      console.error(`The rule set ${defaultRuleSet.name} can not be deleted.`);
       return;
     }
 
-    this._ruleSets = this._ruleSets.filter(r => r.name !== ruleSet.name);
+    this._ruleSets = this._ruleSets.filter(r => r.name !== name);
     this.ruleSetsSubject.next(this._ruleSets);
   }
 
-  editRuleSet(name: string, newValue: RuleSet) {
+  editRuleSet(name: string, newName: string, newConfig: RuleSetConfig) {
     if (name === defaultRuleSet.name) {
-      console.error('The rule set Tunierspielregeln can not be changed.');
+      console.error(`The rule set ${defaultRuleSet.name} can not be changed.`);
       return;
     }
 
     const index = this._ruleSets.findIndex(r => r.name === name);
-    this._ruleSets[index] = newValue;
+    this._ruleSets[index] = new RuleSet(newName, newConfig);
     this.ruleSetsSubject.next(this._ruleSets);
   }
 }

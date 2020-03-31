@@ -4,6 +4,7 @@ import { RuleSetForm } from 'src/app/components/rule-set-form/rule-set-form.comp
 import { RuleSetsService } from 'src/app/services/rule-sets.service';
 import { RuleSetConfig, RuleSet } from 'src/app/domain/rule-set';
 
+// TODO Separate name field and config form
 @Component({
   selector: 'app-create',
   templateUrl: './create.page.html',

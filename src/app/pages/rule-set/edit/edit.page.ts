@@ -4,6 +4,7 @@ import { RuleSetForm } from 'src/app/components/rule-set-form/rule-set-form.comp
 import { ActivatedRoute, Router } from '@angular/router';
 import { RuleSetsService } from 'src/app/services/rule-sets.service';
 
+// TODO Separate name field and config form
 @Component({
   selector: 'app-edit',
   templateUrl: './edit.page.html',

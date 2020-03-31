@@ -1,0 +1,71 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/lists"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Neue Liste</ion-title>
+    <ion-buttons slot="primary">
+      <ion-button (click)="onConfirm()" [disabled]="form.invalid">
+        <ion-icon name="checkmark" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="form">
+    <ion-grid class="ion-no-padding">
+      <ion-row>
+        <ion-col class="ion-no-padding">
+          <ion-item-group>
+            <ion-item-divider>
+              <ion-text color="primary">
+                <h2>Spieler</h2>
+              </ion-text>
+            </ion-item-divider>
+
+            <ng-container formArrayName="players">
+              <ion-item *ngFor="let _ of players.controls; let n=index" class="player-input" lines="inset">
+                <ion-label position="floating">Spieler {{ n + 1 }}</ion-label>
+                <ion-input type="text" [formControlName]="n"></ion-input>
+              </ion-item>
+            </ng-container>
+          </ion-item-group>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col class="ion-no-padding">
+          <ion-item-divider>
+            <ion-text color="primary">
+              <h2>Regeln</h2>
+            </ion-text>
+          </ion-item-divider>
+
+          <app-rule-set-card *ngFor="let ruleSet of ruleSets" [ruleSet]="ruleSet" button
+            (click)="onSelectRuleSet(ruleSet.name)" [class.selected-rules]="form.value.ruleSet === ruleSet.name">
+          </app-rule-set-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>
+
+<ion-footer>
+  <ion-grid class="ion-no-padding">
+    <ion-row>
+      <ion-col class="ion-no-padding">
+        <ion-button class="big-footer-button" strong expand="block" color="danger" fill="outline" routerLink="/lists"
+          routerDirection="back">
+          Abbrechen
+        </ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button class="big-footer-button" strong expand="block" color="primary" [disabled]="form.invalid"
+          (click)="onConfirm()">
+          Fertig
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-footer>

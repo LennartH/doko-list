@@ -34,6 +34,12 @@
                   <ion-icon slot="start" name="copy"></ion-icon>Kopieren
                 </ion-button>
               </ion-col>
+              <ion-col class="ion-no-padding">
+                <ion-button class="footer-button" expand="block" fill="clear" color="secondary"
+                  (click)="onButtonClick($event, 'newList', ruleSet)">
+                  <ion-icon slot="start" name="reader"></ion-icon>Neue Liste
+                </ion-button>
+              </ion-col>
             </ion-row>
 
             <ion-row *ngIf="displayRuleSetDetail[ruleSet.name] && ruleSet.name !== defaultRuleSetName">
@@ -53,6 +59,12 @@
                 <ion-button class="footer-button" expand="block" fill="clear" color="primary"
                   (click)="onButtonClick($event, 'edit', ruleSet)">
                   <ion-icon slot="icon-only" name="create"></ion-icon>
+                </ion-button>
+              </ion-col>
+              <ion-col class="ion-no-padding">
+                <ion-button class="footer-button" expand="block" fill="clear" color="secondary"
+                  (click)="onButtonClick($event, 'newList', ruleSet)">
+                  <ion-icon slot="icon-only" name="reader"></ion-icon>
                 </ion-button>
               </ion-col>
             </ion-row>

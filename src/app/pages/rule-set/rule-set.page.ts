@@ -46,7 +46,7 @@ export class RuleSetPage implements OnInit, OnDestroy {
     this.displayRuleSetDetail[ruleSet.name] = !this.displayRuleSetDetail[ruleSet.name];
   }
 
-  onButtonClick(event: MouseEvent, action: 'delete' | 'copy' | 'edit', ruleSet: RuleSet) {
+  onButtonClick(event: MouseEvent, action: 'delete' | 'copy' | 'edit' | 'newList', ruleSet: RuleSet) {
     event.stopPropagation();
     switch (action) {
       case 'delete':
@@ -57,6 +57,9 @@ export class RuleSetPage implements OnInit, OnDestroy {
         break;
       case 'edit':
         this.router.navigate(['/rule-set/edit', ruleSet.name]);
+        break;
+      case 'newList':
+        this.router.navigate(['/lists/create'], {queryParams: {selected: ruleSet.name}});
         break;
       default:
         throw new Error(`Unknown action ${action}`);

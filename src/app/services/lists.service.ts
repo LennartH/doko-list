@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { GameList } from '../domain/list';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, interval } from 'rxjs';
 import { RuleSetConfig } from '../domain/rule-set';
-import { take, map } from 'rxjs/operators';
+import { take, map, delayWhen } from 'rxjs/operators';
 import * as uuid from 'uuid';
 import { Plugins } from '@capacitor/core';
 
@@ -17,6 +17,8 @@ export class ListsService {
   private _lists: GameList[] = [];
   private listsSubject = new BehaviorSubject<GameList[]>(this._lists);
 
+  private isInitialized = false;
+
   constructor() {
     Storage.keys().then(({ keys }) => {
       Promise.all(
@@ -24,6 +26,7 @@ export class ListsService {
             .map(key => Storage.get({ key }))
       ).then(values => {
         this._lists = values.map(v => GameList.fromJson(v.value));
+        this.isInitialized = true;
         this.listsSubject.next(this._lists);
       });
     });
@@ -35,6 +38,7 @@ export class ListsService {
 
   list(id: string): Observable<GameList> {
     return this.lists.pipe(
+      delayWhen(() => this.isInitialized ? interval(0) : interval(500)),
       take(1),
       map(lists => lists.find(l => l.id === id))
     );

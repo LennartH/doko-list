@@ -30,6 +30,7 @@ export class GameList {
   constructor(public readonly id: string, public startDate: Date, players: string[], ruleSetName: string, ruleSetConfig: RuleSetConfig) {
     this.players = [...players];
     this.ruleSet = new RuleSet(ruleSetName, ruleSetConfig);
+    this.rounds = [];
   }
 
   get isFinished(): boolean {

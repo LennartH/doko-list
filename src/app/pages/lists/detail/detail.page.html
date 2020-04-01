@@ -3,10 +3,34 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/lists"></ion-back-button>
     </ion-buttons>
-    <ion-title>Liste vom {{ list.startDate | date:'shortDate' }}</ion-title>
+    <ion-title>Liste vom {{ list?.startDate | date:'shortDate' }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <ion-grid class="ion-no-padding">
+    <ion-row>
+      <ion-col class="ion-no-padding">
+        <ion-grid *ngIf="list" class="ion-no-padding">
+          <ion-row class="ion-padding title-row">
+            <ion-col class="number-column" style="text-align: inherit;">#</ion-col>
+            <ion-col *ngFor="let player of list.players">{{ player }}</ion-col>
+          </ion-row>
 
+          <ion-row *ngFor="let score of list.scores; let i = index" class="ion-padding">
+            <ion-col class="number-column">{{ i + 1 }}</ion-col>
+            <ion-col *ngFor="let player of list.players">
+              {{ score[player].total }} ({{ score[player].delta}})
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="onAddRound()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>

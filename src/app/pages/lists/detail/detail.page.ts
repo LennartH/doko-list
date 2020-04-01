@@ -28,4 +28,8 @@ export class DetailPage implements OnInit {
     });
   }
 
+  onAddRound() {
+    console.log('Add Round');
+  }
+
 }

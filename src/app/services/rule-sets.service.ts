@@ -69,6 +69,7 @@ export class RuleSetsService {
     const index = this._ruleSets.findIndex(r => r.name === name);
     const ruleSet = new RuleSet(newName, newConfig);
     Storage.set({key: storageKeyPrefix + ruleSet.name, value: ruleSet.toJson()});
+    Storage.remove({key: storageKeyPrefix + name});
     this._ruleSets[index] = ruleSet;
     this.ruleSetsSubject.next(this._ruleSets);
   }

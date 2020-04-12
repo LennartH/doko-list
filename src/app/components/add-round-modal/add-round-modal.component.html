@@ -1,0 +1,63 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="onCancel()">
+        <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Neue Runde</ion-title>
+    <ion-buttons slot="primary">
+      <ion-button (click)="onConfirm()" [disabled]="roundDataForm?.invalid || !arePlayerPartiesValid()">
+        <ion-icon name="checkmark" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid class="ion-no-padding">
+    <ion-row>
+      <ion-col class="ion-no-padding">
+        <ion-item-divider>
+          <ion-text color="primary">
+            <h2>Parteien</h2>
+          </ion-text>
+        </ion-item-divider>
+
+        <div class="player-chips ion-text-center ion-padding-horizontal">
+          <ion-chip class="toggle-chip player-chip" *ngFor="let player of list.players"
+            [class.selected-chip]="playerParties[player] === 're'" (click)="togglePlayerParty(player)">
+            <ion-text>{{ player }}
+              {{ reCount === 1 && playerParties[player] === 're' ? 'Solo' : messages.get(playerParties[player]) }}
+            </ion-text>
+          </ion-chip>
+        </div>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col class="ion-no-padding">
+        <app-round-data-form #f [ruleSetConfig]="list.ruleSet.config" [isSolo]="reCount === 1"></app-round-data-form>
+      </ion-col>
+    </ion-row>
+
+  </ion-grid>
+</ion-content>
+
+<ion-footer>
+  <ion-grid class="ion-no-padding">
+    <ion-row>
+      <ion-col class="ion-no-padding">
+        <ion-button class="big-footer-button" strong expand="block" color="danger" fill="outline" (click)="onCancel()">
+          Abbrechen
+        </ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button class="big-footer-button" strong expand="block" color="primary"
+          [disabled]="roundDataForm?.invalid || !arePlayerPartiesValid()" (click)="onConfirm()">
+          Fertig
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-footer>

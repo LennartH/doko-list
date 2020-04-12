@@ -10,7 +10,10 @@ export class MessagesService {
   private readonly messages: {[key: string]: string};
 
   constructor() {
-    this.messages = {};
+    this.messages = {
+      re: 'Re',
+      contra: 'Contra'
+    };
     $enum(AnnouncementBehaviour).forEach(value => {
       this.messages[value] = $enum.mapValue(value).with({
         FirstGetsPlusTwo: 'Ansage +2, Absagen +1',

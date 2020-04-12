@@ -7,10 +7,10 @@ export interface RoundData {
   announcements: { re?: Announcement; contra?: Announcement };
 
   doppelkopfs: Party[];
-  charliesCaught: [Party?, Party?];
-  charlyGotLastTrick?: Party;
   foxesCaught: [Party?, Party?];
   foxGotLastTrick?: Party;
+  charliesCaught: [Party?, Party?];
+  charlyGotLastTrick?: Party;
   dulleCaughtDulle?: Party;
 }
 

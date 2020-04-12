@@ -1,0 +1,19 @@
+<ion-grid class="ion-no-padding">
+  <ion-row>
+    <ion-col [class.first-column]="victoryAnnounced">
+      <ion-chip (click)="toggleAnnouncement()" [class.selected-chip]="victoryAnnounced">
+        <ion-text *ngIf="!victoryAnnounced">Keine Ansage von {{ messages.get(party) }}</ion-text>
+        <ion-text *ngIf="victoryAnnounced">{{ messages.get(party) }} angesagt</ion-text>
+      </ion-chip>
+    </ion-col>
+    <ion-col *ngIf="victoryAnnounced" [class.second-column]="victoryAnnounced">
+      <ion-chip (click)="rotateThreshold()" [class.selected-chip]="threshold !== undefined">
+        <ion-text>
+          <ion-text *ngIf="threshold === undefined">Keine Absage</ion-text>
+          <ion-text *ngIf="threshold > 0">{{ threshold }} abgesagt</ion-text>
+          <ion-text *ngIf="threshold === 0">Schwarz abgesagt</ion-text>
+        </ion-text>
+      </ion-chip>
+    </ion-col>
+  </ion-row>
+</ion-grid>

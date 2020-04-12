@@ -44,6 +44,17 @@
   box-shadow: 0 0 10px 2px var(--ion-color-primary);
 }
 
+.selected-chip {
+  --background: #bde8c5;
+  box-shadow: 0 0 3px 1px var(--ion-color-primary);
+}
+
 ion-card {
   border-radius: 10px;
+}
+
+ion-range {
+  --bar-height: 4px;
+  --bar-border-radius: 2px;
+  --knob-size: 25px;
 }

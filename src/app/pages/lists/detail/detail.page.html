@@ -4,6 +4,11 @@
       <ion-back-button defaultHref="/lists"></ion-back-button>
     </ion-buttons>
     <ion-title>Liste vom {{ list?.startDate | date:'shortDate' }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="onMenuClicked($event)">
+        <ion-icon slot="icon-only" name="ellipsis-vertical"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 

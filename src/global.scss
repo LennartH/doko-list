@@ -58,3 +58,13 @@ ion-range {
   --bar-border-radius: 2px;
   --knob-size: 25px;
 }
+
+.wide-popover {
+  --width: 95%;
+}
+
+.card-popover ion-card {
+  border: none;
+  box-shadow: none;
+  margin: 0;
+}

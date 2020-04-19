@@ -5,29 +5,29 @@
   <ion-card-content class="ion-no-padding">
     <ion-grid class="main-content">
       <ion-row>
-        <ion-col class="ion-text-center">
+        <ion-col class="ion-text-center ion-no-padding">
           <ion-text *ngIf="ruleSet.config.losingPartyGetsNegatedScore">Verlierer bekommen Minuspunkte</ion-text>
           <ion-text *ngIf="ruleSet.config.losingPartyGetsNegatedScore && ruleSet.config.soloWinsOnTie">, <br /></ion-text>
           <ion-text *ngIf="ruleSet.config.soloWinsOnTie">Solo gewinnt bei Gleichstand</ion-text>
         </ion-col>
       </ion-row>
       <ion-row>
-        <ion-col class="title-column"><strong>An-/Absagen</strong></ion-col>
-        <ion-col>{{ ruleSet.config.announcementBehaviour | message }}</ion-col>
+        <ion-col class="title-column ion-no-padding"><strong>An-/Absagen</strong></ion-col>
+        <ion-col class="ion-no-padding">{{ ruleSet.config.announcementBehaviour | message }}</ion-col>
       </ion-row>
       <ion-row *ngIf="ruleSet.config.bonusScoreRules.length > 0">
-        <ion-col class="title-column">
+        <ion-col class="title-column ion-no-padding">
           <strong>Sonderpunkte für</strong>
           <ion-text *ngIf="ruleSet.config.bonusScoresOnSolo"> (auch bei Solo)</ion-text>
         </ion-col>
-        <ion-col>{{ ruleSet.config.bonusScoreRules | message }}</ion-col>
+        <ion-col class="ion-no-padding">{{ ruleSet.config.bonusScoreRules | message }}</ion-col>
       </ion-row>
       <ion-row *ngIf="ruleSet.config.bockroundAfter.length > 0">
-        <ion-col class="title-column">
+        <ion-col class="title-column ion-no-padding">
           <strong>Bockrunden nach</strong>
           <ion-text *ngIf="ruleSet.config.consecutiveBockroundsStack"> (die überlappen)</ion-text>
         </ion-col>
-        <ion-col>{{ ruleSet.config.bockroundAfter | message }}</ion-col>
+        <ion-col class="ion-no-padding">{{ ruleSet.config.bockroundAfter | message }}</ion-col>
       </ion-row>
     </ion-grid>
 

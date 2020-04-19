@@ -7,6 +7,7 @@ import { RoundDataFormComponent } from 'src/app/components/round-data-form/round
 import { DetailPageRoutingModule } from './detail-routing.module';
 import { DetailPage } from './detail.page';
 import { PartyAnnouncementComponent } from 'src/app/widgets/party-announcement/party-announcement.component';
+import { ListDetailMenuComponent } from 'src/app/components/list-detail-menu/list-detail-menu.component';
 
 
 
@@ -18,7 +19,7 @@ import { PartyAnnouncementComponent } from 'src/app/widgets/party-announcement/p
     IonicModule,
     DetailPageRoutingModule
   ],
-  declarations: [DetailPage, AddRoundModalComponent, RoundDataFormComponent, PartyAnnouncementComponent],
-  entryComponents: [AddRoundModalComponent]
+  declarations: [DetailPage, AddRoundModalComponent, RoundDataFormComponent, PartyAnnouncementComponent, ListDetailMenuComponent],
+  entryComponents: [AddRoundModalComponent, ListDetailMenuComponent]
 })
 export class DetailPageModule {}

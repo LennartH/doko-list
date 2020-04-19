@@ -1,7 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { PopoverController } from '@ionic/angular';
+import { PopoverController, AlertController } from '@ionic/angular';
 import { GameList } from 'src/app/domain/list';
 import { RuleSetCardComponent } from '../rule-set-card/rule-set-card.component';
+import { ListsService } from 'src/app/services/lists.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-list-detail-menu',
@@ -9,10 +11,14 @@ import { RuleSetCardComponent } from '../rule-set-card/rule-set-card.component';
   styleUrls: ['./list-detail-menu.component.scss'],
 })
 export class ListDetailMenuComponent implements OnInit {
-
   @Input() list: GameList;
 
-  constructor(private popoverController: PopoverController) {}
+  constructor(
+    private popoverController: PopoverController,
+    private alertController: AlertController,
+    private listsService: ListsService,
+    private router: Router
+  ) {}
 
   ngOnInit() {}
 
@@ -22,11 +28,53 @@ export class ListDetailMenuComponent implements OnInit {
       component: RuleSetCardComponent,
       componentProps: {
         ruleSet: this.list.ruleSet,
-        button: false
+        button: false,
       },
-      cssClass: 'wide-popover card-popover'
+      cssClass: 'wide-popover card-popover',
     });
     popover.present();
   }
 
+  async onFinishClicked() {
+    const alert = await this.alertController.create({
+      header: 'Liste beenden?',
+      message: 'Liste wirklich beenden? Danach können keine weiteren Runden hinzugefügt werden.',
+      buttons: [
+        {
+          text: 'Abbrechen',
+          role: 'cancel'
+        },
+        {
+          text: 'Beenden',
+          cssClass: 'primary',
+          handler: () => this.listsService.finishList(this.list.id)
+        }
+      ]
+    });
+    this.popoverController.dismiss();
+    alert.present();
+  }
+
+  async onDeleteClicked() {
+    const alert = await this.alertController.create({
+      header: 'Liste Löschen?',
+      message: 'Liste wirklich dauerhaft löschen?',
+      buttons: [
+        {
+          text: 'Abbrechen',
+          role: 'cancel'
+        },
+        {
+          text: 'Löschen',
+          cssClass: 'danger',
+          handler: () => {
+            this.listsService.deleteList(this.list.id);
+            this.router.navigateByUrl('/lists');
+          }
+        }
+      ]
+    });
+    this.popoverController.dismiss();
+    alert.present();
+  }
 }

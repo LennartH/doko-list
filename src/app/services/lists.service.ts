@@ -64,11 +64,13 @@ export class ListsService {
     }
     list.endDate = new Date();
     list.endDate.setHours(0, 0, 0, 0);
+    Storage.set({key: storageKeyPrefix + id, value: list.toJson()});
     this.listsSubject.next(this._lists);
   }
 
   deleteList(id: string) {
     this._lists = this._lists.filter(l => l.id !== id);
     this.listsSubject.next(this._lists);
+    Storage.remove({key: storageKeyPrefix + id});
   }
 }

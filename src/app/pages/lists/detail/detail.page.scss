@@ -1,9 +1,24 @@
 .title-row {
-    text-align: center;
+  text-align: center;
+  padding: var(--ion-padding);
+
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--ion-color-dark-contrast);
+  background-color: var(--ion-color-dark-tint);
+}
+
+.round-row {
+  text-align: center;
+  padding: 10px var(--ion-padding);
+}
+
+.odd-round-row {
+  background-color: var(--ion-color-light);
 }
 
 .number-column {
-    text-align: right;
-    flex: 0 0 20px;
-    margin-right: 10px;
-  }
+  text-align: right;
+  flex: 0 0 20px;
+  margin-right: 10px;
+}

@@ -73,4 +73,12 @@ export class ListsService {
     this.listsSubject.next(this._lists);
     Storage.remove({key: storageKeyPrefix + id});
   }
+
+  saveList(id: string) {
+    const list = this._lists.find(l => l.id === id);
+    if (list === undefined || list.endDate !== undefined) {
+      return;
+    }
+    Storage.set({key: storageKeyPrefix + id, value: list.toJson()});
+  }
 }

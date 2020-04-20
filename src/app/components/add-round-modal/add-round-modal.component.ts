@@ -4,6 +4,7 @@ import { Party } from 'src/app/domain/common';
 import { GameList } from 'src/app/domain/list';
 import { RoundDataFormComponent } from '../round-data-form/round-data-form.component';
 import { MessagesService } from 'src/app/services/messages.service';
+import { ListsService } from 'src/app/services/lists.service';
 
 @Component({
   selector: 'app-add-round-modal',
@@ -19,7 +20,7 @@ export class AddRoundModalComponent implements OnInit {
 
   private rePlayersHistory: string[] = [];
 
-  constructor(public messages: MessagesService, private modalController: ModalController) { }
+  constructor(public messages: MessagesService, private modalController: ModalController, private listsService: ListsService) { }
 
   ngOnInit() {
     this.playerParties = Object.fromEntries(this.list.players.map(p => [p, 'contra']));
@@ -45,12 +46,16 @@ export class AddRoundModalComponent implements OnInit {
 
   arePlayerPartiesValid(): boolean {
     const reCount = this.reCount;
-    return reCount >= 1 && reCount <= 2;
+    return reCount === 1 || reCount === 2;
   }
 
   onConfirm() {
-    // TODO
-    console.log(this.roundDataForm.value)
+    if (this.roundDataForm.invalid || !this.arePlayerPartiesValid()) {
+      return;
+    }
+    this.list.addRound(this.playerParties, this.roundDataForm.value);
+    this.listsService.saveList(this.list.id);
+    this.modalController.dismiss();
   }
 
   onCancel() {

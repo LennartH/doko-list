@@ -37,10 +37,21 @@
 
     <ion-row>
       <ion-col class="ion-no-padding">
-        <app-round-data-form #f [ruleSetConfig]="list.ruleSet.config" [isSolo]="reCount === 1"></app-round-data-form>
+        <app-round-data-form #f [ruleSetConfig]="list.ruleSet.config" [isSolo]="reCount === 1"
+          [consecutiveBockrounds]="list?.getConsecutiveBockrounds()"></app-round-data-form>
       </ion-col>
     </ion-row>
 
+    <!-- <ion-row>
+      <ion-col class="ion-no-padding">
+        <ion-item-divider color="primary">
+          <ion-text>
+            <h2>Ergebnis</h2>
+          </ion-text>
+        </ion-item-divider>
+        <app-round-result-preview></app-round-result-preview>
+      </ion-col>
+    </ion-row> -->
   </ion-grid>
 </ion-content>
 

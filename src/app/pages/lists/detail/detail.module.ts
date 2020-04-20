@@ -8,6 +8,7 @@ import { DetailPageRoutingModule } from './detail-routing.module';
 import { DetailPage } from './detail.page';
 import { PartyAnnouncementComponent } from 'src/app/widgets/party-announcement/party-announcement.component';
 import { ListDetailMenuComponent } from 'src/app/components/list-detail-menu/list-detail-menu.component';
+import { SharedModule } from 'src/app/shared.module';
 
 
 
@@ -17,7 +18,8 @@ import { ListDetailMenuComponent } from 'src/app/components/list-detail-menu/lis
     CommonModule,
     ReactiveFormsModule,
     IonicModule,
-    DetailPageRoutingModule
+    DetailPageRoutingModule,
+    SharedModule
   ],
   declarations: [DetailPage, AddRoundModalComponent, RoundDataFormComponent, PartyAnnouncementComponent, ListDetailMenuComponent],
   entryComponents: [AddRoundModalComponent, ListDetailMenuComponent]

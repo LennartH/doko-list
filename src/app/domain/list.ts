@@ -37,6 +37,16 @@ export class GameList {
     return this.endDate !== undefined;
   }
 
+  getConsecutiveBockrounds(): number {
+    let consecutivBockrounds = 0;
+    let index = this.rounds.length - 1;
+    while (this.rounds[index]?.result.isBockroundNext) {
+      consecutivBockrounds++;
+      index--;
+    }
+    return consecutivBockrounds;
+  }
+
   addRound(playerParties: { [player: string]: Party }, roundData: RoundData) {
     const result = this.ruleSet.calculateScore(roundData);
     this.rounds.push({ playerParties, roundData, result });

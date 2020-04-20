@@ -17,15 +17,15 @@
     <ion-row>
       <ion-col class="ion-no-padding">
         <ion-grid *ngIf="list" class="ion-no-padding">
-          <ion-row class="ion-padding title-row">
-            <ion-col class="number-column" style="text-align: inherit;">#</ion-col>
+          <ion-row class="title-row">
+            <ion-col class="number-column">#</ion-col>
             <ion-col *ngFor="let player of list.players">{{ player }}</ion-col>
           </ion-row>
 
-          <ion-row *ngFor="let score of list.scores; let i = index" class="ion-padding">
+          <ion-row *ngFor="let score of list.scores; let i = index" class="round-row" [class.odd-round-row]="i % 2 === 1">
             <ion-col class="number-column">{{ i + 1 }}</ion-col>
             <ion-col *ngFor="let player of list.players">
-              {{ score[player].total }} ({{ score[player].delta}})
+              {{ score[player].total }} <ion-text color="medium">({{ score[player].delta}})</ion-text>
             </ion-col>
           </ion-row>
         </ion-grid>

@@ -14,6 +14,7 @@ import { RuleSetConfig } from 'src/app/domain/rule-set';
 export class RoundDataFormComponent implements OnInit {
   @Input() ruleSetConfig: RuleSetConfig;
   @Input() isSolo: boolean;
+  @Input() consecutiveBockrounds: number;
 
   rePoints = 120;
   @ViewChild('reAnnouncement') reAnnouncement: PartyAnnouncementComponent;
@@ -108,14 +109,23 @@ export class RoundDataFormComponent implements OnInit {
     for (let i = 0; i < this.doppelkopfs.contra; i++) {
       doppelkopfs.push('contra');
     }
+
+    const announcements = {
+      re: this.reAnnouncement.value,
+      contra: this.contraAnnouncement.value
+    };
+    if (announcements.re === undefined) {
+      delete announcements.re;
+    }
+    if (announcements.contra === undefined) {
+      delete announcements.contra;
+    }
+
     return {
       wasSolo: this.isSolo,
-      consecutiveBockrounds: 0,
+      consecutiveBockrounds: this.consecutiveBockrounds,
       points: { re: this.rePoints, contra: 240 - this.rePoints },
-      announcements: {
-        re: this.reAnnouncement.value,
-        contra: this.contraAnnouncement.value,
-      },
+      announcements,
 
       doppelkopfs,
       foxesCaught: [this.foxesCaught[0], this.foxesCaught[1]],

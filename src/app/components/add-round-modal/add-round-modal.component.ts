@@ -20,8 +20,21 @@ export class AddRoundModalComponent implements OnInit {
   @ViewChild('f') roundDataForm: RoundDataFormComponent;
 
   private rePlayersHistory: string[] = [];
+  private _displayResultDetails = false;
 
   constructor(public messages: MessagesService, private modalController: ModalController, private listsService: ListsService) { }
+
+  get valid(): boolean {
+    return this.roundDataForm?.valid && this.arePlayerPartiesValid();
+  }
+
+  get displayResultDetails(): boolean {
+    return this.valid && this._displayResultDetails;
+  }
+
+  get invalid(): boolean {
+    return !this.valid;
+  }
 
   ngOnInit() {
     this.playerParties = Object.fromEntries(this.list.players.map(p => [p, 'contra']));
@@ -45,17 +58,23 @@ export class AddRoundModalComponent implements OnInit {
     return Object.values(this.playerParties).reduce((c, p) => c + (p === 're' ? 1 : 0), 0);
   }
 
-  arePlayerPartiesValid(): boolean {
+  private arePlayerPartiesValid(): boolean {
     const reCount = this.reCount;
     return reCount === 1 || reCount === 2;
   }
 
   calculateResult(): RoundResult {
-    const roundData = this.roundDataForm?.value;
-    if (roundData === undefined) {
+    if (this.invalid) {
       return undefined;
     }
-    return this.list.ruleSet.calculateScore(roundData);
+    return this.list.ruleSet.calculateScore(this.roundDataForm.value);
+  }
+
+  onResultPreviewHeaderClicked() {
+    if (this.invalid) {
+      return;
+    }
+    this._displayResultDetails = !this._displayResultDetails;
   }
 
   onConfirm() {

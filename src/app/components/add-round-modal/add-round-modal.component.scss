@@ -17,3 +17,21 @@
   color: var(--ion-color-dark-contrast);
   background-color: var(--ion-color-dark-tint);
 }
+
+.result-preview {
+  position: relative;
+  margin-top: 12px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.result-preview-header .chevron-container {
+  margin-top: 5px;
+  padding-right: 10px;
+  font-size: 20px;
+  align-self: center;
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+}

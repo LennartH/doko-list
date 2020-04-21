@@ -5,6 +5,7 @@ import { GameList } from 'src/app/domain/list';
 import { RoundDataFormComponent } from '../round-data-form/round-data-form.component';
 import { MessagesService } from 'src/app/services/messages.service';
 import { ListsService } from 'src/app/services/lists.service';
+import { RoundResult } from 'src/app/domain/rule-set';
 
 @Component({
   selector: 'app-add-round-modal',
@@ -47,6 +48,14 @@ export class AddRoundModalComponent implements OnInit {
   arePlayerPartiesValid(): boolean {
     const reCount = this.reCount;
     return reCount === 1 || reCount === 2;
+  }
+
+  calculateResult(): RoundResult {
+    const roundData = this.roundDataForm?.value;
+    if (roundData === undefined) {
+      return undefined;
+    }
+    return this.list.ruleSet.calculateScore(roundData);
   }
 
   onConfirm() {

@@ -42,16 +42,18 @@
       </ion-col>
     </ion-row>
 
-    <!-- <ion-row>
+    <!-- TODO Make Collapsible showing only party points when collapsed -->
+    <ion-row *ngIf="roundDataForm?.valid && arePlayerPartiesValid()">
       <ion-col class="ion-no-padding">
-        <ion-item-divider color="primary">
+        <ion-item-divider class="result-preview-header ion-activatable ripple-parent">
           <ion-text>
-            <h2>Ergebnis</h2>
+            <h2>Punkte</h2>
           </ion-text>
+          <ion-ripple-effect></ion-ripple-effect>
         </ion-item-divider>
-        <app-round-result-preview></app-round-result-preview>
+        <app-round-result-preview [result]="calculateResult()"></app-round-result-preview>
       </ion-col>
-    </ion-row> -->
+    </ion-row>
   </ion-grid>
 </ion-content>
 

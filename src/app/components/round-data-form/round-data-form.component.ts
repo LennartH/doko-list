@@ -102,6 +102,10 @@ export class RoundDataFormComponent implements OnInit {
   }
 
   get value(): RoundData {
+    if (this.invalid) {
+      return undefined;
+    }
+
     const doppelkopfs: Party[] = [];
     for (let i = 0; i < this.doppelkopfs.re; i++) {
       doppelkopfs.push('re');

@@ -22,10 +22,12 @@
             <ion-col *ngFor="let player of list.players">{{ player }}</ion-col>
           </ion-row>
 
-          <ion-row *ngFor="let score of list.scores; let i = index" class="round-row" [class.odd-round-row]="i % 2 === 1">
+          <!-- TODO Make rows slidable to view details, edit and delete round -->
+          <ion-row *ngFor="let score of list.scores; let i = index; let isFirst = first; let isLast = last"
+            class="round-row" [class.even-round-row]="i % 2 === 0" [class.last-round-row]="isLast && !isFirst">
             <ion-col class="number-column">{{ i + 1 }}</ion-col>
             <ion-col *ngFor="let player of list.players">
-              {{ score[player].total }} <ion-text color="medium">({{ score[player].delta}})</ion-text>
+              {{ score[player].total }} <ion-text class="delta-points">({{ score[player].delta}})</ion-text>
             </ion-col>
           </ion-row>
         </ion-grid>

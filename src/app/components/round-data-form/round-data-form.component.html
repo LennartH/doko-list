@@ -41,9 +41,10 @@
         </ion-item-divider>
       </ion-col>
     </ion-row>
-    <ion-row class="ion-padding-horizontal padded-row top-row" *ngIf="isBonusScore('ForDoppelkopf')">
+    <ion-row class="ion-padding-horizontal ion-align-items-center padded-row top-row"
+      *ngIf="isBonusScore('ForDoppelkopf')">
       <ion-col size="3">
-        <ion-label>Doppelkopf</ion-label>
+        Doppelkopf
       </ion-col>
       <ion-col class="column-chip">
         <ion-chip (click)="rotateDoppelkopfs('re')" [class.selected-chip]="doppelkopfs.re"
@@ -58,9 +59,9 @@
         </ion-chip>
       </ion-col>
     </ion-row>
-    <ion-row class="ion-padding-horizontal padded-row" *ngIf="isBonusScore('ForCaughtFox')">
+    <ion-row class="ion-padding-horizontal ion-align-items-center padded-row" *ngIf="isBonusScore('ForCaughtFox')">
       <ion-col size="5">
-        <ion-label>Fuchs gefangen</ion-label>
+        Fuchs gefangen
       </ion-col>
       <ion-col class="column-chip" *ngFor="let index of [0, 1]">
         <ion-chip (click)="rotateParty('foxCaught', index)" [class.selected-chip]="foxesCaught[index]"
@@ -69,9 +70,10 @@
         </ion-chip>
       </ion-col>
     </ion-row>
-    <ion-row class="ion-padding-horizontal padded-row" *ngIf="isBonusScore('WhenFoxTakesLastTrick')">
+    <ion-row class="ion-padding-horizontal ion-align-items-center padded-row"
+      *ngIf="isBonusScore('WhenFoxTakesLastTrick')">
       <ion-col size="6">
-        <ion-label>Letzter Stich mit Fuchs</ion-label>
+        Letzter Stich mit Fuchs
       </ion-col>
       <ion-col class="column-chip">
         <ion-chip (click)="rotateParty('foxGotLastTrick')" [class.selected-chip]="foxGotLastTrick"
@@ -80,9 +82,9 @@
         </ion-chip>
       </ion-col>
     </ion-row>
-    <ion-row class="ion-padding-horizontal padded-row" *ngIf="isBonusScore('ForCaughtCharlie')">
+    <ion-row class="ion-padding-horizontal ion-align-items-center padded-row" *ngIf="isBonusScore('ForCaughtCharlie')">
       <ion-col size="5">
-        <ion-label>Karlchen gefangen</ion-label>
+        Karlchen gefangen
       </ion-col>
       <ion-col class="column-chip" *ngFor="let index of [0, 1]">
         <ion-chip (click)="rotateParty('charlyCaught', index)" [class.selected-chip]="charliesCaught[index]"
@@ -91,9 +93,10 @@
         </ion-chip>
       </ion-col>
     </ion-row>
-    <ion-row class="ion-padding-horizontal padded-row" *ngIf="isBonusScore('WhenCharlieTakesLastTrick')">
+    <ion-row class="ion-padding-horizontal ion-align-items-center padded-row"
+      *ngIf="isBonusScore('WhenCharlieTakesLastTrick')">
       <ion-col size="6">
-        <ion-label>Letzter Stich mit Karlchen</ion-label>
+        Letzter Stich mit Karlchen
       </ion-col>
       <ion-col class="column-chip">
         <ion-chip (click)="rotateParty('charlyGotLastTrick')" [class.selected-chip]="charlyGotLastTrick"
@@ -102,9 +105,10 @@
         </ion-chip>
       </ion-col>
     </ion-row>
-    <ion-row class="ion-padding-horizontal padded-row" *ngIf="isBonusScore('WhenDulleCapturesDulle')">
+    <ion-row class="ion-padding-horizontal ion-align-items-center padded-row"
+      *ngIf="isBonusScore('WhenDulleCapturesDulle')">
       <ion-col size="5">
-        <ion-label>Dulle gefangen</ion-label>
+        Dulle gefangen
       </ion-col>
       <ion-col class="column-chip">
         <ion-chip (click)="rotateParty('dulleCaughtDulle')" [class.selected-chip]="dulleCaughtDulle">

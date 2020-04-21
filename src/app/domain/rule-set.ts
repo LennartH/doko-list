@@ -35,7 +35,8 @@ export class RuleSet {
   calculateScore(roundData: RoundData): RoundResult {
     const [winningParty, announcementWasLost] = this.determineWinningParty(roundData);
     const losingParty = this.otherParty(winningParty);
-    let winningPartyScore = 1;
+    let winningPartyPoints = 0;
+    const details: RoundResultDetail[] = [];  // TODO Calculate final score using details
 
     let isBockroundNext = announcementWasLost && this.bockroundAfter(BockroundAfter.LostAnnouncement);
     isBockroundNext = isBockroundNext || (roundData.points.re === 120 && this.bockroundAfter(BockroundAfter.ScoreTie));
@@ -44,14 +45,18 @@ export class RuleSet {
     // Score based on points
     const losingPartyPoints = roundData.points[losingParty];
     if (losingPartyPoints === 0) {
-      winningPartyScore++;
+      winningPartyPoints++;
+      details.push({message: 'schwarz', delta: 1, intermediatePoints: winningPartyPoints});
       isBockroundNext = isBockroundNext || this.bockroundAfter(BockroundAfter.WonSchwarz);
     }
     for (const pointThreshold of PointThreshold.values().slice(1, -1)) {
       if (losingPartyPoints < pointThreshold) {
-        winningPartyScore++;
+        winningPartyPoints++;
+        details.push({message: `lessThan${pointThreshold}`, delta: 1, intermediatePoints: winningPartyPoints});
       }
     }
+    winningPartyPoints++;
+    details.push({message: 'won', delta: 1, intermediatePoints: winningPartyPoints});
 
     // TODO Cleanup
     // Score based on announcements
@@ -59,11 +64,13 @@ export class RuleSet {
       const winningPartyAnnouncement = roundData.announcements[winningParty];
       switch (this.config.announcementBehaviour) {
         case AnnouncementBehaviour.FirstGetsPlusTwo:
-          winningPartyScore += 2;
+          winningPartyPoints += 2;
+          details.push({message: `${winningParty}Announced`, delta: 2, intermediatePoints: winningPartyPoints});
           break;
         case AnnouncementBehaviour.FirstDoubles:
         case AnnouncementBehaviour.AllDouble:
-          winningPartyScore *= 2;
+          winningPartyPoints *= 2;
+          details.push({message: `${winningParty}Announced`, factor: 2, intermediatePoints: winningPartyPoints});
           break;
         default:
           throw new Error(`Unknown announcement behaviour ${this.config.announcementBehaviour}`);
@@ -73,10 +80,12 @@ export class RuleSet {
           switch (this.config.announcementBehaviour) {
             case AnnouncementBehaviour.FirstGetsPlusTwo:
             case AnnouncementBehaviour.FirstDoubles:
-              winningPartyScore++;
+              winningPartyPoints++;
+              details.push({message: `lessThan${threshold}Announced`, delta: 1, intermediatePoints: winningPartyPoints});
               break;
             case AnnouncementBehaviour.AllDouble:
-              winningPartyScore *= 2;
+              winningPartyPoints *= 2;
+              details.push({message: `lessThan${threshold}Announced`, factor: 2, intermediatePoints: winningPartyPoints});
               break;
             default:
               throw new Error(`Unknown announcement behaviour ${this.config.announcementBehaviour}`);
@@ -88,13 +97,16 @@ export class RuleSet {
       const losingPartyAnnouncement = roundData.announcements[losingParty];
       for (const threshold of PointThreshold.values()) {
         if (threshold >= losingPartyAnnouncement.lessThan) {
+          const message = threshold === 120 ? `${losingParty}AnnouncedLost` : `lessThan${threshold}AnnouncedLost`;
           switch (this.config.announcementBehaviour) {
             case AnnouncementBehaviour.FirstGetsPlusTwo:
             case AnnouncementBehaviour.FirstDoubles:
-              winningPartyScore++;
+              winningPartyPoints++;
+              details.push({message, delta: 1, intermediatePoints: winningPartyPoints});
               break;
             case AnnouncementBehaviour.AllDouble:
-              winningPartyScore *= 2;
+              winningPartyPoints *= 2;
+              details.push({message, factor: 2, intermediatePoints: winningPartyPoints});
               break;
             default:
               throw new Error(`Unknown announcement behaviour ${this.config.announcementBehaviour}`);
@@ -105,9 +117,13 @@ export class RuleSet {
 
     // Bonus Scores
     if (!roundData.wasSolo || this.config.bonusScoresOnSolo) {
-      winningPartyScore += this.config.bonusScoreRules
-        .map(r => this.extraScoreRuleDelta(winningParty, roundData, r))
-        .reduce((sum, delta) => sum + delta, 0);
+      for (const bonusScoreRule of this.config.bonusScoreRules) {
+        const delta = this.extraScoreRuleDelta(winningParty, roundData, bonusScoreRule);
+        if (delta !== 0) {
+          winningPartyPoints += delta;
+          details.push({message: bonusScoreRule, delta, intermediatePoints: winningPartyPoints});
+        }
+      }
     }
 
     // Applying Bockrounds
@@ -116,24 +132,27 @@ export class RuleSet {
       if (this.config.consecutiveBockroundsStack) {
         bockroundFactor **= roundData.consecutiveBockrounds;
       }
-      winningPartyScore *= bockroundFactor;
+      const message = bockroundFactor > 2 ? 'bockrounds' : 'bockround';
+      winningPartyPoints *= bockroundFactor;
+      details.push({message, factor: bockroundFactor, intermediatePoints: winningPartyPoints});
     }
 
     // Finalizing result
-    isBockroundNext = isBockroundNext || winningPartyScore === 0;
-    let losingPartyScore = this.config.losingPartyGetsNegatedScore ? -1 * winningPartyScore : 0;
+    isBockroundNext = isBockroundNext || winningPartyPoints === 0;
+    let losingPartyScore = this.config.losingPartyGetsNegatedScore ? -1 * winningPartyPoints : 0;
 
     if (roundData.wasSolo) {
       if (winningParty === 're') {
-        winningPartyScore *= 3;
+        winningPartyPoints *= 3;
       } else {
         losingPartyScore *= 3;
       }
     }
 
     return {
-      re: winningParty === 're' ? winningPartyScore : losingPartyScore,
-      contra: winningParty === 'contra' ? winningPartyScore : losingPartyScore,
+      re: winningParty === 're' ? winningPartyPoints : losingPartyScore,
+      contra: winningParty === 'contra' ? winningPartyPoints : losingPartyScore,
+      details,
       isBockroundNext
     };
   }
@@ -224,6 +243,14 @@ export class RuleSet {
 export interface RoundResult {
   re: number;
   contra: number;
+  details: RoundResultDetail[];
 
   isBockroundNext: boolean;
+}
+
+export interface RoundResultDetail {
+  message: string;
+  delta?: number;
+  factor?: number;
+  intermediatePoints: number;
 }

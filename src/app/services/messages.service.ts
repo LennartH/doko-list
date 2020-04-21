@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { $enum } from 'ts-enum-util';
-import { AnnouncementBehaviour, BonusScore, BockroundAfter } from '../domain/common';
+import { AnnouncementBehaviour, BonusScore, BockroundAfter, PointThreshold } from '../domain/common';
 
 @Injectable({
   providedIn: 'root'
@@ -12,8 +12,26 @@ export class MessagesService {
   constructor() {
     this.messages = {
       re: 'Re',
-      contra: 'Contra'
+      contra: 'Contra',
+
+      schwarz: 'Schwarz',
+      won: 'Gewonnen',
+      reAnnounced: 'Re angesagt',
+      reAnnouncedLost: 'Re Ansage verloren',
+      contraAnnounced: 'Contra angesagt',
+      contraAnnouncedLost: 'Contra Ansage verloren',
+      bockround: 'Bockrunde',
+      bockrounds: 'Bockrunden',
+      lessThan0Announced: 'Schwarz angesagt',
+      lessThan0AnnouncedLost: 'Schwarz Ansage verloren'
     };
+
+    PointThreshold.values().slice(1, -1).forEach(threshold => {
+      this.messages[`lessThan${threshold}`] = `Keine ${threshold}`;
+      this.messages[`lessThan${threshold}Announced`] = `${threshold} abgesagt`;
+      this.messages[`lessThan${threshold}AnnouncedLost`] = `Keine ${threshold} Absage verloren`;
+    });
+
     $enum(AnnouncementBehaviour).forEach(value => {
       this.messages[value] = $enum.mapValue(value).with({
         FirstGetsPlusTwo: 'Ansage +2, Absagen +1',
@@ -44,9 +62,10 @@ export class MessagesService {
   }
 
   get(key: string): string {
-    const message = this.messages[key];
+    let message = this.messages[key];
     if (message === undefined) {
-      throw new Error(`Unknown message key ${key}`);
+      console.error(`Unknown message key ${key}`);
+      message = key;
     }
     return message;
   }

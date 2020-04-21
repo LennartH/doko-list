@@ -68,3 +68,9 @@ ion-range {
   box-shadow: none;
   margin: 0;
 }
+
+.ripple-parent {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}

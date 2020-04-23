@@ -38,7 +38,7 @@ export class PartyAnnouncementComponent implements OnInit {
     if (!this.victoryAnnounced) {
       return undefined;
     }
-    return {lessThan: this.threshold || 120};
+    return {lessThan: this.threshold !== undefined ? this.threshold : 120};
   }
 
 }

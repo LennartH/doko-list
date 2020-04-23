@@ -53,10 +53,10 @@
           <h2>Punkte</h2>
           <ion-grid *ngIf="!displayResultDetails" class="ion-no-padding result-preview">
             <ion-row>
-              <ion-col offset="2.5" size="2">{{ 're' | message}}</ion-col>
-              <ion-col size=1>{{ calculateResult()?.re || '-' }}</ion-col>
-              <ion-col offset="1" size="3">{{ 'contra' | message}}</ion-col>
-              <ion-col size=1>{{ calculateResult()?.contra || '-' }}</ion-col>
+              <ion-col offset="1" size="2" class="ion-text-center">{{ 're' | message}}</ion-col>
+              <ion-col size=2>{{ calculateResult()?.re || '-' }}</ion-col>
+              <ion-col size="3" class="ion-text-center">{{ 'contra' | message}}</ion-col>
+              <ion-col size=2>{{ calculateResult()?.contra || '-' }}</ion-col>
             </ion-row>
           </ion-grid>
           <div *ngIf="valid" class="chevron-container">

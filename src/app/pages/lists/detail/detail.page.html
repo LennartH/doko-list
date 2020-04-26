@@ -20,13 +20,12 @@
     </ion-row>
 
     <ng-container *ngFor="let score of list.scores; let i = index; let isFirst = first; let isLast = last">
-      <ion-row *ngIf="i !== 0 && i % 4 === 0 && !isLast" class="separator-row"></ion-row>
+      <ion-row *ngIf="isStartOfCycle(i) && !isFirst && !isLast" class="separator-row"></ion-row>
       <ion-row>
         <ion-col class="ion-no-padding">
           <ion-item-sliding>
             <ion-item lines="none" class="ion-no-padding" style="--min-height: 0; --inner-padding-end: 0;">
               <ion-grid class="ion-no-padding">
-                <!-- TODO Consider Soli for separated rows -->
                 <ion-row class="round-row" [class.even-round-row]="i % 2 === 0"
                   [class.last-round-row]="isLast && !isFirst">
                   <ion-col class="round-number-column" size="1">

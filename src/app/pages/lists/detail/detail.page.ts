@@ -39,6 +39,16 @@ export class DetailPage implements OnInit {
     });
   }
 
+  isStartOfCycle(roundNumber: number): boolean {
+    let nonSoloRounds = 0;
+    for (let i = 0; i < roundNumber && i < this.list.rounds.length; i++) {
+      if (!this.list.rounds[i].roundData.wasSolo) {
+        nonSoloRounds++;
+      }
+    }
+    return nonSoloRounds % 4 === 0;
+  }
+
   wasSolo(roundNumber: number): boolean {
     return this.list.rounds[roundNumber].roundData.wasSolo;
   }

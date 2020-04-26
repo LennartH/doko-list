@@ -6,6 +6,7 @@ import { ModalController, PopoverController, AlertController } from '@ionic/angu
 import { AddRoundModalComponent } from 'src/app/components/add-round-modal/add-round-modal.component';
 import { ListDetailMenuComponent } from 'src/app/components/list-detail-menu/list-detail-menu.component';
 import { RoundDetailsCardComponent } from 'src/app/components/round-details-card/round-details-card.component';
+import { RoundData } from 'src/app/domain/round-data';
 
 @Component({
   selector: 'app-detail',
@@ -36,6 +37,14 @@ export class DetailPage implements OnInit {
         this.list = list;
       });
     });
+  }
+
+  wasSolo(roundNumber: number): boolean {
+    return this.list.rounds[roundNumber].roundData.wasSolo;
+  }
+
+  wasBockround(roundNumber: number): boolean {
+    return this.list.rounds[roundNumber - 1]?.result.isBockroundNext;
   }
 
   async onMenuClicked(event: any) {

@@ -29,8 +29,13 @@
                 <!-- TODO Consider Soli for separated rows -->
                 <ion-row class="round-row" [class.even-round-row]="i % 2 === 0"
                   [class.last-round-row]="isLast && !isFirst">
-                  <!-- TODO Display Solo and Bockrounds in number column -->
-                  <ion-col class="ion-text-end" size="1">{{ i + 1 }}</ion-col>
+                  <ion-col class="round-number-column" size="1">
+                    <ion-text *ngIf="wasSolo(i)" class="round-number-ornament"
+                      [class.round-number-ornament-top]="wasBockround(i)">S</ion-text>
+                    <ion-text *ngIf="wasBockround(i)" class="round-number-ornament"
+                      [class.round-number-ornament-bottom]="wasSolo(i)">B</ion-text>
+                    {{ i + 1 }}
+                  </ion-col>
                   <ng-container *ngFor="let player of list.players">
                     <ion-col class="ion-text-end round-points">{{ score[player].total }}</ion-col>
                     <ion-col class="ion-text-start delta-points">({{ score[player].delta}})</ion-col>

@@ -25,8 +25,21 @@ export class AddRoundModalComponent implements OnInit {
 
   constructor(public messages: MessagesService, private modalController: ModalController, private listsService: ListsService) { }
 
+  get invalid(): boolean {
+    return !this.valid;
+  }
+
   get valid(): boolean {
     return this.roundDataForm?.valid && this.arePlayerPartiesValid();
+  }
+
+  private arePlayerPartiesValid(): boolean {
+    const reCount = this.reCount;
+    return reCount === 1 || reCount === 2;
+  }
+
+  get reCount(): number {
+    return Object.values(this.playerParties).reduce((c, p) => c + (p === 're' ? 1 : 0), 0);
   }
 
   get displayResultDetails(): boolean {
@@ -34,10 +47,6 @@ export class AddRoundModalComponent implements OnInit {
       this._displayResultDetails = false;
     }
     return this._displayResultDetails;
-  }
-
-  get invalid(): boolean {
-    return !this.valid;
   }
 
   ngOnInit() {
@@ -63,15 +72,6 @@ export class AddRoundModalComponent implements OnInit {
     }
   }
 
-  get reCount(): number {
-    return Object.values(this.playerParties).reduce((c, p) => c + (p === 're' ? 1 : 0), 0);
-  }
-
-  private arePlayerPartiesValid(): boolean {
-    const reCount = this.reCount;
-    return reCount === 1 || reCount === 2;
-  }
-
   calculateResult(): RoundResult {
     if (this.invalid) {
       return undefined;
@@ -87,7 +87,7 @@ export class AddRoundModalComponent implements OnInit {
   }
 
   onConfirm() {
-    if (this.roundDataForm.invalid || !this.arePlayerPartiesValid()) {
+    if (this.invalid) {
       return;
     }
     if (this.roundNumber !== undefined) {

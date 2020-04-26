@@ -10,6 +10,7 @@ import { PartyAnnouncementComponent } from 'src/app/widgets/party-announcement/p
 import { ListDetailMenuComponent } from 'src/app/components/list-detail-menu/list-detail-menu.component';
 import { SharedModule } from 'src/app/shared.module';
 import { RoundDetailsCardComponent } from 'src/app/components/round-details-card/round-details-card.component';
+import { RoundRowComponent } from 'src/app/widgets/round-row/round-row.component';
 
 @NgModule({
   imports: [CommonModule, ReactiveFormsModule, IonicModule, DetailPageRoutingModule, SharedModule],
@@ -20,6 +21,7 @@ import { RoundDetailsCardComponent } from 'src/app/components/round-details-card
     PartyAnnouncementComponent,
     ListDetailMenuComponent,
     RoundDetailsCardComponent,
+    RoundRowComponent
   ],
   entryComponents: [AddRoundModalComponent, ListDetailMenuComponent, RoundDetailsCardComponent],
 })

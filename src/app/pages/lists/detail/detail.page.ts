@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ListsService } from 'src/app/services/lists.service';
-import { GameList } from 'src/app/domain/list';
-import { ModalController, PopoverController, AlertController } from '@ionic/angular';
+import { AlertController, ModalController, PopoverController } from '@ionic/angular';
 import { AddRoundModalComponent } from 'src/app/components/add-round-modal/add-round-modal.component';
 import { ListDetailMenuComponent } from 'src/app/components/list-detail-menu/list-detail-menu.component';
 import { RoundDetailsCardComponent } from 'src/app/components/round-details-card/round-details-card.component';
-import { RoundData } from 'src/app/domain/round-data';
+import { GameList } from 'src/app/domain/list';
+import { ListsService } from 'src/app/services/lists.service';
 
 @Component({
   selector: 'app-detail',
@@ -15,6 +14,7 @@ import { RoundData } from 'src/app/domain/round-data';
 })
 export class DetailPage implements OnInit {
   list: GameList;
+  isGridOverflowing = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -37,6 +37,21 @@ export class DetailPage implements OnInit {
         this.list = list;
       });
     });
+  }
+
+  ionViewDidEnter() {
+    this.updateIsGridOverflowing();
+  }
+
+  private updateIsGridOverflowing() {
+    const grid = document.querySelector('#main-grid') as HTMLElement;
+    if (!grid) {
+      this.isGridOverflowing = false;
+    } else {
+      const gridBounds = grid.getBoundingClientRect();
+      const containerBounds = grid.parentElement.getBoundingClientRect();
+      this.isGridOverflowing = gridBounds.top < containerBounds.top || gridBounds.bottom > containerBounds.bottom;
+    }
   }
 
   isStartOfCycle(roundNumber: number): boolean {
@@ -77,7 +92,6 @@ export class DetailPage implements OnInit {
   }
 
   async displayRoundDetails(roundNumber: number) {
-    this.popoverController.dismiss();
     const popover = await this.popoverController.create({
       component: RoundDetailsCardComponent,
       componentProps: {
@@ -103,7 +117,7 @@ export class DetailPage implements OnInit {
   async deleteRound(roundNumber: number) {
     const alert = await this.alertController.create({
       header: 'Runde Löschen?',
-      message: 'Runde wirklich dauerhaft löschen?',
+      message: `Runde ${roundNumber + 1} wirklich dauerhaft löschen?`,
       buttons: [
         {
           text: 'Abbrechen',

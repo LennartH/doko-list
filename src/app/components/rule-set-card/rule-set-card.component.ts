@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { RuleSet } from 'src/app/domain/rule-set';
 
-// TODO Add detail component
 @Component({
   selector: 'app-rule-set-card',
   templateUrl: './rule-set-card.component.html',

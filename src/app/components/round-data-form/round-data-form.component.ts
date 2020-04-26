@@ -1,20 +1,21 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { PointThreshold, Party, BonusScore } from 'src/app/domain/common';
+import { Component, Input, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Party, PointThreshold } from 'src/app/domain/common';
 import { RoundData } from 'src/app/domain/round-data';
-import { PartyAnnouncementComponent } from 'src/app/widgets/party-announcement/party-announcement.component';
-import { MessagesService } from 'src/app/services/messages.service';
 import { RuleSetConfig } from 'src/app/domain/rule-set';
+import { MessagesService } from 'src/app/services/messages.service';
+import { PartyAnnouncementComponent } from 'src/app/widgets/party-announcement/party-announcement.component';
 
 @Component({
   selector: 'app-round-data-form',
   templateUrl: './round-data-form.component.html',
   styleUrls: ['./round-data-form.component.scss'],
 })
-export class RoundDataFormComponent implements OnInit {
+export class RoundDataFormComponent implements OnInit, AfterViewInit {
   @Input() ruleSetConfig: RuleSetConfig;
   @Input() isSolo: boolean;
   @Input() consecutiveBockrounds: number;
+
+  @Input() initialRoundData?: RoundData;
 
   rePoints = 120;
   @ViewChild('reAnnouncement') reAnnouncement: PartyAnnouncementComponent;
@@ -32,7 +33,35 @@ export class RoundDataFormComponent implements OnInit {
 
   constructor(public messages: MessagesService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    if (this.initialRoundData) {
+      this.rePoints = this.initialRoundData.points.re;
+      this.doppelkopfs.re = this.initialRoundData.doppelkopfs.filter(p => p === 're').length;
+      this.doppelkopfs.contra = this.initialRoundData.doppelkopfs.filter(p => p === 'contra').length;
+      this.foxesCaught = [this.initialRoundData.foxesCaught[0], this.initialRoundData.foxesCaught[1]];
+      this.foxGotLastTrick = this.initialRoundData.foxGotLastTrick;
+      this.charliesCaught = [this.initialRoundData.charliesCaught[0], this.initialRoundData.charliesCaught[1]];
+      this.charlyGotLastTrick = this.initialRoundData.charlyGotLastTrick;
+      this.dulleCaughtDulle = this.initialRoundData.dulleCaughtDulle;
+    }
+  }
+
+  ngAfterViewInit() {
+    if (this.initialRoundData) {
+      if (this.initialRoundData.announcements.re) {
+        this.reAnnouncement.victoryAnnounced = true;
+        if (this.initialRoundData.announcements.re.lessThan < 120) {
+          this.reAnnouncement.threshold = this.initialRoundData.announcements.re.lessThan;
+        }
+      }
+      if (this.initialRoundData.announcements.contra) {
+        this.contraAnnouncement.victoryAnnounced = true;
+        if (this.initialRoundData.announcements.contra.lessThan < 120) {
+          this.contraAnnouncement.threshold = this.initialRoundData.announcements.contra.lessThan;
+        }
+      }
+    }
+  }
 
   get pointThresholds(): number[] {
     return PointThreshold.values().reverse();

@@ -50,7 +50,7 @@
 
           <ion-item lines="none">
             <ion-label position="floating">Verhalten</ion-label>
-            <ion-select interface="popover" formControlName="announcementBehaviour">
+            <ion-select interface="popover" [interfaceOptions]="{cssClass: 'broad-popover'}" formControlName="announcementBehaviour">
               <ion-select-option *ngFor="let behaviour of possibleBehaviours" [value]="behaviour">
                 <ion-text>{{ behaviour | message }}</ion-text>
               </ion-select-option>

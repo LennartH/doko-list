@@ -9,19 +9,18 @@ import { DetailPage } from './detail.page';
 import { PartyAnnouncementComponent } from 'src/app/widgets/party-announcement/party-announcement.component';
 import { ListDetailMenuComponent } from 'src/app/components/list-detail-menu/list-detail-menu.component';
 import { SharedModule } from 'src/app/shared.module';
-
-
-
+import { RoundDetailsCardComponent } from 'src/app/components/round-details-card/round-details-card.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    IonicModule,
-    DetailPageRoutingModule,
-    SharedModule
+  imports: [CommonModule, ReactiveFormsModule, IonicModule, DetailPageRoutingModule, SharedModule],
+  declarations: [
+    DetailPage,
+    AddRoundModalComponent,
+    RoundDataFormComponent,
+    PartyAnnouncementComponent,
+    ListDetailMenuComponent,
+    RoundDetailsCardComponent,
   ],
-  declarations: [DetailPage, AddRoundModalComponent, RoundDataFormComponent, PartyAnnouncementComponent, ListDetailMenuComponent],
-  entryComponents: [AddRoundModalComponent, ListDetailMenuComponent]
+  entryComponents: [AddRoundModalComponent, ListDetailMenuComponent, RoundDetailsCardComponent],
 })
 export class DetailPageModule {}

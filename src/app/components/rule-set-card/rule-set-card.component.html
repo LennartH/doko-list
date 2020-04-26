@@ -7,7 +7,7 @@
       <ion-row>
         <ion-col class="ion-text-center ion-no-padding">
           <ion-text *ngIf="ruleSet.config.losingPartyGetsNegatedScore">Verlierer bekommen Minuspunkte</ion-text>
-          <ion-text *ngIf="ruleSet.config.losingPartyGetsNegatedScore && ruleSet.config.soloWinsOnTie">, <br /></ion-text>
+          <ion-text *ngIf="ruleSet.config.losingPartyGetsNegatedScore && ruleSet.config.soloWinsOnTie"><br /></ion-text>
           <ion-text *ngIf="ruleSet.config.soloWinsOnTie">Solo gewinnt bei Gleichstand</ion-text>
         </ion-col>
       </ion-row>

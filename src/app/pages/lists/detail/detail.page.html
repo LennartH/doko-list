@@ -22,14 +22,31 @@
             <ion-col *ngFor="let player of list.players">{{ player }}</ion-col>
           </ion-row>
 
-          <!-- TODO Make rows slidable to view details, edit and delete round -->
-          <ion-row *ngFor="let score of list.scores; let i = index; let isFirst = first; let isLast = last"
-            class="round-row" [class.even-round-row]="i % 2 === 0" [class.last-round-row]="isLast && !isFirst">
-            <ion-col class="number-column">{{ i + 1 }}</ion-col>
-            <ion-col *ngFor="let player of list.players">
-              {{ score[player].total }} <ion-text class="delta-points">({{ score[player].delta}})</ion-text>
-            </ion-col>
-          </ion-row>
+          <ion-item-sliding *ngFor="let score of list.scores; let i = index; let isFirst = first; let isLast = last">
+            <ion-item lines="none" class="ion-no-padding" style="--min-height: 0; --inner-padding-end: 0;">
+              <ion-grid class="ion-no-padding">
+                <ion-row class="round-row" [class.even-round-row]="i % 2 === 0"
+                  [class.last-round-row]="isLast && !isFirst">
+                  <ion-col class="number-column">{{ i + 1 }}</ion-col>
+                  <!-- TODO Cleaner display of total and delta points -->
+                  <ion-col *ngFor="let player of list.players">
+                    {{ score[player].total }} <ion-text class="delta-points">({{ score[player].delta}})</ion-text>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </ion-item>
+            <ion-item-options>
+              <ion-item-option color="undefined" (click)="displayRoundDetails(i)">
+                  <ion-icon slot="icon-only" name="information-circle" color="secondary"></ion-icon>
+              </ion-item-option>
+              <ion-item-option color="undefined" (click)="editRound(i)">
+                <ion-icon slot="icon-only" src="assets/icon/edit.svg" color="primary"></ion-icon>
+              </ion-item-option>
+              <ion-item-option color="undefined" (click)="deleteRound(i)">
+                <ion-icon slot="icon-only" name="trash" color="danger"></ion-icon>
+              </ion-item-option>
+            </ion-item-options>
+          </ion-item-sliding>
         </ion-grid>
       </ion-col>
     </ion-row>

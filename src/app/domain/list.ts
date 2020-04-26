@@ -20,6 +20,17 @@ export class GameList {
     const list = new GameList(json.id, new Date(json.startDate), json.players, json.ruleSetName, json.ruleSetConfig);
     if ('rounds' in json) {
       list.rounds.push(...json.rounds);
+      for (const round of list.rounds) {
+        const roundData = round.roundData;
+        roundData.charliesCaught = [
+          roundData.charliesCaught[0] === null ? undefined : roundData.charliesCaught[0],
+          roundData.charliesCaught[1] === null ? undefined : roundData.charliesCaught[1]
+        ];
+        roundData.foxesCaught = [
+          roundData.foxesCaught[0] === null ? undefined : roundData.foxesCaught[0],
+          roundData.foxesCaught[1] === null ? undefined : roundData.foxesCaught[1]
+        ];
+      }
     }
     if ('endDate' in json) {
       list.endDate = new Date(json.endDate);
@@ -50,6 +61,13 @@ export class GameList {
   addRound(playerParties: { [player: string]: Party }, roundData: RoundData) {
     const result = this.ruleSet.calculateScore(roundData);
     this.rounds.push({ playerParties, roundData, result });
+  }
+
+  removeRound(roundNumber: number) {
+    if (roundNumber < 0 || roundNumber >= this.rounds.length) {
+      return;
+    }
+    this.rounds.splice(roundNumber, 1);
   }
 
   get scores(): { [player: string]: { total: number; delta: number } }[] {

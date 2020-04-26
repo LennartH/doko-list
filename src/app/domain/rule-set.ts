@@ -36,7 +36,7 @@ export class RuleSet {
     const [winningParty, announcementWasLost] = this.determineWinningParty(roundData);
     const losingParty = this.otherParty(winningParty);
     let winningPartyPoints = 0;
-    const details: RoundResultDetail[] = [];  // TODO Calculate final score using details
+    const details: RoundResultDetail[] = [];
 
     let isBockroundNext = announcementWasLost && this.bockroundAfter(BockroundAfter.LostAnnouncement);
     isBockroundNext = isBockroundNext || (roundData.points.re === 120 && this.bockroundAfter(BockroundAfter.ScoreTie));
@@ -120,6 +120,7 @@ export class RuleSet {
       for (const bonusScoreRule of this.config.bonusScoreRules) {
         const delta = this.extraScoreRuleDelta(winningParty, roundData, bonusScoreRule);
         if (delta !== 0) {
+          // TODO Separate positive and negative bonus scores
           winningPartyPoints += delta;
           details.push({message: bonusScoreRule, delta, intermediatePoints: winningPartyPoints});
         }

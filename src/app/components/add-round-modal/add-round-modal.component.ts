@@ -15,6 +15,7 @@ import { RoundResult } from 'src/app/domain/rule-set';
 export class AddRoundModalComponent implements OnInit {
 
   @Input() list: GameList;
+  @Input() roundNumber?: number;
 
   playerParties: {[player: string]: Party};
   @ViewChild('f') roundDataForm: RoundDataFormComponent;
@@ -29,7 +30,10 @@ export class AddRoundModalComponent implements OnInit {
   }
 
   get displayResultDetails(): boolean {
-    return this.valid && this._displayResultDetails;
+    if (!this.valid) {
+      this._displayResultDetails = false;
+    }
+    return this._displayResultDetails;
   }
 
   get invalid(): boolean {
@@ -37,7 +41,12 @@ export class AddRoundModalComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.playerParties = Object.fromEntries(this.list.players.map(p => [p, 'contra']));
+    if (this.roundNumber !== undefined) {
+      const round = this.list.rounds[this.roundNumber];
+      this.playerParties = round.playerParties;
+    } else {
+      this.playerParties = Object.fromEntries(this.list.players.map(p => [p, 'contra']));
+    }
   }
 
   togglePlayerParty(player: string) {
@@ -81,7 +90,16 @@ export class AddRoundModalComponent implements OnInit {
     if (this.roundDataForm.invalid || !this.arePlayerPartiesValid()) {
       return;
     }
-    this.list.addRound(this.playerParties, this.roundDataForm.value);
+    if (this.roundNumber !== undefined) {
+      const round = this.list.rounds[this.roundNumber];
+      const roundData = this.roundDataForm.value;
+      const result = this.list.ruleSet.calculateScore(roundData);
+      round.playerParties = this.playerParties;
+      round.roundData = roundData;
+      round.result = result;
+    } else {
+      this.list.addRound(this.playerParties, this.roundDataForm.value);
+    }
     this.listsService.saveList(this.list.id);
     this.modalController.dismiss();
   }

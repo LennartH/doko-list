@@ -5,7 +5,8 @@
         <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title>Neue Runde</ion-title>
+    <ion-title *ngIf="roundNumber === undefined">Neue Runde</ion-title>
+    <ion-title *ngIf="roundNumber !== undefined">Runde {{ roundNumber + 1 }} Ändern</ion-title>
     <ion-buttons slot="primary">
       <ion-button (click)="onConfirm()" [disabled]="invalid">
         <ion-icon name="checkmark" slot="icon-only"></ion-icon>
@@ -38,7 +39,8 @@
     <ion-row>
       <ion-col class="ion-no-padding">
         <app-round-data-form #f [ruleSetConfig]="list.ruleSet.config" [isSolo]="reCount === 1"
-          [consecutiveBockrounds]="list?.getConsecutiveBockrounds()"></app-round-data-form>
+          [consecutiveBockrounds]="list?.getConsecutiveBockrounds()" [initialRoundData]="list.rounds[roundNumber]?.roundData">
+        </app-round-data-form>
       </ion-col>
     </ion-row>
   </ion-grid>

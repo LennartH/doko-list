@@ -10,22 +10,20 @@ import { defaultRuleSetConfig } from 'src/app/domain/rule-set';
   styleUrls: ['./lists.page.scss'],
 })
 export class ListsPage implements OnInit, OnDestroy {
-
   activeLists: GameList[];
   finishedLists: GameList[];
   private listsSubscription: Subscription;
 
-  constructor(private listsService: ListsService) { }
+  constructor(private listsService: ListsService) {}
 
   ngOnInit() {
-    this.listsSubscription = this.listsService.lists.subscribe(lists => {
-      this.activeLists = lists.filter(l => !l.isFinished);
-      this.finishedLists = lists.filter(l => l.isFinished);
+    this.listsSubscription = this.listsService.lists.subscribe((lists) => {
+      this.activeLists = lists.filter((l) => !l.isFinished).sort((l1, l2) => l2.startDate.getTime() - l1.startDate.getTime());
+      this.finishedLists = lists.filter((l) => l.isFinished).sort((l1, l2) => l2.endDate.getTime() - l1.endDate.getTime());
     });
   }
 
   ngOnDestroy() {
     this.listsSubscription?.unsubscribe();
   }
-
 }

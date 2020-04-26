@@ -1,3 +1,7 @@
+ion-grid {
+  --ion-grid-columns: 17;
+}
+
 .title-row {
   text-align: center;
   padding: var(--ion-padding);
@@ -17,22 +21,26 @@
   background-color: var(--ion-color-light);
 }
 
+.separator-row {
+  height: 2px;
+  background-color: var(--ion-color-dark-tint);
+}
+
 .last-round-row {
   font-weight: bold;
   color: var(--ion-color-dark-contrast);
   background-color: var(--ion-color-dark-tint);
 }
 
+.round-points {
+  padding-right: 2.5px;
+}
+
 .delta-points {
+  padding-left: 2.5px;
   color: var(--ion-color-medium);
 }
 
 .last-round-row .delta-points {
   color: var(--ion-color-medium-tint);
-}
-
-.number-column {
-  text-align: right;
-  flex: 0 0 20px;
-  margin-right: 10px;
 }

@@ -15,7 +15,7 @@
     <ion-row class="title-row">
       <ion-col class="ion-text-end" size="1"><ion-text>#</ion-text></ion-col>
       <ion-col *ngFor="let player of list.players" size="4">
-        <ion-icon *ngIf="isDealer(player)" src="assets/icon/dealer.svg"></ion-icon>
+        <ion-icon *ngIf="isDealer(player)" class="dealer-icon" src="assets/icon/dealer.svg"></ion-icon>
         <ion-text>{{ player }}</ion-text>
       </ion-col>
     </ion-row>

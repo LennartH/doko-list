@@ -4,7 +4,7 @@ ion-grid {
 
 .title-row {
   text-align: center;
-  padding: var(--ion-padding);
+  padding: var(--ion-padding) var(--ion-padding) calc(var(--ion-padding) - 3px) var(--ion-padding);
 
   font-size: 18px;
   font-weight: bold;
@@ -14,6 +14,10 @@ ion-grid {
 
 .title-row ion-text {
   vertical-align: top;
+}
+
+.dealer-icon {
+  font-size: larger;
 }
 
 .separator-row {

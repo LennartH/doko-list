@@ -28,10 +28,9 @@
         <app-round-row [roundNumber]="i" [isLast]="false" [wasSolo]="wasSolo(i)" [wasBockround]="wasBockround(i)"
           [players]="list.players" [points]="score"></app-round-row>
       </ng-container>
-      <ng-container *ngIf="scores.length - 1 as i">
-        <app-round-row *ngIf="!isGridOverflowing" [roundNumber]="i" [isLast]="true" [wasSolo]="wasSolo(i)"
-          [wasBockround]="wasBockround(i)" [players]="list.players" [points]="scores[i]"></app-round-row>
-      </ng-container>
+      <app-round-row *ngIf="!isGridOverflowing && scores.length > 0" [roundNumber]="scores.length - 1" [isLast]="true"
+        [wasSolo]="wasSolo(scores.length - 1)" [wasBockround]="wasBockround(scores.length - 1)" [players]="list.players"
+        [points]="scores[scores.length - 1]"></app-round-row>
     </ion-grid>
 
     <ion-fab *ngIf="!list.isFinished" vertical="bottom" horizontal="end" slot="fixed">
@@ -41,7 +40,7 @@
     </ion-fab>
   </ion-content>
 
-  <ion-footer *ngIf="isGridOverflowing">
+  <ion-footer *ngIf="isGridOverflowing && scores.length > 0">
     <ion-grid class="ion-no-padding" *ngIf="scores.length - 1 as i">
       <app-round-row [roundNumber]="i" [isLast]="true" [wasSolo]="wasSolo(i)" [wasBockround]="wasBockround(i)"
         [players]="list.players" [points]="scores[i]"></app-round-row>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController, ModalController, PopoverController } from '@ionic/angular';
 import { AddRoundModalComponent } from 'src/app/components/add-round-modal/add-round-modal.component';
@@ -24,6 +24,13 @@ export class DetailPage implements OnInit {
     private popoverController: PopoverController,
     private alertController: AlertController
   ) {}
+
+  @HostListener('document:keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) { 
+    if (event.key === 'Escape') {
+      debugger;
+    }
+  }
 
   ngOnInit() {
     this.activatedRoute.params.subscribe((params) => {
@@ -65,7 +72,7 @@ export class DetailPage implements OnInit {
   }
 
   wasSolo(roundNumber: number): boolean {
-    return this.list.rounds[roundNumber].roundData.wasSolo;
+    return this.list.rounds[roundNumber]?.roundData.wasSolo;
   }
 
   wasBockround(roundNumber: number): boolean {

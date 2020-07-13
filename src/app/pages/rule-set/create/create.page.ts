@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, PRIMARY_OUTLET, Router, UrlTree } from '@angular/router';
 import { RuleSetForm } from 'src/app/components/rule-set-form/rule-set-form.component';
+import { RuleSetConfig } from 'src/app/domain/rule-set';
 import { RuleSetsService } from 'src/app/services/rule-sets.service';
-import { RuleSetConfig, RuleSet } from 'src/app/domain/rule-set';
 
 // TODO Separate name field and config form
 @Component({
@@ -15,6 +15,8 @@ export class CreatePage implements OnInit {
   ruleSetConfig: RuleSetConfig;
 
   @ViewChild('f') form: RuleSetForm;
+
+  private redirectPath: string;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -34,7 +36,14 @@ export class CreatePage implements OnInit {
           this.ruleSetConfig = ruleSet.config;
         });
       }
+      if ('redirect' in params) {
+        this.redirectPath = params.redirect;
+      }
     });
+  }
+
+  onAbort() {
+    this.router.navigateByUrl(this.getTargetUrl(), { replaceUrl: true });
   }
 
   onConfirm() {
@@ -44,6 +53,18 @@ export class CreatePage implements OnInit {
     const formData = this.form.value;
     this.ruleSetsService.addRuleSet(formData.name, formData.config);
     this.form.form.reset();
-    this.router.navigateByUrl('/rule-set');
+    this.router.navigateByUrl(this.getTargetUrl());
+  }
+
+  getTargetUrl(): string | UrlTree {
+    let targetUrl: string | UrlTree = '/rule-set';
+    if (this.redirectPath) {
+      targetUrl = this.router.parseUrl(this.redirectPath);
+      const segments = targetUrl.root.children[PRIMARY_OUTLET].segments;
+      if (this.form.valid && segments.length >= 2 && segments[0].path === 'lists' && segments[1].path === 'create') {
+        targetUrl.queryParams.selected = this.form.value.name;
+      }
+    }
+    return targetUrl;
   }
 }

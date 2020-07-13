@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray, ValidatorFn } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, convertToParamMap } from '@angular/router';
 import { RuleSetsService } from 'src/app/services/rule-sets.service';
 import { RuleSet } from 'src/app/domain/rule-set';
 import { Subscription } from 'rxjs';
@@ -24,7 +24,6 @@ export class CreatePage implements OnInit, OnDestroy {
     private router: Router
   ) {}
 
-  // TODO Add button to create new (unnamed) rule set
   ngOnInit() {
     this.form = this.fb.group({
       players: this.fb.array(Array.from(Array(4).keys()).map(_ => ['', Validators.required])),
@@ -33,8 +32,12 @@ export class CreatePage implements OnInit, OnDestroy {
 
     this.ruleSetsSubscription = this.ruleSetsService.ruleSets.subscribe(ruleSets => (this.ruleSets = ruleSets));
     this.activatedRoute.queryParams.subscribe(params => {
-      if ('selected' in params) {
-        this.form.patchValue({ ruleSet: params.selected });
+      const paramMap = convertToParamMap(params);
+      if (paramMap.has('selected')) {
+        this.form.patchValue({ ruleSet: paramMap.get('selected') });
+      }
+      if (paramMap.has('player')) {
+        this.form.patchValue({players: paramMap.getAll('player')});
       }
     });
   }
@@ -56,6 +59,15 @@ export class CreatePage implements OnInit, OnDestroy {
     this.form.patchValue({ ruleSet: name });
   }
 
+  onCreateRuleSet() {
+    let redirectPath = '/lists/create';
+    const playerNames = this.form.value.players.filter((p: string) => p && p.length > 0);
+    if (playerNames.length > 0) {
+      redirectPath += '?' + playerNames.map((p: string) => `player=${p}`).join('&');
+    }
+    this.router.navigate(['/rule-set', 'create'], {queryParams: {redirect: redirectPath}});
+  }
+
   onConfirm() {
     if (this.form.invalid) {
       return;
@@ -63,10 +75,10 @@ export class CreatePage implements OnInit, OnDestroy {
 
     const formData = this.form.value;
     const ruleSet = this.ruleSets.find(r => r.name === formData.ruleSet);
-    this.listsService.addList(formData.players, ruleSet.name, ruleSet.config);
+    const listId = this.listsService.addList(formData.players, ruleSet.name, ruleSet.config);
 
     this.form.reset();
-    this.router.navigateByUrl('/lists'); // TODO Go to detail page instead
+    this.router.navigate(['/lists', 'detail', listId], { replaceUrl: true })
   }
 
   ngOnDestroy() {

@@ -25,13 +25,6 @@ export class DetailPage implements OnInit {
     private alertController: AlertController
   ) {}
 
-  @HostListener('document:keydown', ['$event'])
-  handleKeyboardEvent(event: KeyboardEvent) { 
-    if (event.key === 'Escape') {
-      debugger;
-    }
-  }
-
   ngOnInit() {
     this.activatedRoute.params.subscribe((params) => {
       if (!('listId' in params)) {

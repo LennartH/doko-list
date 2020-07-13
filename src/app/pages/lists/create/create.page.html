@@ -45,6 +45,11 @@
           <app-rule-set-card *ngFor="let ruleSet of ruleSets" [ruleSet]="ruleSet" button
             (click)="onSelectRuleSet(ruleSet.name)" [class.selected-rules]="form.value.ruleSet === ruleSet.name">
           </app-rule-set-card>
+
+          <!-- TODO Better Button Styling -->
+          <ion-button class="ion-padding-horizontal" expand="block" strong (click)="onCreateRuleSet()">
+            Neuer Regelsatz
+          </ion-button>
         </ion-col>
       </ion-row>
     </ion-grid>

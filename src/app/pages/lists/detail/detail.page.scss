@@ -12,6 +12,10 @@ ion-grid {
   background-color: var(--ion-color-dark-tint);
 }
 
+.title-row ion-text {
+  vertical-align: top;
+}
+
 .separator-row {
   height: 2px;
   background-color: var(--ion-color-dark-tint);

@@ -54,14 +54,27 @@ export class DetailPage implements OnInit {
     }
   }
 
+  isDealer(player: string): boolean {
+    const playerIndex = this.countNonSoloRounds() % 4;
+    return player === this.list.players[playerIndex];
+  }
+
   isStartOfCycle(roundNumber: number): boolean {
+    return this.countNonSoloRounds(roundNumber) % 4 === 0;
+  }
+
+  private countNonSoloRounds(until?: number): number {
+    if (until === undefined) {
+      until = this.list.rounds.length - 1;
+    }
+
     let nonSoloRounds = 0;
-    for (let i = 0; i < roundNumber && i < this.list.rounds.length; i++) {
+    for (let i = 0; i <= until && i < this.list.rounds.length; i++) {
       if (!this.list.rounds[i].roundData.wasSolo) {
         nonSoloRounds++;
       }
     }
-    return nonSoloRounds % 4 === 0;
+    return nonSoloRounds;
   }
 
   wasSolo(roundNumber: number): boolean {

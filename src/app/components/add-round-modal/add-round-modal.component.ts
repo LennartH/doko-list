@@ -74,7 +74,8 @@ export class AddRoundModalComponent implements OnInit {
 
   calculateResult(): RoundResult {
     if (this.invalid) {
-      return undefined;
+      // Do not return null/undefined or the hack to calculate the score only once
+      return {} as RoundResult;
     }
     return this.list.ruleSet.calculateScore(this.roundDataForm.value);
   }

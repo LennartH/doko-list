@@ -65,11 +65,11 @@ export class DetailPage implements OnInit {
 
   private countNonSoloRounds(until?: number): number {
     if (until === undefined) {
-      until = this.list.rounds.length - 1;
+      until = this.list.rounds.length;
     }
 
     let nonSoloRounds = 0;
-    for (let i = 0; i <= until && i < this.list.rounds.length; i++) {
+    for (let i = 0; i < until && i < this.list.rounds.length; i++) {
       if (!this.list.rounds[i].roundData.wasSolo) {
         nonSoloRounds++;
       }

@@ -23,6 +23,12 @@
 <ng-container *ngIf="list?.scores as scores">
   <ion-content>
     <ion-grid id="main-grid" class="ion-no-padding">
+      <ion-row *ngIf="scores.length === 0">
+        <ion-col class="ion-padding-horizontal ion-text-center">
+          <p class="ion-no-margin" class="no-rounds-message">Keine Runden eingetragen</p>
+          <ion-button class="ion-padding-horizontal" expand="block" strong (click)="onAddRound()">Runde hinzufügen</ion-button>
+        </ion-col>
+      </ion-row>
       <ng-container *ngFor="let score of scores.slice(0, -1); let i = index; let isFirst = first">
         <ion-row *ngIf="isStartOfCycle(i) && !isFirst" class="separator-row"></ion-row>
         <app-round-row [roundNumber]="i" [isLast]="false" [wasSolo]="wasSolo(i)" [wasBockround]="wasBockround(i)"

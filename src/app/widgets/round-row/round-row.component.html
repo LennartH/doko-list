@@ -27,10 +27,10 @@
         <ion-item-option color="undefined" (click)="displayRoundDetails()">
           <ion-icon slot="icon-only" name="information-circle" color="secondary"></ion-icon>
         </ion-item-option>
-        <ion-item-option color="undefined" (click)="editRound()">
+        <ion-item-option *ngIf="!list.isFinished" color="undefined" (click)="editRound()">
           <ion-icon slot="icon-only" src="assets/icon/edit.svg" color="primary"></ion-icon>
         </ion-item-option>
-        <ion-item-option color="undefined" (click)="deleteRound()">
+        <ion-item-option *ngIf="!list.isFinished" color="undefined" (click)="deleteRound()">
           <ion-icon slot="icon-only" name="trash" color="danger"></ion-icon>
         </ion-item-option>
       </ion-item-options>

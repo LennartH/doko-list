@@ -13,7 +13,9 @@
 
   <ion-grid *ngIf="list" class="ion-no-padding">
     <ion-row class="title-row">
-      <ion-col class="ion-text-end" size="1"><ion-text>#</ion-text></ion-col>
+      <ion-col class="ion-text-end" size="1">
+        <ion-text>#</ion-text>
+      </ion-col>
       <ion-col *ngFor="let player of list.players" size="4">
         <ion-icon *ngIf="isDealer(player)" class="dealer-icon" src="assets/icon/dealer.svg"></ion-icon>
         <ion-text>{{ player }}</ion-text>
@@ -29,16 +31,15 @@
       <ion-row *ngIf="scores.length === 0">
         <ion-col class="ion-padding-horizontal ion-text-center">
           <p class="ion-no-margin" class="no-rounds-message">Keine Runden eingetragen</p>
-          <ion-button class="ion-padding-horizontal" expand="block" strong (click)="onAddRound()">Runde hinzufügen</ion-button>
+          <ion-button class="ion-padding-horizontal" expand="block" strong (click)="onAddRound()">Runde hinzufügen
+          </ion-button>
         </ion-col>
       </ion-row>
       <ng-container *ngFor="let score of scores.slice(0, -1); let i = index; let isFirst = first">
         <ion-row *ngIf="isStartOfCycle(i) && !isFirst" class="separator-row"></ion-row>
-        <app-round-row [roundNumber]="i" [isLast]="false" [wasSolo]="wasSolo(i)" [wasBockround]="wasBockround(i)"
-          [players]="list.players" [points]="score"></app-round-row>
+        <app-round-row [roundNumber]="i" [list]="list" [points]="score"></app-round-row>
       </ng-container>
-      <app-round-row *ngIf="!isGridOverflowing && scores.length > 0" [roundNumber]="scores.length - 1" [isLast]="true"
-        [wasSolo]="wasSolo(scores.length - 1)" [wasBockround]="wasBockround(scores.length - 1)" [players]="list.players"
+      <app-round-row *ngIf="!isGridOverflowing && scores.length > 0" [roundNumber]="scores.length - 1" [list]="list"
         [points]="scores[scores.length - 1]"></app-round-row>
     </ion-grid>
 
@@ -50,9 +51,9 @@
   </ion-content>
 
   <ion-footer *ngIf="isGridOverflowing && scores.length > 0">
-    <ion-grid class="ion-no-padding" *ngIf="scores.length - 1 as i">
-      <app-round-row [roundNumber]="i" [isLast]="true" [wasSolo]="wasSolo(i)" [wasBockround]="wasBockround(i)"
-        [players]="list.players" [points]="scores[i]"></app-round-row>
+    <ion-grid class="ion-no-padding">
+      <app-round-row *ngIf="!isGridOverflowing && scores.length > 0" [roundNumber]="scores.length - 1" [list]="list"
+        [points]="scores[scores.length - 1]"></app-round-row>
     </ion-grid>
   </ion-footer>
 </ng-container>

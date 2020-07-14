@@ -1,15 +1,15 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormArray, ValidatorFn } from '@angular/forms';
-import { ActivatedRoute, Router, convertToParamMap } from '@angular/router';
-import { RuleSetsService } from 'src/app/services/rule-sets.service';
-import { RuleSet } from 'src/app/domain/rule-set';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormArray, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { ActivatedRoute, convertToParamMap, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { RuleSet } from 'src/app/domain/rule-set';
 import { ListsService } from 'src/app/services/lists.service';
+import { RuleSetsService } from 'src/app/services/rule-sets.service';
 
 @Component({
   selector: 'app-create',
   templateUrl: './create.page.html',
-  styleUrls: ['./create.page.scss']
+  styleUrls: ['./create.page.scss'],
 })
 export class CreatePage implements OnInit, OnDestroy {
   form: FormGroup;
@@ -27,33 +27,33 @@ export class CreatePage implements OnInit, OnDestroy {
   ngOnInit() {
     this.form = this.fb.group({
       players: this.fb.array(
-        Array.from(Array(4).keys()).map(i => ['', Validators.required]),
+        Array.from(Array(4).keys()).map((i) => ['', Validators.required]),
         this.arePlayerNamesUnique()
       ),
-      ruleSet: ['', [Validators.required, this.ruleSetExists()]]
+      ruleSet: ['', [Validators.required, this.ruleSetExists()]],
     });
 
-    this.ruleSetsSubscription = this.ruleSetsService.ruleSets.subscribe(ruleSets => (this.ruleSets = ruleSets));
-    this.activatedRoute.queryParams.subscribe(params => {
+    this.ruleSetsSubscription = this.ruleSetsService.ruleSets.subscribe((ruleSets) => (this.ruleSets = ruleSets));
+    this.activatedRoute.queryParams.subscribe((params) => {
       const paramMap = convertToParamMap(params);
       if (paramMap.has('selected')) {
         this.form.patchValue({ ruleSet: paramMap.get('selected') });
       }
       if (paramMap.has('player')) {
-        this.form.patchValue({players: paramMap.getAll('player')});
+        this.form.patchValue({ players: paramMap.getAll('player') });
       }
     });
   }
 
   arePlayerNamesUnique(): ValidatorFn {
-    // TODO Other inputs aren't updated
+    // FIXME Other inputs aren't updated
     return (control: FormArray) => {
       const duplicatedNames: number[] = [];
       for (let i = 0; i < control.length; i++) {
         const nameInput = control.at(i);
         if (!this.isPlayerNameUnique(i, control.value)) {
           duplicatedNames.push(i);
-          nameInput.setErrors({duplicated: true});
+          nameInput.setErrors({ duplicated: true });
         } else {
           nameInput.setErrors(null);
         }
@@ -71,11 +71,11 @@ export class CreatePage implements OnInit, OnDestroy {
   }
 
   ruleSetExists(): ValidatorFn {
-    return control => {
+    return (control) => {
       if (!this.ruleSets) {
         return null;
       }
-      return this.ruleSets.some(r => r.name === control.value) ? null : { ruleSetDoesNotExist: { value: control.value } };
+      return this.ruleSets.some((r) => r.name === control.value) ? null : { ruleSetDoesNotExist: { value: control.value } };
     };
   }
 
@@ -93,7 +93,7 @@ export class CreatePage implements OnInit, OnDestroy {
     if (playerNames.length > 0) {
       redirectPath += '?' + playerNames.map((p: string) => `player=${p}`).join('&');
     }
-    this.router.navigate(['/rule-set', 'create'], {queryParams: {redirect: redirectPath}});
+    this.router.navigate(['/rule-set', 'create'], { queryParams: { redirect: redirectPath } });
   }
 
   onConfirm() {
@@ -102,11 +102,11 @@ export class CreatePage implements OnInit, OnDestroy {
     }
 
     const formData = this.form.value;
-    const ruleSet = this.ruleSets.find(r => r.name === formData.ruleSet);
+    const ruleSet = this.ruleSets.find((r) => r.name === formData.ruleSet);
     const listId = this.listsService.addList(formData.players, ruleSet.name, ruleSet.config);
 
     this.form.reset();
-    this.router.navigate(['/lists', 'detail', listId], { replaceUrl: true })
+    this.router.navigate(['/lists', 'detail', listId], { replaceUrl: true });
   }
 
   ngOnDestroy() {

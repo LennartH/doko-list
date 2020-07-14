@@ -33,6 +33,13 @@
           </ion-item-group>
         </ion-col>
       </ion-row>
+      <ion-row *ngIf="form.get('players').errors?.duplicatedNames && (form.dirty || form.touched)">
+        <ion-col>
+          <ion-item class="error-item" lines="none">
+            Die Spielernamen müssen eindeutig sein.
+          </ion-item>
+        </ion-col>
+      </ion-row>
 
       <ion-row>
         <ion-col class="ion-no-padding">

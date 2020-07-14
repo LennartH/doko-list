@@ -78,3 +78,9 @@ ion-range {
   overflow: hidden;
   cursor: pointer;
 }
+
+.error-item {
+  --color: var(--ion-color-danger);
+  --inner-padding-top: 10px;
+  --min-height: 20px;
+}

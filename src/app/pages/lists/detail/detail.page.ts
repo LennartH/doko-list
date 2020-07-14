@@ -104,6 +104,7 @@ export class DetailPage implements OnInit {
     modal.present();
   }
 
+  // TODO Move to round row detail component
   async displayRoundDetails(roundNumber: number) {
     const popover = await this.popoverController.create({
       component: RoundDetailsCardComponent,

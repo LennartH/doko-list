@@ -41,7 +41,7 @@ export class RuleSetForm implements OnInit, OnDestroy {
     const initialConfig = this.ruleSetConfig || defaultRuleSetConfig;
 
     this.form = this.fb.group({
-      name: [this.initialName, [Validators.required, this.nameMustBeUnique()]],
+      name: [this.initialName, [Validators.required, this.nameIsUnique()]],
 
       announcementBehaviour: [initialConfig.announcementBehaviour, Validators.required],
       losingAnnouncementsGivesScore: [initialConfig.losingAnnouncementsGivesScore, Validators.required],
@@ -70,7 +70,7 @@ export class RuleSetForm implements OnInit, OnDestroy {
     });
   }
 
-  nameMustBeUnique(): ValidatorFn {
+  nameIsUnique(): ValidatorFn {
     return control => {
       let duplicate = this.ruleSetNames.some(n => n === control.value);
       if (this.mode === 'edit' && control.value === this.initialName) {

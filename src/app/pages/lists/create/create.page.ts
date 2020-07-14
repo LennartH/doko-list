@@ -26,7 +26,10 @@ export class CreatePage implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.form = this.fb.group({
-      players: this.fb.array(Array.from(Array(4).keys()).map(_ => ['', Validators.required])),
+      players: this.fb.array(
+        Array.from(Array(4).keys()).map(i => ['', Validators.required]),
+        this.arePlayerNamesUnique()
+      ),
       ruleSet: ['', [Validators.required, this.ruleSetExists()]]
     });
 
@@ -40,6 +43,31 @@ export class CreatePage implements OnInit, OnDestroy {
         this.form.patchValue({players: paramMap.getAll('player')});
       }
     });
+  }
+
+  arePlayerNamesUnique(): ValidatorFn {
+    // TODO Other inputs aren't updated
+    return (control: FormArray) => {
+      const duplicatedNames: number[] = [];
+      for (let i = 0; i < control.length; i++) {
+        const nameInput = control.at(i);
+        if (!this.isPlayerNameUnique(i, control.value)) {
+          duplicatedNames.push(i);
+          nameInput.setErrors({duplicated: true});
+        } else {
+          nameInput.setErrors(null);
+        }
+      }
+
+      return duplicatedNames.length > 0 ? { duplicatedNames } : null;
+    };
+  }
+
+  private isPlayerNameUnique(index: number, names: string[]): boolean {
+    if (names[index].length === 0) {
+      return true;
+    }
+    return !names.some((name, i) => i !== index && name === names[index]);
   }
 
   ruleSetExists(): ValidatorFn {

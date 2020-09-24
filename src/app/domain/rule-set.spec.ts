@@ -1,7 +1,7 @@
 import { $enum } from 'ts-enum-util';
 import { AnnouncementBehaviour, BockroundAfter, BonusScore } from './common';
 import { RoundData } from './round-data';
-import { RuleSetConfig, RuleSet } from './rule-set';
+import { RuleSetConfig, RuleSet, RoundResult } from './rule-set';
 
 const completeConfig: RuleSetConfig = {
   announcementBehaviour: undefined,
@@ -187,7 +187,11 @@ describe(`RuleSet using announcement behaviour ${AnnouncementBehaviour.FirstGets
   ].forEach(({ data, expected }) => {
     it(`should calculate score for round data where ${data.name}`, () => {
       const ruleSet = new RuleSet('test', { ...completeConfig, announcementBehaviour: AnnouncementBehaviour.FirstGetsPlusTwo });
-      expect(ruleSet.calculateScore(data.builder.build())).toEqual(expected);
+      const expectedResult: RoundResult = {
+        ...expected,
+        details: []
+      }
+      expect(ruleSet.calculateScore(data.builder.build())).toEqual(expectedResult);
     });
   });
 });

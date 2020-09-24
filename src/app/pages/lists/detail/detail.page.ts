@@ -40,7 +40,7 @@ export class DetailPage implements OnInit {
   }
 
   ionViewDidEnter() {
-    this.updateIsGridOverflowing();
+    setTimeout(() => this.updateIsGridOverflowing(), 1);
   }
 
   private updateIsGridOverflowing() {
@@ -88,9 +88,9 @@ export class DetailPage implements OnInit {
   async onMenuClicked(event: any) {
     const popover = await this.popoverController.create({
       component: ListDetailMenuComponent,
-      componentProps: {list: this.list},
+      componentProps: { list: this.list },
       showBackdrop: false,
-      event
+      event,
     });
     popover.present();
   }
@@ -98,10 +98,10 @@ export class DetailPage implements OnInit {
   async onAddRound() {
     const modal = await this.modalController.create({
       component: AddRoundModalComponent,
-      componentProps: {list: this.list}
-
+      componentProps: { list: this.list },
     });
     modal.present();
+    modal.onDidDismiss().then(() => setTimeout(() => this.updateIsGridOverflowing(), 1));
   }
 
   // TODO Move to round row detail component
@@ -110,7 +110,7 @@ export class DetailPage implements OnInit {
       component: RoundDetailsCardComponent,
       componentProps: {
         roundNumber,
-        round: this.list.rounds[roundNumber]
+        round: this.list.rounds[roundNumber],
       },
       cssClass: 'broad-popover card-popover',
     });
@@ -122,8 +122,8 @@ export class DetailPage implements OnInit {
       component: AddRoundModalComponent,
       componentProps: {
         list: this.list,
-        roundNumber
-      }
+        roundNumber,
+      },
     });
     modal.present();
   }
@@ -135,7 +135,7 @@ export class DetailPage implements OnInit {
       buttons: [
         {
           text: 'Abbrechen',
-          role: 'cancel'
+          role: 'cancel',
         },
         {
           text: 'Löschen',
@@ -143,9 +143,10 @@ export class DetailPage implements OnInit {
           handler: () => {
             this.list.removeRound(roundNumber);
             this.listsService.saveList(this.list.id);
-          }
-        }
-      ]
+            setTimeout(() => this.updateIsGridOverflowing(), 1);
+          },
+        },
+      ],
     });
     this.popoverController.dismiss();
     alert.present();

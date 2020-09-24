@@ -52,8 +52,7 @@
 
   <ion-footer *ngIf="isGridOverflowing && scores.length > 0">
     <ion-grid class="ion-no-padding">
-      <app-round-row *ngIf="!isGridOverflowing && scores.length > 0" [roundNumber]="scores.length - 1" [list]="list"
-        [points]="scores[scores.length - 1]"></app-round-row>
+      <app-round-row [roundNumber]="scores.length - 1" [list]="list" [points]="scores[scores.length - 1]"></app-round-row>
     </ion-grid>
   </ion-footer>
 </ng-container>

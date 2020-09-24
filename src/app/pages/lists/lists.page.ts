@@ -1,8 +1,7 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { GameList } from 'src/app/domain/list';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { GameList } from 'src/app/domain/list';
 import { ListsService } from 'src/app/services/lists.service';
-import { defaultRuleSetConfig } from 'src/app/domain/rule-set';
 
 @Component({
   selector: 'app-lists',

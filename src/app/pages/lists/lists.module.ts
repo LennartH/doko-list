@@ -7,7 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { ListsPageRoutingModule } from './lists-routing.module';
 
 import { ListsPage } from './lists.page';
-import { SharedModule } from 'src/app/shared.module';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   imports: [

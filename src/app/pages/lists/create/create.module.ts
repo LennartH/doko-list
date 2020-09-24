@@ -4,7 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { CreatePageRoutingModule } from './create-routing.module';
 import { CreatePage } from './create.page';
-import { SharedModule } from 'src/app/shared.module';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 
 

@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, PRIMARY_OUTLET, Router, UrlTree } from '@angular/router';
-import { RuleSetForm } from 'src/app/components/rule-set-form/rule-set-form.component';
 import { RuleSetConfig } from 'src/app/domain/rule-set';
 import { RuleSetsService } from 'src/app/services/rule-sets.service';
+import { RuleSetForm } from 'src/app/shared/components/rule-set-form/rule-set-form.component';
 
 // TODO Separate name field and config form
 @Component({

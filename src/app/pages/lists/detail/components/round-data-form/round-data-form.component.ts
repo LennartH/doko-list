@@ -1,9 +1,9 @@
-import { Component, Input, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Party, PointThreshold } from 'src/app/domain/common';
 import { RoundData } from 'src/app/domain/round-data';
 import { RuleSetConfig } from 'src/app/domain/rule-set';
 import { MessagesService } from 'src/app/services/messages.service';
-import { PartyAnnouncementComponent } from 'src/app/widgets/party-announcement/party-announcement.component';
+import { PartyAnnouncementComponent } from '../../controls/party-announcement/party-announcement.component';
 
 @Component({
   selector: 'app-round-data-form',

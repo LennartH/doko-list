@@ -1,11 +1,11 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController, ModalController, PopoverController } from '@ionic/angular';
-import { AddRoundModalComponent } from 'src/app/components/add-round-modal/add-round-modal.component';
-import { ListDetailMenuComponent } from 'src/app/components/list-detail-menu/list-detail-menu.component';
-import { RoundDetailsCardComponent } from 'src/app/components/round-details-card/round-details-card.component';
 import { GameList } from 'src/app/domain/list';
 import { ListsService } from 'src/app/services/lists.service';
+import { AddRoundModalComponent } from './components/add-round-modal/add-round-modal.component';
+import { ListDetailMenuComponent } from './components/list-detail-menu/list-detail-menu.component';
+import { RoundDetailsCardComponent } from './components/round-details-card/round-details-card.component';
 
 @Component({
   selector: 'app-detail',

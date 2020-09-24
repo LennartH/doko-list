@@ -2,15 +2,16 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import { AddRoundModalComponent } from 'src/app/components/add-round-modal/add-round-modal.component';
-import { RoundDataFormComponent } from 'src/app/components/round-data-form/round-data-form.component';
+import { RuleSetCardComponent } from 'src/app/components/rule-set-card/rule-set-card.component';
+import { SharedModule } from 'src/app/shared.module';
+import { AddRoundModalComponent } from './components/add-round-modal/add-round-modal.component';
+import { ListDetailMenuComponent } from './components/list-detail-menu/list-detail-menu.component';
+import { RoundDataFormComponent } from './components/round-data-form/round-data-form.component';
+import { RoundDetailsCardComponent } from './components/round-details-card/round-details-card.component';
+import { PartyAnnouncementComponent } from './controls/party-announcement/party-announcement.component';
+import { RoundRowComponent } from './controls/round-row/round-row.component';
 import { DetailPageRoutingModule } from './detail-routing.module';
 import { DetailPage } from './detail.page';
-import { PartyAnnouncementComponent } from 'src/app/widgets/party-announcement/party-announcement.component';
-import { ListDetailMenuComponent } from 'src/app/components/list-detail-menu/list-detail-menu.component';
-import { SharedModule } from 'src/app/shared.module';
-import { RoundDetailsCardComponent } from 'src/app/components/round-details-card/round-details-card.component';
-import { RoundRowComponent } from 'src/app/widgets/round-row/round-row.component';
 
 @NgModule({
   imports: [CommonModule, ReactiveFormsModule, IonicModule, DetailPageRoutingModule, SharedModule],
@@ -23,6 +24,6 @@ import { RoundRowComponent } from 'src/app/widgets/round-row/round-row.component
     RoundDetailsCardComponent,
     RoundRowComponent
   ],
-  entryComponents: [AddRoundModalComponent, ListDetailMenuComponent, RoundDetailsCardComponent],
+  entryComponents: [AddRoundModalComponent, ListDetailMenuComponent, RoundDetailsCardComponent, RuleSetCardComponent],
 })
 export class DetailPageModule {}

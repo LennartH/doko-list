@@ -81,6 +81,8 @@ ion-range {
 
 .error-item {
   --color: var(--ion-color-danger);
-  --inner-padding-top: 10px;
+  --inner-padding-top: 5px;
   --min-height: 20px;
+
+  font-size: smaller;
 }

@@ -3,7 +3,7 @@ import { PopoverController, AlertController } from '@ionic/angular';
 import { GameList } from 'src/app/domain/list';
 import { ListsService } from 'src/app/services/lists.service';
 import { Router } from '@angular/router';
-import { RuleSetCardComponent } from 'src/app/components/rule-set-card/rule-set-card.component';
+import { RuleSetCardComponent } from 'src/app/shared/components/rule-set-card/rule-set-card.component';
 
 @Component({
   selector: 'app-list-detail-menu',

@@ -27,7 +27,7 @@ export class CreatePage implements OnInit, OnDestroy {
   ngOnInit() {
     this.form = this.fb.group({
       players: this.fb.array(
-        Array.from(Array(4).keys()).map((i) => ['', Validators.required]),
+        Array.from(Array(4).keys()).map(() => ['', Validators.required]),
         this.arePlayerNamesUnique()
       ),
       ruleSet: ['', [Validators.required, this.ruleSetExists()]],
@@ -46,16 +46,15 @@ export class CreatePage implements OnInit, OnDestroy {
   }
 
   arePlayerNamesUnique(): ValidatorFn {
-    // FIXME Other inputs aren't updated
     return (control: FormArray) => {
       const duplicatedNames: number[] = [];
       for (let i = 0; i < control.length; i++) {
         const nameInput = control.at(i);
         if (!this.isPlayerNameUnique(i, control.value)) {
           duplicatedNames.push(i);
-          nameInput.setErrors({ duplicated: true });
+          nameInput.setErrors({ ...nameInput.errors, duplicated: true });
         } else {
-          nameInput.setErrors(null);
+          nameInput.updateValueAndValidity({ onlySelf: true });
         }
       }
 

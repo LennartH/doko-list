@@ -5,7 +5,7 @@
   "homepage": "https://github.com/LennartH/doko-list",
   "scripts": {
     "ng": "ng",
-    "start": "ionic serve",
+    "start": "ionic serve --no-open",
     "build": "ionic build",
     "test": "ng test",
     "lint": "ng lint",

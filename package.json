@@ -9,7 +9,8 @@
     "build": "ionic build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "app": "ionic capacitor run android",
+    "sync": "ionic capacitor sync"
   },
   "private": true,
   "dependencies": {

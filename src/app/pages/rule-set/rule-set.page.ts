@@ -1,10 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { RuleSet } from 'src/app/domain/rule-set';
-import { RuleSetsService, defaultRuleSet } from 'src/app/services/rule-sets.service';
-import { MessagesService } from 'src/app/services/messages.service';
-import { Subscription } from 'rxjs';
-import { AlertController } from '@ionic/angular';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AlertController } from '@ionic/angular';
+import { Subscription } from 'rxjs';
+import { RuleSet } from 'src/app/domain/rule-set';
+import { MessagesService } from 'src/app/services/messages.service';
+import { defaultRuleSet, RuleSetsService } from 'src/app/services/rule-sets.service';
 
 @Component({
   selector: 'app-rule-set',

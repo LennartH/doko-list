@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/rule-set"></ion-back-button>
     </ion-buttons>
-    <ion-title>Regelsatz Bearbeiten</ion-title>
+    <ion-title>{{ 'editRuleSet' | message }}</ion-title>
     <ion-buttons slot="primary">
       <ion-button (click)="onConfirm()" [disabled]="f.invalid">
         <ion-icon name="checkmark" slot="icon-only"></ion-icon>
@@ -22,13 +22,14 @@
       <ion-col class="ion-no-padding">
         <ion-button class="footer-button" strong expand="block" color="danger" fill="outline"
           routerLink="/rule-set" routerDirection="back">
-          Abbrechen
+          {{ 'cancel' | message }}
         </ion-button>
       </ion-col>
       <ion-col>
         <ion-button class="footer-button" strong expand="block" color="primary" [disabled]="f.invalid"
           (click)="onConfirm()">
-          Fertig</ion-button>
+          {{ 'done' | message }}
+        </ion-button>
       </ion-col>
     </ion-row>
   </ion-grid>

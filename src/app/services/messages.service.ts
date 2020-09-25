@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { $enum } from 'ts-enum-util';
-import { AnnouncementBehaviour, BonusScore, BockroundAfter, PointThreshold } from '../domain/common';
+import { AnnouncementBehaviour, BonusScore, BockroundAfter, PointThreshold, Party } from '../domain/common';
 
 @Injectable({
   providedIn: 'root'
@@ -11,9 +11,23 @@ export class MessagesService {
 
   constructor() {
     this.messages = {
+      cancel: 'Abbrechen',
+      delete: 'Löschen',
+      copy: 'Kopieren',
+      edit: 'Ändern',
+      done: 'Fertig',
+      
+      newList: 'Neue Liste',
+      ruleSets: 'Regelsätze',
+      newRuleSet: 'Neuer Regelsatz',
+      editRuleSet: 'Regelsatz Bearbeiten',
+    
+      deleteRuleSetHeader: "'{0}' Löschen?",
+      deleteRuleSetPrompt: "Regelsatz '{0}' endgültig löschen?",
+    
       re: 'Re',
       contra: 'Contra',
-
+    
       schwarz: 'Schwarz',
       won: 'Gewonnen',
       reAnnounced: 'Re angesagt',
@@ -61,12 +75,40 @@ export class MessagesService {
     });
   }
 
-  get(key: string): string {
+  get(key: string, ...args: any[]): string {
     let message = this.messages[key];
     if (message === undefined) {
       console.error(`Unknown message key ${key}`);
-      message = key;
+      return key;
+    } else {
+      return this.formatMessage(message, ...args);
     }
-    return message;
+  }
+
+  private formatMessage(message: string, ...args: any[]): string {
+    if (args.length === 0) {
+      return message;
+    }
+
+    const argsType = typeof args[0];
+    if (argsType === 'string' || argsType === 'number') {
+      return message.replace(/{(\d+)}/gi, (match, number) => {
+        number = Number(number);
+        return number in args ? args[number] : match;
+      });
+    } else {
+      args = args[0];
+      const keys = Object.keys(args);
+      const regex = /{(\d?[a-zA-Z]\w*)}|{(\d+)}/gi;
+      return message.replace(regex, (match, key, number) => {
+        if (key && key in args) {
+          return args[key];
+        }
+        if (number && number < keys.length) {
+          return args[keys[Number(number)]];
+        }
+        return match;
+      });
+    }
   }
 }

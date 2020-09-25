@@ -8,12 +8,12 @@ export class MessagePipe implements PipeTransform {
 
   constructor(private messages: MessagesService) {}
 
-  transform(value: any): string {
+  transform(value: string | string[], ...args: any[]): string {
     if (typeof value === 'string') {
-      return this.messages.get(value);
+      return this.messages.get(value, ...args);
     }
     if ('length' in value) {
-      return value.map(e => this.transform(e)).join(', ');
+      return value.map(e => this.transform(e, ...args)).join(', ');
     }
   }
 

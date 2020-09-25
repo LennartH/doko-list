@@ -19,7 +19,7 @@ export class RuleSetPage implements OnInit, OnDestroy {
   private ruleSetsSubscription: Subscription;
 
   constructor(
-    public messages: MessagesService,
+    private messages: MessagesService,
     private ruleSetsService: RuleSetsService,
     private alertController: AlertController,
     private router: Router
@@ -68,15 +68,15 @@ export class RuleSetPage implements OnInit, OnDestroy {
 
   async deleteRuleSet(ruleSet: RuleSet) {
     const alert = await this.alertController.create({
-      header: `'${ruleSet.name}' Löschen?`,
-      message: `Regelsatz '${ruleSet.name}' endgültig löschen?`,
+      header: this.messages.get('deleteRuleSetHeader', ruleSet.name),
+      message: this.messages.get('deleteRuleSetPrompt', ruleSet.name),
       buttons: [
         {
-          text: 'Abbrechen',
+          text: this.messages.get('cancel'),
           role: 'cancel'
         },
         {
-          text: 'Löschen',
+          text: this.messages.get('delete'),
           cssClass: 'danger',
           handler: () => this.ruleSetsService.deleteRuleSet(ruleSet.name)
         }

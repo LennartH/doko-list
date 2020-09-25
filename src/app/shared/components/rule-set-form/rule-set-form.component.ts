@@ -1,10 +1,10 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormControl, AbstractControl, ValidatorFn } from '@angular/forms';
-import { BockroundAfter, BonusScore, AnnouncementBehaviour } from 'src/app/domain/common';
-import { defaultRuleSetConfig, RuleSet, RuleSetConfig } from 'src/app/domain/rule-set';
-import { $enum } from 'ts-enum-util';
-import { RuleSetsService } from 'src/app/services/rule-sets.service';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { AnnouncementBehaviour, BockroundAfter, BonusScore } from 'src/app/domain/common';
+import { defaultRuleSetConfig, RuleSetConfig } from 'src/app/domain/rule-set';
+import { RuleSetsService } from 'src/app/services/rule-sets.service';
+import { $enum } from 'ts-enum-util';
 
 @Component({
   selector: 'app-rule-set-form',

@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>Regelsätze</ion-title>
+    <ion-title>{{ 'ruleSets' | message }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -26,13 +26,15 @@
               <ion-col class="ion-no-padding">
                 <ion-button class="footer-button" expand="block" fill="clear" color="tertiary" strong
                   (click)="onButtonClick($event, 'copy', ruleSet)">
-                  <ion-icon slot="start" name="copy"></ion-icon>Kopieren
+                  <ion-icon slot="start" name="copy"></ion-icon>
+                  {{ 'copy' | message }}
                 </ion-button>
               </ion-col>
               <ion-col class="ion-no-padding">
                 <ion-button class="footer-button" expand="block" fill="clear" color="secondary" strong
                   (click)="onButtonClick($event, 'newList', ruleSet)">
-                  <ion-icon slot="start" name="reader"></ion-icon>Neue Liste
+                  <ion-icon slot="start" name="reader"></ion-icon>
+                  {{ 'newList' | message }}
                 </ion-button>
               </ion-col>
             </ion-row>
@@ -40,25 +42,25 @@
             <ion-row *ngIf="displayRuleSetDetail[ruleSet.name] && ruleSet.name !== defaultRuleSetName">
               <ion-col class="ion-no-padding">
                 <ion-button class="footer-button" expand="block" fill="clear" color="danger"
-                  (click)="onButtonClick($event, 'delete', ruleSet)">
+                  (click)="onButtonClick($event, 'delete', ruleSet)" [title]="'delete' | message">
                   <ion-icon slot="icon-only" name="trash"></ion-icon>
                 </ion-button>
               </ion-col>
               <ion-col class="ion-no-padding">
                 <ion-button class="footer-button" expand="block" fill="clear" color="tertiary"
-                  (click)="onButtonClick($event, 'copy', ruleSet)">
+                  (click)="onButtonClick($event, 'copy', ruleSet)" [title]="'copy' | message">
                   <ion-icon slot="icon-only" name="copy"></ion-icon>
                 </ion-button>
               </ion-col>
               <ion-col class="ion-no-padding">
                 <ion-button class="footer-button" expand="block" fill="clear" color="primary"
-                  (click)="onButtonClick($event, 'edit', ruleSet)">
+                  (click)="onButtonClick($event, 'edit', ruleSet)" [title]="'edit' | message">
                   <ion-icon slot="icon-only" src="assets/icon/edit.svg"></ion-icon>
                 </ion-button>
               </ion-col>
               <ion-col class="ion-no-padding">
                 <ion-button class="footer-button" expand="block" fill="clear" color="secondary"
-                  (click)="onButtonClick($event, 'newList', ruleSet)">
+                  (click)="onButtonClick($event, 'newList', ruleSet)" [title]="'newList' | message">
                   <ion-icon slot="icon-only" name="reader"></ion-icon>
                 </ion-button>
               </ion-col>

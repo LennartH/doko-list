@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/rule-set"></ion-back-button>
     </ion-buttons>
-    <ion-title>Neuer Regelsatz</ion-title>
+    <ion-title>{{ 'newRuleSet' | message }}</ion-title>
     <ion-buttons slot="primary">
       <ion-button (click)="onConfirm()" [disabled]="f.invalid">
         <ion-icon name="checkmark" slot="icon-only"></ion-icon>
@@ -21,13 +21,13 @@
     <ion-row>
       <ion-col class="ion-no-padding">
         <ion-button class="big-footer-button" strong expand="block" color="danger" fill="outline" (click)="onAbort()">
-          Abbrechen
+          {{ 'cancel' | message }}
         </ion-button>
       </ion-col>
       <ion-col>
         <ion-button class="big-footer-button" strong expand="block" color="primary" [disabled]="f.invalid"
           (click)="onConfirm()">
-          Fertig
+          {{ 'done' | message }}
         </ion-button>
       </ion-col>
     </ion-row>

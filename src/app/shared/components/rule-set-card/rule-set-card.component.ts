@@ -7,13 +7,10 @@ import { RuleSet } from 'src/app/domain/rule-set';
   styleUrls: ['./rule-set-card.component.scss'],
 })
 export class RuleSetCardComponent implements OnInit {
-
   @Input() ruleSet: RuleSet;
   @Input() button: boolean;
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }

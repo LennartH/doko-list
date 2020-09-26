@@ -6,16 +6,16 @@ import { ListsPage } from './lists.page';
 const routes: Routes = [
   {
     path: '',
-    component: ListsPage
+    component: ListsPage,
   },
   {
     path: 'create',
-    loadChildren: () => import('./create/create.module').then( m => m.CreatePageModule)
+    loadChildren: () => import('./create/create.module').then((m) => m.CreatePageModule),
   },
   {
     path: 'detail/:listId',
-    loadChildren: () => import('./detail/detail.module').then( m => m.DetailPageModule)
-  }
+    loadChildren: () => import('./detail/detail.module').then((m) => m.DetailPageModule),
+  },
 ];
 
 @NgModule({

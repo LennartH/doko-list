@@ -8,7 +8,7 @@ import { RuleSetForm } from 'src/app/shared/components/rule-set-form/rule-set-fo
 @Component({
   selector: 'app-create',
   templateUrl: './create.page.html',
-  styleUrls: ['./create.page.scss']
+  styleUrls: ['./create.page.scss'],
 })
 export class CreatePage implements OnInit {
   ruleSetName: string;
@@ -18,16 +18,12 @@ export class CreatePage implements OnInit {
 
   private redirectPath: string;
 
-  constructor(
-    private activatedRoute: ActivatedRoute,
-    private ruleSetsService: RuleSetsService,
-    private router: Router
-  ) { }
+  constructor(private activatedRoute: ActivatedRoute, private ruleSetsService: RuleSetsService, private router: Router) {}
 
   ngOnInit() {
-    this.activatedRoute.queryParams.subscribe(params => {
+    this.activatedRoute.queryParams.subscribe((params) => {
       if ('basedOn' in params) {
-        this.ruleSetsService.ruleSet(params.basedOn).subscribe(ruleSet => {
+        this.ruleSetsService.ruleSet(params.basedOn).subscribe((ruleSet) => {
           if (ruleSet === undefined) {
             return;
           }

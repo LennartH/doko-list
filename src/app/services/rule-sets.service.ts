@@ -13,22 +13,17 @@ const storageKeyPrefix = 'rule/';
 export const defaultRuleSet = new RuleSet('Tunierspielregeln', defaultRuleSetConfig);
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class RuleSetsService {
-
   private _ruleSets: RuleSet[] = [];
   private ruleSetsSubject = new BehaviorSubject<RuleSet[]>(this._ruleSets);
 
-  constructor(
-  ) {
+  constructor() {
     Storage.keys().then(({ keys }) => {
-      Promise.all(
-        keys.filter(k => k.startsWith(storageKeyPrefix))
-            .map(key => Storage.get({ key }))
-      ).then(values => {
+      Promise.all(keys.filter((k) => k.startsWith(storageKeyPrefix)).map((key) => Storage.get({ key }))).then((values) => {
         this._ruleSets = [defaultRuleSet];
-        this._ruleSets.push(...values.map(v => RuleSet.fromJson(v.value)));
+        this._ruleSets.push(...values.map((v) => RuleSet.fromJson(v.value)));
         this.ruleSetsSubject.next(this._ruleSets);
       });
     });
@@ -39,12 +34,15 @@ export class RuleSetsService {
   }
 
   ruleSet(name: string): Observable<RuleSet> {
-    return this.ruleSets.pipe(take(1), map(ruleSets => ruleSets.find(r => r.name === name)));
+    return this.ruleSets.pipe(
+      take(1),
+      map((ruleSets) => ruleSets.find((r) => r.name === name))
+    );
   }
 
   addRuleSet(name: string, config: RuleSetConfig) {
     const ruleSet = new RuleSet(name, config);
-    Storage.set({key: storageKeyPrefix + ruleSet.name, value: ruleSet.toJson()});
+    Storage.set({ key: storageKeyPrefix + ruleSet.name, value: ruleSet.toJson() });
     this._ruleSets.push(ruleSet);
     this.ruleSetsSubject.next(this._ruleSets);
   }
@@ -55,8 +53,8 @@ export class RuleSetsService {
       return;
     }
 
-    Storage.remove({key: storageKeyPrefix + name});
-    this._ruleSets = this._ruleSets.filter(r => r.name !== name);
+    Storage.remove({ key: storageKeyPrefix + name });
+    this._ruleSets = this._ruleSets.filter((r) => r.name !== name);
     this.ruleSetsSubject.next(this._ruleSets);
   }
 
@@ -66,10 +64,10 @@ export class RuleSetsService {
       return;
     }
 
-    const index = this._ruleSets.findIndex(r => r.name === name);
+    const index = this._ruleSets.findIndex((r) => r.name === name);
     const ruleSet = new RuleSet(newName, newConfig);
-    Storage.set({key: storageKeyPrefix + ruleSet.name, value: ruleSet.toJson()});
-    Storage.remove({key: storageKeyPrefix + name});
+    Storage.set({ key: storageKeyPrefix + ruleSet.name, value: ruleSet.toJson() });
+    Storage.remove({ key: storageKeyPrefix + name });
     this._ruleSets[index] = ruleSet;
     this.ruleSetsSubject.next(this._ruleSets);
   }

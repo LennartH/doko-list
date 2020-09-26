@@ -34,8 +34,8 @@ export class RoundDataFormComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     if (this.initialRoundData) {
       this.rePoints = this.initialRoundData.points.re;
-      this.doppelkopfs.re = this.initialRoundData.doppelkopfs.filter(p => p === 're').length;
-      this.doppelkopfs.contra = this.initialRoundData.doppelkopfs.filter(p => p === 'contra').length;
+      this.doppelkopfs.re = this.initialRoundData.doppelkopfs.filter((p) => p === 're').length;
+      this.doppelkopfs.contra = this.initialRoundData.doppelkopfs.filter((p) => p === 'contra').length;
       this.foxesCaught = [this.initialRoundData.foxesCaught[0], this.initialRoundData.foxesCaught[1]];
       this.foxGotLastTrick = this.initialRoundData.foxGotLastTrick;
       this.charliesCaught = [this.initialRoundData.charliesCaught[0], this.initialRoundData.charliesCaught[1]];
@@ -124,7 +124,7 @@ export class RoundDataFormComponent implements OnInit, AfterViewInit {
 
   get charliesValid(): boolean {
     const lessThanThreeCharlies = !this.charliesCaught[0] || !this.charliesCaught[1] || !this.charlyGotLastTrick;
-    const caughtAndLastTrickDiffer = !this.charlyGotLastTrick || !this.charliesCaught.some(p => p === this.charlyGotLastTrick);
+    const caughtAndLastTrickDiffer = !this.charlyGotLastTrick || !this.charliesCaught.some((p) => p === this.charlyGotLastTrick);
     return lessThanThreeCharlies && caughtAndLastTrickDiffer;
   }
 
@@ -143,7 +143,7 @@ export class RoundDataFormComponent implements OnInit, AfterViewInit {
 
     const announcements = {
       re: this.reAnnouncement.value,
-      contra: this.contraAnnouncement.value
+      contra: this.contraAnnouncement.value,
     };
     if (announcements.re === undefined) {
       delete announcements.re;

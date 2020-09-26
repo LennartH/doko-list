@@ -20,14 +20,12 @@
   <ion-grid class="ion-no-padding">
     <ion-row>
       <ion-col class="ion-no-padding">
-        <ion-button class="footer-button" strong expand="block" color="danger" fill="outline"
-          routerLink="/rule-set" routerDirection="back">
+        <ion-button class="footer-button" strong expand="block" color="danger" fill="outline" routerLink="/rule-set" routerDirection="back">
           {{ 'cancel' | message }}
         </ion-button>
       </ion-col>
       <ion-col>
-        <ion-button class="footer-button" strong expand="block" color="primary" [disabled]="f.invalid"
-          (click)="onConfirm()">
+        <ion-button class="footer-button" strong expand="block" color="primary" [disabled]="f.invalid" (click)="onConfirm()">
           {{ 'done' | message }}
         </ion-button>
       </ion-col>

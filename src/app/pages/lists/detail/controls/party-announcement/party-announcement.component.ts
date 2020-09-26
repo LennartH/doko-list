@@ -8,7 +8,6 @@ import { MessagesService } from 'src/app/services/messages.service';
   styleUrls: ['./party-announcement.component.scss'],
 })
 export class PartyAnnouncementComponent implements OnInit {
-
   @Input() party: Party;
 
   victoryAnnounced = false;
@@ -38,7 +37,6 @@ export class PartyAnnouncementComponent implements OnInit {
     if (!this.victoryAnnounced) {
       return undefined;
     }
-    return {lessThan: this.threshold !== undefined ? this.threshold : 120};
+    return { lessThan: this.threshold !== undefined ? this.threshold : 120 };
   }
-
 }

@@ -24,11 +24,11 @@ export class GameList {
         const roundData = round.roundData;
         roundData.charliesCaught = [
           roundData.charliesCaught[0] === null ? undefined : roundData.charliesCaught[0],
-          roundData.charliesCaught[1] === null ? undefined : roundData.charliesCaught[1]
+          roundData.charliesCaught[1] === null ? undefined : roundData.charliesCaught[1],
         ];
         roundData.foxesCaught = [
           roundData.foxesCaught[0] === null ? undefined : roundData.foxesCaught[0],
-          roundData.foxesCaught[1] === null ? undefined : roundData.foxesCaught[1]
+          roundData.foxesCaught[1] === null ? undefined : roundData.foxesCaught[1],
         ];
       }
     }
@@ -95,7 +95,7 @@ export class GameList {
       players: this.players,
       startDate: this.startDate,
       ruleSetName: this.ruleSet.name,
-      ruleSetConfig: this.ruleSet.config
+      ruleSetConfig: this.ruleSet.config,
     };
     if (this.rounds.length > 0) {
       data.rounds = this.rounds;

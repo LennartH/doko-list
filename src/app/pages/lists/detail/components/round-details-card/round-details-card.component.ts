@@ -7,12 +7,10 @@ import { Round } from 'src/app/domain/list';
   styleUrls: ['./round-details-card.component.scss'],
 })
 export class RoundDetailsCardComponent implements OnInit {
-
   @Input() roundNumber: number;
   @Input() round: Round;
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() { }
-
+  ngOnInit() {}
 }

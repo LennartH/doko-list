@@ -8,12 +8,11 @@ import { GameList } from 'src/app/domain/list';
   styleUrls: ['./round-row.component.scss'],
 })
 export class RoundRowComponent implements OnInit {
-
   @Input() roundNumber: number;
   @Input() list: GameList;
   @Input() points: { [player: string]: { total: number; delta: number } };
 
-  constructor(private listDetailsPage: DetailPage) { }
+  constructor(private listDetailsPage: DetailPage) {}
 
   ngOnInit() {}
 
@@ -44,5 +43,4 @@ export class RoundRowComponent implements OnInit {
   async deleteRound() {
     this.listDetailsPage.deleteRound(this.roundNumber);
   }
-
 }

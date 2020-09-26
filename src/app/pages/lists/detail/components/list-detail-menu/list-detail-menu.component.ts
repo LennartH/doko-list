@@ -19,7 +19,7 @@ export class ListDetailMenuComponent implements OnInit {
     private alertController: AlertController,
     private listsService: ListsService,
     private router: Router,
-    private messages: MessagesService,
+    private messages: MessagesService
   ) {}
 
   ngOnInit() {}
@@ -44,14 +44,14 @@ export class ListDetailMenuComponent implements OnInit {
       buttons: [
         {
           text: this.messages.get('cancel'),
-          role: 'cancel'
+          role: 'cancel',
         },
         {
           text: this.messages.get('end'),
           cssClass: 'tertiary',
-          handler: () => this.listsService.finishList(this.list.id)
-        }
-      ]
+          handler: () => this.listsService.finishList(this.list.id),
+        },
+      ],
     });
     this.popoverController.dismiss();
     alert.present();
@@ -64,7 +64,7 @@ export class ListDetailMenuComponent implements OnInit {
       buttons: [
         {
           text: this.messages.get('cancel'),
-          role: 'cancel'
+          role: 'cancel',
         },
         {
           text: this.messages.get('delete'),
@@ -72,9 +72,9 @@ export class ListDetailMenuComponent implements OnInit {
           handler: () => {
             this.listsService.deleteList(this.list.id);
             this.router.navigateByUrl('/lists');
-          }
-        }
-      ]
+          },
+        },
+      ],
     });
     this.popoverController.dismiss();
     alert.present();

@@ -9,12 +9,7 @@ import { GroupsPageRoutingModule } from './groups-routing.module';
 import { GroupsPage } from './groups.page';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    GroupsPageRoutingModule
-  ],
-  declarations: [GroupsPage]
+  imports: [CommonModule, FormsModule, IonicModule, GroupsPageRoutingModule],
+  declarations: [GroupsPage],
 })
 export class GroupsPageModule {}

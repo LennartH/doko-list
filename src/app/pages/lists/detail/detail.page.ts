@@ -24,7 +24,7 @@ export class DetailPage implements OnInit {
     private modalController: ModalController,
     private popoverController: PopoverController,
     private alertController: AlertController,
-    private messages: MessagesService,
+    private messages: MessagesService
   ) {}
 
   ngOnInit() {

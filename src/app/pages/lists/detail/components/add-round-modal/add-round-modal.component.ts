@@ -13,17 +13,16 @@ import { RoundResult } from 'src/app/domain/rule-set';
   styleUrls: ['./add-round-modal.component.scss'],
 })
 export class AddRoundModalComponent implements OnInit {
-
   @Input() list: GameList;
   @Input() roundNumber?: number;
 
-  playerParties: {[player: string]: Party};
+  playerParties: { [player: string]: Party };
   @ViewChild('f') roundDataForm: RoundDataFormComponent;
 
   private rePlayersHistory: string[] = [];
   private _displayResultDetails = false;
 
-  constructor(public messages: MessagesService, private modalController: ModalController, private listsService: ListsService) { }
+  constructor(public messages: MessagesService, private modalController: ModalController, private listsService: ListsService) {}
 
   get invalid(): boolean {
     return !this.valid;
@@ -54,7 +53,7 @@ export class AddRoundModalComponent implements OnInit {
       const round = this.list.rounds[this.roundNumber];
       this.playerParties = round.playerParties;
     } else {
-      this.playerParties = Object.fromEntries(this.list.players.map(p => [p, 'contra']));
+      this.playerParties = Object.fromEntries(this.list.players.map((p) => [p, 'contra']));
     }
   }
 
@@ -67,7 +66,7 @@ export class AddRoundModalComponent implements OnInit {
         this.playerParties[this.rePlayersHistory.shift()] = 'contra';
       }
     } else {
-      this.rePlayersHistory = this.rePlayersHistory.filter(p => p !== player);
+      this.rePlayersHistory = this.rePlayersHistory.filter((p) => p !== player);
       this.playerParties[player] = 'contra';
     }
   }
@@ -108,5 +107,4 @@ export class AddRoundModalComponent implements OnInit {
   onCancel() {
     this.modalController.dismiss();
   }
-
 }

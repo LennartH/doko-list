@@ -10,9 +10,7 @@
     </ion-row>
     <ion-row *ngIf="name.invalid && name.errors.duplicateName && (name.dirty || name.touched)">
       <ion-col>
-        <ion-item class="error-item" lines="none">
-            Ein Regelsatz mit diesem Namen existiert bereits.
-        </ion-item>
+        <ion-item class="error-item" lines="none"> Ein Regelsatz mit diesem Namen existiert bereits. </ion-item>
       </ion-col>
     </ion-row>
 
@@ -48,7 +46,7 @@
 
           <ion-item lines="none">
             <ion-label position="floating">Verhalten</ion-label>
-            <ion-select interface="popover" [interfaceOptions]="{cssClass: 'broad-popover'}" formControlName="announcementBehaviour">
+            <ion-select interface="popover" [interfaceOptions]="{ cssClass: 'broad-popover' }" formControlName="announcementBehaviour">
               <ion-select-option *ngFor="let behaviour of possibleBehaviours" [value]="behaviour">
                 <ion-text>{{ behaviour | message }}</ion-text>
               </ion-select-option>
@@ -72,9 +70,13 @@
           </ion-item-divider>
 
           <ion-item class="ion-no-padding ion-text-center" lines="none">
-            <div style="padding-top: 10px;" formGroupName="bonusScoreRules">
-              <ion-chip class="toggle-chip" *ngFor="let bonusScore of possibleBonusScores"
-                [class.selected-chip]="form.value.bonusScoreRules[bonusScore]" (click)="toggleBonusScore(bonusScore)">
+            <div style="padding-top: 10px" formGroupName="bonusScoreRules">
+              <ion-chip
+                class="toggle-chip"
+                *ngFor="let bonusScore of possibleBonusScores"
+                [class.selected-chip]="form.value.bonusScoreRules[bonusScore]"
+                (click)="toggleBonusScore(bonusScore)"
+              >
                 <ion-label>{{ bonusScore | message }}</ion-label>
               </ion-chip>
             </div>
@@ -97,10 +99,13 @@
           </ion-item-divider>
 
           <ion-item class="ion-no-padding ion-text-center" lines="none">
-            <div style="padding-top: 10px;" formGroupName="bockroundAfter">
-              <ion-chip class="toggle-chip" *ngFor="let bockroundAfter of possibleBockroundsAfter"
+            <div style="padding-top: 10px" formGroupName="bockroundAfter">
+              <ion-chip
+                class="toggle-chip"
+                *ngFor="let bockroundAfter of possibleBockroundsAfter"
                 [class.selected-chip]="form.value.bockroundAfter[bockroundAfter]"
-                (click)="toggleBockroundAfter(bockroundAfter)">
+                (click)="toggleBockroundAfter(bockroundAfter)"
+              >
                 <ion-label>{{ bockroundAfter | message }}</ion-label>
               </ion-chip>
             </div>

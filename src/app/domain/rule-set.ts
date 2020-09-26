@@ -105,8 +105,8 @@ export class RuleSet {
       const losingPartyAnnouncement = roundData.announcements[losingParty];
       for (const threshold of PointThreshold.values()) {
         if (threshold >= losingPartyAnnouncement.lessThan) {
-          const message = threshold === 120 ? this.message('partyAnnouncedLost', losingParty)
-                                            : this.message('lessThanThresholdAnnouncedLost', threshold);
+          const message =
+            threshold === 120 ? this.message('partyAnnouncedLost', losingParty) : this.message('lessThanThresholdAnnouncedLost', threshold);
           switch (this.config.announcementBehaviour) {
             case AnnouncementBehaviour.FirstGetsPlusTwo:
             case AnnouncementBehaviour.FirstDoubles:

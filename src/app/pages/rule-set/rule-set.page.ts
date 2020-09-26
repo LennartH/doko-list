@@ -9,7 +9,7 @@ import { defaultRuleSet, RuleSetsService } from 'src/app/services/rule-sets.serv
 @Component({
   selector: 'app-rule-set',
   templateUrl: './rule-set.page.html',
-  styleUrls: ['./rule-set.page.scss']
+  styleUrls: ['./rule-set.page.scss'],
 })
 export class RuleSetPage implements OnInit, OnDestroy {
   defaultRuleSetName = defaultRuleSet.name;
@@ -26,11 +26,11 @@ export class RuleSetPage implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.ruleSetsSubscription = this.ruleSetsService.ruleSets.subscribe(ruleSets => {
+    this.ruleSetsSubscription = this.ruleSetsService.ruleSets.subscribe((ruleSets) => {
       this.ruleSets = ruleSets;
       ruleSets
-        .map(r => r.name)
-        .forEach(name => {
+        .map((r) => r.name)
+        .forEach((name) => {
           if (!(name in this.displayRuleSetDetail)) {
             this.displayRuleSetDetail[name] = false;
           }
@@ -53,13 +53,13 @@ export class RuleSetPage implements OnInit, OnDestroy {
         this.deleteRuleSet(ruleSet);
         break;
       case 'copy':
-        this.router.navigate(['/rule-set/create'], {queryParams: {basedOn: ruleSet.name}});
+        this.router.navigate(['/rule-set/create'], { queryParams: { basedOn: ruleSet.name } });
         break;
       case 'edit':
         this.router.navigate(['/rule-set/edit', ruleSet.name]);
         break;
       case 'newList':
-        this.router.navigate(['/lists/create'], {queryParams: {selected: ruleSet.name}});
+        this.router.navigate(['/lists/create'], { queryParams: { selected: ruleSet.name } });
         break;
       default:
         throw new Error(`Unknown action ${action}`);
@@ -73,14 +73,14 @@ export class RuleSetPage implements OnInit, OnDestroy {
       buttons: [
         {
           text: this.messages.get('cancel'),
-          role: 'cancel'
+          role: 'cancel',
         },
         {
           text: this.messages.get('delete'),
           cssClass: 'danger',
-          handler: () => this.ruleSetsService.deleteRuleSet(ruleSet.name)
-        }
-      ]
+          handler: () => this.ruleSetsService.deleteRuleSet(ruleSet.name),
+        },
+      ],
     });
 
     await alert.present();

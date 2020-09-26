@@ -35,9 +35,7 @@
       </ion-row>
       <ion-row *ngIf="form.get('players').errors?.duplicatedNames && (form.dirty || form.touched)">
         <ion-col>
-          <ion-item class="error-item" lines="none">
-            {{ 'duplicatedPlayerNamesError' | message }}
-          </ion-item>
+          <ion-item class="error-item" lines="none"> {{ 'duplicatedPlayerNamesError' | message }} </ion-item>
         </ion-col>
       </ion-row>
 
@@ -49,8 +47,13 @@
             </ion-text>
           </ion-item-divider>
 
-          <app-rule-set-card *ngFor="let ruleSet of ruleSets" [ruleSet]="ruleSet" button
-            (click)="onSelectRuleSet(ruleSet.name)" [class.selected-rules]="form.value.ruleSet === ruleSet.name">
+          <app-rule-set-card
+            *ngFor="let ruleSet of ruleSets"
+            [ruleSet]="ruleSet"
+            button
+            (click)="onSelectRuleSet(ruleSet.name)"
+            [class.selected-rules]="form.value.ruleSet === ruleSet.name"
+          >
           </app-rule-set-card>
         </ion-col>
       </ion-row>
@@ -69,14 +72,20 @@
   <ion-grid class="ion-no-padding">
     <ion-row>
       <ion-col class="ion-no-padding">
-        <ion-button class="big-footer-button" strong expand="block" color="danger" fill="outline" routerLink="/lists"
-          routerDirection="back">
+        <ion-button
+          class="big-footer-button"
+          strong
+          expand="block"
+          color="danger"
+          fill="outline"
+          routerLink="/lists"
+          routerDirection="back"
+        >
           {{ 'cancel' | message }}
         </ion-button>
       </ion-col>
       <ion-col>
-        <ion-button class="big-footer-button" strong expand="block" color="primary" [disabled]="form.invalid"
-          (click)="onConfirm()">
+        <ion-button class="big-footer-button" strong expand="block" color="primary" [disabled]="form.invalid" (click)="onConfirm()">
           {{ 'done' | message }}
         </ion-button>
       </ion-col>

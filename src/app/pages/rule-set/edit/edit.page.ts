@@ -16,16 +16,12 @@ export class EditPage implements OnInit {
 
   @ViewChild('f') form: RuleSetForm;
 
-  constructor(
-    private activatedRoute: ActivatedRoute,
-    private ruleSetsService: RuleSetsService,
-    private router: Router
-  ) { }
+  constructor(private activatedRoute: ActivatedRoute, private ruleSetsService: RuleSetsService, private router: Router) {}
 
   ngOnInit() {
-    this.activatedRoute.params.subscribe(params => {
+    this.activatedRoute.params.subscribe((params) => {
       if ('ruleSetName' in params) {
-        this.ruleSetsService.ruleSet(params.ruleSetName).subscribe(ruleSet => {
+        this.ruleSetsService.ruleSet(params.ruleSetName).subscribe((ruleSet) => {
           if (ruleSet === undefined) {
             this.router.navigateByUrl('/rule-set');
             return;

@@ -10,13 +10,7 @@ import { ListsPage } from './lists.page';
 import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    ListsPageRoutingModule,
-    SharedModule
-  ],
-  declarations: [ListsPage]
+  imports: [CommonModule, FormsModule, IonicModule, ListsPageRoutingModule, SharedModule],
+  declarations: [ListsPage],
 })
 export class ListsPageModule {}

@@ -10,13 +10,7 @@ import { EditPage } from './edit.page';
 import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    EditPageRoutingModule,
-    SharedModule
-  ],
-  declarations: [EditPage]
+  imports: [CommonModule, FormsModule, IonicModule, EditPageRoutingModule, SharedModule],
+  declarations: [EditPage],
 })
 export class EditPageModule {}

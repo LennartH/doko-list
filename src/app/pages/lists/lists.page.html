@@ -21,16 +21,10 @@
     <ion-row *ngIf="activeLists.length === 0">
       <ion-col class="ion-padding-horizontal ion-text-center">
         <p class="ion-no-margin" [class]="finishedLists.length === 0 ? 'no-lists-message' : 'no-active-lists-message'">
-          <ng-container *ngIf="finishedLists.length > 0; else noListsMessage">
-            {{ 'noActiveListsAvailable' | message }}
-          </ng-container>
-          <ng-template #noListsMessage>
-            {{ 'noListsAvailable' | message }}
-          </ng-template>
+          <ng-container *ngIf="finishedLists.length > 0; else noListsMessage"> {{ 'noActiveListsAvailable' | message }} </ng-container>
+          <ng-template #noListsMessage> {{ 'noListsAvailable' | message }} </ng-template>
         </p>
-        <ion-button class="ion-padding-horizontal" expand="block" strong routerLink="create">
-          {{ 'startNewList' | message }}
-        </ion-button>
+        <ion-button class="ion-padding-horizontal" expand="block" strong routerLink="create"> {{ 'startNewList' | message }} </ion-button>
       </ion-col>
     </ion-row>
     <ion-row *ngIf="activeLists.length > 0">

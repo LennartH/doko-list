@@ -15,10 +15,9 @@ export interface RoundData {
 }
 
 class RoundDataBuilder {
-
   private wasSolo = false;
   private consecutiveBockrounds = 0;
-  private points = {re: 0, contra: 0};
+  private points = { re: 0, contra: 0 };
   private announcements: { re?: Announcement; contra?: Announcement } = {};
   private doppelkopfs: Party[] = [];
   private charliesCaught: [Party?, Party?] = [];
@@ -54,12 +53,12 @@ class RoundDataBuilder {
     return this;
   }
 
-  withReAnnouncement(announcement: Announcement = {lessThan: 120}): RoundDataBuilder {
+  withReAnnouncement(announcement: Announcement = { lessThan: 120 }): RoundDataBuilder {
     this.announcements.re = announcement;
     return this;
   }
 
-  withContraAnnouncement(announcement: Announcement = {lessThan: 120}): RoundDataBuilder {
+  withContraAnnouncement(announcement: Announcement = { lessThan: 120 }): RoundDataBuilder {
     this.announcements.contra = announcement;
     return this;
   }
@@ -103,14 +102,14 @@ class RoundDataBuilder {
     return {
       wasSolo: this.wasSolo,
       consecutiveBockrounds: this.consecutiveBockrounds,
-      points: {...this.points},
-      announcements: {...this.announcements},
+      points: { ...this.points },
+      announcements: { ...this.announcements },
       doppelkopfs: [...this.doppelkopfs],
       charliesCaught: [this.charliesCaught[0], this.charliesCaught[1]],
       charlyGotLastTrick: this.charlyGotLastTrick,
       foxesCaught: [this.foxesCaught[0], this.foxesCaught[1]],
       foxGotLastTrick: this.foxGotLastTrick,
-      dulleCaughtDulle: this.dulleCaughtDulle
+      dulleCaughtDulle: this.dulleCaughtDulle,
     };
   }
 }

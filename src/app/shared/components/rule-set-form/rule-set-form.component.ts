@@ -9,7 +9,7 @@ import { $enum } from 'ts-enum-util';
 @Component({
   selector: 'app-rule-set-form',
   templateUrl: './rule-set-form.component.html',
-  styleUrls: ['./rule-set-form.component.scss']
+  styleUrls: ['./rule-set-form.component.scss'],
 })
 // tslint:disable-next-line: component-class-suffix
 export class RuleSetForm implements OnInit, OnDestroy {
@@ -33,8 +33,8 @@ export class RuleSetForm implements OnInit, OnDestroy {
       throw new Error('Edit mode requires rule set name and config');
     }
 
-    this.ruleSetsSubscription = this.ruleSetsService.ruleSets.subscribe(ruleSets => {
-      this.ruleSetNames = ruleSets.map(r => r.name);
+    this.ruleSetsSubscription = this.ruleSetsService.ruleSets.subscribe((ruleSets) => {
+      this.ruleSetNames = ruleSets.map((r) => r.name);
     });
 
     this.initialName = this.ruleSetName || '';
@@ -50,8 +50,8 @@ export class RuleSetForm implements OnInit, OnDestroy {
 
       bonusScoreRules: this.fb.group(
         Object.fromEntries(
-          $enum(BonusScore).map(value => {
-            const isSelected = initialConfig.bonusScoreRules.some(v => v === value);
+          $enum(BonusScore).map((value) => {
+            const isSelected = initialConfig.bonusScoreRules.some((v) => v === value);
             return [value, isSelected];
           })
         )
@@ -60,19 +60,19 @@ export class RuleSetForm implements OnInit, OnDestroy {
 
       bockroundAfter: this.fb.group(
         Object.fromEntries(
-          $enum(BockroundAfter).map(value => {
-            const isSelected = initialConfig.bockroundAfter.some(v => v === value);
+          $enum(BockroundAfter).map((value) => {
+            const isSelected = initialConfig.bockroundAfter.some((v) => v === value);
             return [value, isSelected];
           })
         )
       ),
-      consecutiveBockroundsStack: [initialConfig.consecutiveBockroundsStack, Validators.required]
+      consecutiveBockroundsStack: [initialConfig.consecutiveBockroundsStack, Validators.required],
     });
   }
 
   nameIsUnique(): ValidatorFn {
-    return control => {
-      let duplicate = this.ruleSetNames.some(n => n === control.value);
+    return (control) => {
+      let duplicate = this.ruleSetNames.some((n) => n === control.value);
       if (this.mode === 'edit' && control.value === this.initialName) {
         duplicate = false;
       }
@@ -85,13 +85,13 @@ export class RuleSetForm implements OnInit, OnDestroy {
 
   toggleBonusScore(value: string) {
     this.form.patchValue({
-      bonusScoreRules: { [value]: !this.form.value.bonusScoreRules[value] }
+      bonusScoreRules: { [value]: !this.form.value.bonusScoreRules[value] },
     });
   }
 
   toggleBockroundAfter(value: string) {
     this.form.patchValue({
-      bockroundAfter: { [value]: !this.form.value.bockroundAfter[value] }
+      bockroundAfter: { [value]: !this.form.value.bockroundAfter[value] },
     });
   }
 
@@ -107,7 +107,7 @@ export class RuleSetForm implements OnInit, OnDestroy {
     return this.form?.invalid;
   }
 
-  get value(): {initialName?: string, name: string, config: RuleSetConfig} | undefined {
+  get value(): { initialName?: string; name: string; config: RuleSetConfig } | undefined {
     if (this.invalid) {
       return undefined;
     }
@@ -119,17 +119,17 @@ export class RuleSetForm implements OnInit, OnDestroy {
       soloWinsOnTie: formData.soloWinsOnTie,
       losingPartyGetsNegatedScore: formData.losingPartyGetsNegatedScore,
 
-      bonusScoreRules: [...$enum(BonusScore).values()].filter(value => formData.bonusScoreRules[value]),
+      bonusScoreRules: [...$enum(BonusScore).values()].filter((value) => formData.bonusScoreRules[value]),
       bonusScoresOnSolo: formData.bonusScoresOnSolo,
 
-      bockroundAfter: [...$enum(BockroundAfter).values()].filter(value => formData.bockroundAfter[value]),
-      consecutiveBockroundsStack: formData.consecutiveBockroundsStack
+      bockroundAfter: [...$enum(BockroundAfter).values()].filter((value) => formData.bockroundAfter[value]),
+      consecutiveBockroundsStack: formData.consecutiveBockroundsStack,
     };
 
     return {
       initialName: this.initialName,
       name: this.form.value.name,
-      config
+      config,
     };
   }
 

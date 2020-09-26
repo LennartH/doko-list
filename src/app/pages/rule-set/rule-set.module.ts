@@ -8,6 +8,6 @@ import { RuleSetPage } from './rule-set.page';
 
 @NgModule({
   imports: [CommonModule, FormsModule, IonicModule, RuleSetPageRoutingModule, SharedModule],
-  declarations: [RuleSetPage]
+  declarations: [RuleSetPage],
 })
 export class RuleSetPageModule {}

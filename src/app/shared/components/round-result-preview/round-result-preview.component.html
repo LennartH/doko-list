@@ -1,25 +1,26 @@
 <ion-grid class="ion-no-padding">
-  <ion-row *ngFor="let detail of result.details; let isEven = even; let isFirst = first; let isLast = last"
-    class="ion-align-items-center" [class.even-row]="isEven" [class.first-row]="isFirst" [class.last-row]="isLast">
+  <ion-row
+    *ngFor="let detail of result.details; let isEven = even; let isFirst = first; let isLast = last"
+    class="ion-align-items-center"
+    [class.even-row]="isEven"
+    [class.first-row]="isFirst"
+    [class.last-row]="isLast"
+  >
     <ion-col size="9">
       {{ detail.message | message }}
     </ion-col>
     <ion-col size="1">
-      <ng-container *ngIf="detail.delta">
-        <ng-container *ngIf="detail.delta > 0">+</ng-container>{{detail.delta}}
-      </ng-container>
-      <ng-container *ngIf="detail.factor">
-        &times;{{ detail.factor }}
-      </ng-container>
+      <ng-container *ngIf="detail.delta"> <ng-container *ngIf="detail.delta > 0">+</ng-container>{{ detail.delta }} </ng-container>
+      <ng-container *ngIf="detail.factor"> &times;{{ detail.factor }} </ng-container>
     </ion-col>
     <ion-col size="2">
       <ion-text class="intermediate-points">{{ detail.intermediatePoints }}</ion-text>
     </ion-col>
   </ion-row>
   <ion-row class="result-row ion-text-center">
-    <ion-col offset="3" size="2">{{ 're' | message}}</ion-col>
-    <ion-col size=2>{{ result.re }}</ion-col>
-    <ion-col size="3">{{ 'contra' | message}}</ion-col>
-    <ion-col size=2>{{ result.contra }}</ion-col>
+    <ion-col offset="3" size="2">{{ "re" | message }}</ion-col>
+    <ion-col size="2">{{ result.re }}</ion-col>
+    <ion-col size="3">{{ "contra" | message }}</ion-col>
+    <ion-col size="2">{{ result.contra }}</ion-col>
   </ion-row>
 </ion-grid>

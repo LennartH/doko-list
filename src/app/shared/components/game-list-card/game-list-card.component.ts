@@ -8,15 +8,13 @@ import { Router } from '@angular/router';
   styleUrls: ['./game-list-card.component.scss'],
 })
 export class GameListCardComponent implements OnInit {
-
   @Input() list: GameList;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router) {}
 
   ngOnInit() {}
 
   onClick() {
     this.router.navigate(['/lists/detail', this.list.id]);
   }
-
 }

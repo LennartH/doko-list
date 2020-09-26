@@ -9,12 +9,8 @@ import { RuleSetCardComponent } from './components/rule-set-card/rule-set-card.c
 import { RuleSetForm } from './components/rule-set-form/rule-set-form.component';
 
 @NgModule({
-    imports: [CommonModule, IonicModule, ReactiveFormsModule],
-    declarations: [
-        RuleSetCardComponent, MessagePipe, RuleSetForm, GameListCardComponent, RoundResultPreviewComponent
-    ],
-    exports: [
-        RuleSetCardComponent, MessagePipe, RuleSetForm, GameListCardComponent, RoundResultPreviewComponent
-    ]
+  imports: [CommonModule, IonicModule, ReactiveFormsModule],
+  declarations: [RuleSetCardComponent, MessagePipe, RuleSetForm, GameListCardComponent, RoundResultPreviewComponent],
+  exports: [RuleSetCardComponent, MessagePipe, RuleSetForm, GameListCardComponent, RoundResultPreviewComponent],
 })
 export class SharedModule {}

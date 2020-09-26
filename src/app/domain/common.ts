@@ -1,21 +1,21 @@
 export type Party = 're' | 'contra';
 // tslint:disable-next-line: no-namespace
 export namespace Party {
-    export function values(): Party[] {
-        return ['re', 'contra'];
-    }
+  export function values(): Party[] {
+    return ['re', 'contra'];
+  }
 }
 
 export type PointThreshold = 0 | 30 | 60 | 90 | 120;
 // tslint:disable-next-line: no-namespace
 export namespace PointThreshold {
-    export function values(): PointThreshold[] {
-        return [0, 30, 60, 90, 120];
-    }
+  export function values(): PointThreshold[] {
+    return [0, 30, 60, 90, 120];
+  }
 }
 
 export interface Announcement {
-    lessThan: PointThreshold;
+  lessThan: PointThreshold;
 }
 
 export enum BockroundAfter {
@@ -23,21 +23,21 @@ export enum BockroundAfter {
   WonSchwarz = 'WonSchwarz',
   LostAnnouncement = 'LostAnnouncement',
   ZeroScore = 'ZeroScore',
-  Solo = 'Solo'
+  Solo = 'Solo',
 }
 
 export enum BonusScore {
-    WhenWinningAgainstDames = 'WhenWinningAgainstDames',
-    ForDoppelkopf = 'ForDoppelkopf',
-    WhenDulleCapturesDulle = 'WhenDulleCapturesDulle',
-    ForCaughtFox = 'ForCaughtFox',
-    WhenCharlieTakesLastTrick = 'WhenCharlieTakesLastTrick',
-    ForCaughtCharlie = 'ForCaughtCharlie',
-    WhenFoxTakesLastTrick = 'WhenFoxTakesLastTrick',
+  WhenWinningAgainstDames = 'WhenWinningAgainstDames',
+  ForDoppelkopf = 'ForDoppelkopf',
+  WhenDulleCapturesDulle = 'WhenDulleCapturesDulle',
+  ForCaughtFox = 'ForCaughtFox',
+  WhenCharlieTakesLastTrick = 'WhenCharlieTakesLastTrick',
+  ForCaughtCharlie = 'ForCaughtCharlie',
+  WhenFoxTakesLastTrick = 'WhenFoxTakesLastTrick',
 }
 
 export enum AnnouncementBehaviour {
-    FirstGetsPlusTwo = 'FirstGetsPlusTwo',
-    FirstDoubles = 'FirstDoubles',
-    AllDouble = 'AllDouble'
+  FirstGetsPlusTwo = 'FirstGetsPlusTwo',
+  FirstDoubles = 'FirstDoubles',
+  AllDouble = 'AllDouble',
 }

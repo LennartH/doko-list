@@ -6,16 +6,16 @@ import { RuleSetPage } from './rule-set.page';
 const routes: Routes = [
   {
     path: '',
-    component: RuleSetPage
+    component: RuleSetPage,
   },
   {
     path: 'create',
-    loadChildren: () => import('./create/create.module').then( m => m.CreatePageModule)
+    loadChildren: () => import('./create/create.module').then((m) => m.CreatePageModule),
   },
   {
     path: 'edit/:ruleSetName',
-    loadChildren: () => import('./edit/edit.module').then( m => m.EditPageModule)
-  }
+    loadChildren: () => import('./edit/edit.module').then((m) => m.EditPageModule),
+  },
 ];
 
 @NgModule({

@@ -2,20 +2,18 @@ import { Injectable } from '@angular/core';
 import { $enum } from 'ts-enum-util';
 import { AnnouncementBehaviour, BockroundAfter, BonusScore } from '../domain/common';
 
-
 export interface Message {
   key: string;
   args?: any[];
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class MessagesService {
-
   private readonly variablePrefix = '$';
 
-  private readonly messages: {[key: string]: string};
+  private readonly messages: { [key: string]: string };
 
   constructor() {
     this.messages = {
@@ -79,17 +77,17 @@ export class MessagesService {
       lessThanThresholdAnnouncedLost: 'Keine {0} Absage verloren',
       lessThan0: 'Schwarz',
       lessThan0Announced: 'Schwarz angesagt',
-      lessThan0AnnouncedLost: 'Schwarz Ansage verloren'
+      lessThan0AnnouncedLost: 'Schwarz Ansage verloren',
     };
 
-    $enum(AnnouncementBehaviour).forEach(value => {
+    $enum(AnnouncementBehaviour).forEach((value) => {
       this.messages[value] = $enum.mapValue(value).with({
         FirstGetsPlusTwo: 'Ansage +2, Absagen +1',
         AllDouble: 'An- und Absagen verdoppeln',
-        FirstDoubles: 'Ansage verdoppelt, Absagen +1'
+        FirstDoubles: 'Ansage verdoppelt, Absagen +1',
       });
     });
-    $enum(BonusScore).forEach(value => {
+    $enum(BonusScore).forEach((value) => {
       this.messages[value] = $enum.mapValue(value).with({
         WhenWinningAgainstDames: 'Gegen die Alten',
         ForDoppelkopf: 'Doppelkopf',
@@ -97,16 +95,16 @@ export class MessagesService {
         ForCaughtCharlie: 'Karlchen gefangen',
         WhenCharlieTakesLastTrick: 'Letzter Stich mit Karlchen',
         WhenFoxTakesLastTrick: 'Letzter Stich mit Fuchs',
-        WhenDulleCapturesDulle: 'Dulle gefangen'
+        WhenDulleCapturesDulle: 'Dulle gefangen',
       });
     });
-    $enum(BockroundAfter).forEach(value => {
+    $enum(BockroundAfter).forEach((value) => {
       this.messages[value] = $enum.mapValue(value).with({
         Solo: 'Solo',
         LostAnnouncement: 'Verlorener Ansage',
         ScoreTie: 'Gleichstand',
         WonSchwarz: 'Schwarz gewonnen',
-        ZeroScore: 'Null-Spiel'
+        ZeroScore: 'Null-Spiel',
       });
     });
   }
@@ -122,7 +120,7 @@ export class MessagesService {
       const useObject = messageArgsIsObject || argsIsObject;
       const args1 = messageArgsIsObject ? keyOrMessage.args[0] : keyOrMessage.args;
       const args2 = argsIsObject ? args[0] : args;
-      args = useObject ? [{...args1, ...args2}] : [...args1, ...args2];
+      args = useObject ? [{ ...args1, ...args2 }] : [...args1, ...args2];
     }
 
     const message = this.messages[key];

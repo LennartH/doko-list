@@ -22,7 +22,7 @@ import { DetailPage } from './detail.page';
     PartyAnnouncementComponent,
     ListDetailMenuComponent,
     RoundDetailsCardComponent,
-    RoundRowComponent
+    RoundRowComponent,
   ],
   entryComponents: [AddRoundModalComponent, ListDetailMenuComponent, RoundDetailsCardComponent, RuleSetCardComponent],
 })

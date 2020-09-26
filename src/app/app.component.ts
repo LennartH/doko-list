@@ -2,16 +2,13 @@ import { Component, HostListener } from '@angular/core';
 import { Capacitor } from '@capacitor/core';
 import { Platform } from '@ionic/angular';
 
-
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
-  styleUrls: ['app.component.scss']
+  styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
-  constructor(
-    private platform: Platform,
-  ) {
+  constructor(private platform: Platform) {
     this.initializeApp();
   }
 
@@ -22,7 +19,6 @@ export class AppComponent {
       event.preventDefault();
     }
   }
-
 
   initializeApp() {
     this.platform.ready().then(() => {

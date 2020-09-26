@@ -7,11 +7,9 @@ import { RoundResult } from 'src/app/domain/rule-set';
   styleUrls: ['./round-result-preview.component.scss'],
 })
 export class RoundResultPreviewComponent implements OnInit {
-
   @Input() result: RoundResult;
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {}
-
 }

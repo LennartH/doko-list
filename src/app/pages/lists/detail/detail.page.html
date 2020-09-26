@@ -3,9 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/lists"></ion-back-button>
     </ion-buttons>
-    <ion-title>
-      {{'listOfThe' | message }} {{ list?.startDate | date:'shortDate' }}
-    </ion-title>
+    <ion-title> {{'listOfThe' | message }} {{ list?.startDate | date:'shortDate' }} </ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="onMenuClicked($event)">
         <ion-icon slot="icon-only" name="ellipsis-vertical"></ion-icon>
@@ -42,8 +40,12 @@
         <ion-row *ngIf="isStartOfCycle(i) && !isFirst" class="separator-row"></ion-row>
         <app-round-row [roundNumber]="i" [list]="list" [points]="score"></app-round-row>
       </ng-container>
-      <app-round-row *ngIf="!isGridOverflowing && scores.length > 0" [roundNumber]="scores.length - 1" [list]="list"
-        [points]="scores[scores.length - 1]"></app-round-row>
+      <app-round-row
+        *ngIf="!isGridOverflowing && scores.length > 0"
+        [roundNumber]="scores.length - 1"
+        [list]="list"
+        [points]="scores[scores.length - 1]"
+      ></app-round-row>
     </ion-grid>
 
     <ion-fab *ngIf="!list.isFinished" vertical="bottom" horizontal="end" slot="fixed">

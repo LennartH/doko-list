@@ -5,8 +5,8 @@
         <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title *ngIf="roundNumber === undefined">{{ 'newRound' | message }}</ion-title>
-    <ion-title *ngIf="roundNumber !== undefined">{{ 'editRound' | message: roundNumber + 1 }}</ion-title>
+    <ion-title *ngIf="roundNumber === undefined">{{ "newRound" | message }}</ion-title>
+    <ion-title *ngIf="roundNumber !== undefined">{{ "editRound" | message: roundNumber + 1 }}</ion-title>
     <ion-buttons slot="primary">
       <ion-button (click)="onConfirm()" [disabled]="invalid">
         <ion-icon name="checkmark" slot="icon-only"></ion-icon>
@@ -21,15 +21,20 @@
       <ion-col class="ion-no-padding">
         <ion-item-divider>
           <ion-text color="primary">
-            <h2>{{ 'parties' | message }}</h2>
+            <h2>{{ "parties" | message }}</h2>
           </ion-text>
         </ion-item-divider>
 
         <div class="player-chips ion-text-center ion-padding-horizontal">
-          <ion-chip class="toggle-chip player-chip" *ngFor="let player of list.players"
-            [class.selected-chip]="playerParties[player] === 're'" (click)="togglePlayerParty(player)">
-            <ion-text>{{ player }}
-              {{ reCount === 1 && playerParties[player] === 're' ? 'Re (Solo)' : messages.get(playerParties[player]) }}
+          <ion-chip
+            class="toggle-chip player-chip"
+            *ngFor="let player of list.players"
+            [class.selected-chip]="playerParties[player] === 're'"
+            (click)="togglePlayerParty(player)"
+          >
+            <ion-text
+              >{{ player }}
+              {{ reCount === 1 && playerParties[player] === "re" ? "Re (Solo)" : messages.get(playerParties[player]) }}
             </ion-text>
           </ion-chip>
         </div>
@@ -38,9 +43,13 @@
 
     <ion-row>
       <ion-col class="ion-no-padding">
-        <app-round-data-form #f [ruleSetConfig]="list.ruleSet.config" [isSolo]="reCount === 1"
+        <app-round-data-form
+          #f
+          [ruleSetConfig]="list.ruleSet.config"
+          [isSolo]="reCount === 1"
           [consecutiveBockrounds]="list?.getConsecutiveBockrounds()"
-          [initialRoundData]="list.rounds[roundNumber]?.roundData">
+          [initialRoundData]="list.rounds[roundNumber]?.roundData"
+        >
         </app-round-data-form>
       </ion-col>
     </ion-row>
@@ -53,15 +62,19 @@
       <ion-col class="ion-no-padding">
         <!-- Hack to calculate the result only once -->
         <ng-container *ngIf="calculateResult() as result">
-          <ion-item-divider class="result-preview-header" [class.ripple-parent]="valid" [class.ion-activatable]="valid"
-            (click)="onResultPreviewHeaderClicked()">
-            <h2>{{ 'points' | message }}</h2>
+          <ion-item-divider
+            class="result-preview-header"
+            [class.ripple-parent]="valid"
+            [class.ion-activatable]="valid"
+            (click)="onResultPreviewHeaderClicked()"
+          >
+            <h2>{{ "points" | message }}</h2>
             <ion-grid *ngIf="!displayResultDetails" class="ion-no-padding result-preview">
               <ion-row>
-                <ion-col offset="1" size="2" class="ion-text-center">{{ 're' | message }}</ion-col>
-                <ion-col size=2>{{ result.re || '-' }}</ion-col>
-                <ion-col size="3" class="ion-text-center">{{ 'contra' | message }}</ion-col>
-                <ion-col size=2>{{ result.contra || '-' }}</ion-col>
+                <ion-col offset="1" size="2" class="ion-text-center">{{ "re" | message }}</ion-col>
+                <ion-col size="2">{{ result.re || "-" }}</ion-col>
+                <ion-col size="3" class="ion-text-center">{{ "contra" | message }}</ion-col>
+                <ion-col size="2">{{ result.contra || "-" }}</ion-col>
               </ion-row>
             </ion-grid>
             <div *ngIf="valid" class="chevron-container">
@@ -69,21 +82,19 @@
             </div>
             <ion-ripple-effect></ion-ripple-effect>
           </ion-item-divider>
-          <app-round-result-preview *ngIf="displayResultDetails" [result]="result">
-          </app-round-result-preview>
+          <app-round-result-preview *ngIf="displayResultDetails" [result]="result"> </app-round-result-preview>
         </ng-container>
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col class="ion-no-padding">
         <ion-button class="big-footer-button" strong expand="block" color="danger" fill="outline" (click)="onCancel()">
-          {{ 'cancel' | message }}
+          {{ "cancel" | message }}
         </ion-button>
       </ion-col>
       <ion-col>
-        <ion-button class="big-footer-button" strong expand="block" color="primary" [disabled]="invalid"
-          (click)="onConfirm()">
-          {{ 'done' | message }}
+        <ion-button class="big-footer-button" strong expand="block" color="primary" [disabled]="invalid" (click)="onConfirm()">
+          {{ "done" | message }}
         </ion-button>
       </ion-col>
     </ion-row>

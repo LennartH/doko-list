@@ -11,7 +11,7 @@ const { Storage } = Plugins;
 const storageKeyPrefix = 'list/';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ListsService {
   private _lists: GameList[] = [];
@@ -21,11 +21,8 @@ export class ListsService {
 
   constructor() {
     Storage.keys().then(({ keys }) => {
-      Promise.all(
-        keys.filter(k => k.startsWith(storageKeyPrefix))
-            .map(key => Storage.get({ key }))
-      ).then(values => {
-        this._lists = values.map(v => GameList.fromJson(v.value));
+      Promise.all(keys.filter((k) => k.startsWith(storageKeyPrefix)).map((key) => Storage.get({ key }))).then((values) => {
+        this._lists = values.map((v) => GameList.fromJson(v.value));
         this.isInitialized = true;
         this.listsSubject.next(this._lists);
       });
@@ -38,9 +35,9 @@ export class ListsService {
 
   list(id: string): Observable<GameList> {
     return this.lists.pipe(
-      delayWhen(() => this.isInitialized ? interval(0) : interval(500)),
+      delayWhen(() => (this.isInitialized ? interval(0) : interval(500))),
       take(1),
-      map(lists => lists.find(l => l.id === id))
+      map((lists) => lists.find((l) => l.id === id))
     );
   }
 
@@ -50,7 +47,7 @@ export class ListsService {
     startDate.setHours(0, 0, 0, 0);
 
     const list = new GameList(id, startDate, players, ruleSetName, ruleSetConfig);
-    Storage.set({key: storageKeyPrefix + id, value: list.toJson()});
+    Storage.set({ key: storageKeyPrefix + id, value: list.toJson() });
     this._lists.push(list);
     this.listsSubject.next(this._lists);
 
@@ -58,27 +55,27 @@ export class ListsService {
   }
 
   finishList(id: string) {
-    const list = this._lists.find(l => l.id === id);
+    const list = this._lists.find((l) => l.id === id);
     if (list === undefined || list.endDate !== undefined) {
       return;
     }
     list.endDate = new Date();
     list.endDate.setHours(0, 0, 0, 0);
-    Storage.set({key: storageKeyPrefix + id, value: list.toJson()});
+    Storage.set({ key: storageKeyPrefix + id, value: list.toJson() });
     this.listsSubject.next(this._lists);
   }
 
   deleteList(id: string) {
-    this._lists = this._lists.filter(l => l.id !== id);
+    this._lists = this._lists.filter((l) => l.id !== id);
     this.listsSubject.next(this._lists);
-    Storage.remove({key: storageKeyPrefix + id});
+    Storage.remove({ key: storageKeyPrefix + id });
   }
 
   saveList(id: string) {
-    const list = this._lists.find(l => l.id === id);
+    const list = this._lists.find((l) => l.id === id);
     if (list === undefined || list.endDate !== undefined) {
       return;
     }
-    Storage.set({key: storageKeyPrefix + id, value: list.toJson()});
+    Storage.set({ key: storageKeyPrefix + id, value: list.toJson() });
   }
 }

@@ -1,18 +1,18 @@
 <ion-card>
   <ion-card-header>
-    <ion-card-title class="ion-text-center">{{ "roundNumber" | message: roundNumber + 1 }}</ion-card-title>
+    <ion-card-title class="ion-text-center">{{ 'roundNumber' | message: roundNumber + 1 }}</ion-card-title>
   </ion-card-header>
   <ion-card-content class="ion-no-padding">
     <ion-grid class="main-content">
       <ion-row class="scores-row">
         <ion-col class="ion-no-padding ion-text-end party-column">
-          {{ "re" | message }}
+          {{ 're' | message }}
         </ion-col>
         <ion-col class="ion-no-padding ion-text-start score-column">
           {{ round.roundData.points.re }}
         </ion-col>
         <ion-col class="ion-no-padding ion-text-end party-column">
-          {{ "contra" | message }}
+          {{ 'contra' | message }}
         </ion-col>
         <ion-col class="ion-no-padding ion-text-start score-column">
           {{ round.roundData.points.contra }}
@@ -32,13 +32,13 @@
       </ion-row>
       <ion-row class="result-row">
         <ion-col class="ion-no-padding ion-text-center" offset="3" size="1">
-          {{ "re" | message }}
+          {{ 're' | message }}
         </ion-col>
         <ion-col class="ion-no-padding ion-text-center" size="2">
           {{ round.result.re }}
         </ion-col>
         <ion-col class="ion-no-padding ion-text-center" offset="1" size="3">
-          {{ "contra" | message }}
+          {{ 'contra' | message }}
         </ion-col>
         <ion-col class="ion-no-padding ion-text-center" size="2">
           {{ round.result.contra }}

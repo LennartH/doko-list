@@ -5,8 +5,8 @@
         <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title *ngIf="roundNumber === undefined">{{ "newRound" | message }}</ion-title>
-    <ion-title *ngIf="roundNumber !== undefined">{{ "editRound" | message: roundNumber + 1 }}</ion-title>
+    <ion-title *ngIf="roundNumber === undefined">{{ 'newRound' | message }}</ion-title>
+    <ion-title *ngIf="roundNumber !== undefined">{{ 'editRound' | message: roundNumber + 1 }}</ion-title>
     <ion-buttons slot="primary">
       <ion-button (click)="onConfirm()" [disabled]="invalid">
         <ion-icon name="checkmark" slot="icon-only"></ion-icon>
@@ -21,7 +21,7 @@
       <ion-col class="ion-no-padding">
         <ion-item-divider>
           <ion-text color="primary">
-            <h2>{{ "parties" | message }}</h2>
+            <h2>{{ 'parties' | message }}</h2>
           </ion-text>
         </ion-item-divider>
 
@@ -34,7 +34,7 @@
           >
             <ion-text
               >{{ player }}
-              {{ reCount === 1 && playerParties[player] === "re" ? "Re (Solo)" : messages.get(playerParties[player]) }}
+              {{ reCount === 1 && playerParties[player] === 're' ? 'Re (Solo)' : messages.get(playerParties[player]) }}
             </ion-text>
           </ion-chip>
         </div>
@@ -68,13 +68,13 @@
             [class.ion-activatable]="valid"
             (click)="onResultPreviewHeaderClicked()"
           >
-            <h2>{{ "points" | message }}</h2>
+            <h2>{{ 'points' | message }}</h2>
             <ion-grid *ngIf="!displayResultDetails" class="ion-no-padding result-preview">
               <ion-row>
-                <ion-col offset="1" size="2" class="ion-text-center">{{ "re" | message }}</ion-col>
-                <ion-col size="2">{{ result.re || "-" }}</ion-col>
-                <ion-col size="3" class="ion-text-center">{{ "contra" | message }}</ion-col>
-                <ion-col size="2">{{ result.contra || "-" }}</ion-col>
+                <ion-col offset="1" size="2" class="ion-text-center">{{ 're' | message }}</ion-col>
+                <ion-col size="2">{{ result.re || '-' }}</ion-col>
+                <ion-col size="3" class="ion-text-center">{{ 'contra' | message }}</ion-col>
+                <ion-col size="2">{{ result.contra || '-' }}</ion-col>
               </ion-row>
             </ion-grid>
             <div *ngIf="valid" class="chevron-container">
@@ -89,12 +89,12 @@
     <ion-row>
       <ion-col class="ion-no-padding">
         <ion-button class="big-footer-button" strong expand="block" color="danger" fill="outline" (click)="onCancel()">
-          {{ "cancel" | message }}
+          {{ 'cancel' | message }}
         </ion-button>
       </ion-col>
       <ion-col>
         <ion-button class="big-footer-button" strong expand="block" color="primary" [disabled]="invalid" (click)="onConfirm()">
-          {{ "done" | message }}
+          {{ 'done' | message }}
         </ion-button>
       </ion-col>
     </ion-row>

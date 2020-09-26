@@ -1,14 +1,14 @@
 <ion-list lines="full">
   <ion-item button (click)="onRulesClicked()">
     <ion-icon slot="start" name="information-circle-outline"></ion-icon>
-    <ion-label>{{ "rules" | message }}</ion-label>
+    <ion-label>{{ 'rules' | message }}</ion-label>
   </ion-item>
   <ion-item *ngIf="!list.isFinished" button (click)="onFinishClicked()">
     <ion-icon slot="start" name="lock-closed-outline"></ion-icon>
-    <ion-label>{{ "endList" | message }}</ion-label>
+    <ion-label>{{ 'endList' | message }}</ion-label>
   </ion-item>
   <ion-item button (click)="onDeleteClicked()" lines="none">
     <ion-icon slot="start" name="trash-outline" color="danger"></ion-icon>
-    <ion-label color="danger">{{ "delete" | message }}</ion-label>
+    <ion-label color="danger">{{ 'delete' | message }}</ion-label>
   </ion-item>
 </ion-list>

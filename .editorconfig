@@ -11,3 +11,6 @@ trim_trailing_whitespace = true
 quote_type = single
 curly_bracket_next_line = false
 spaces_around_operators = true
+
+[*.html]
+quote_type = single

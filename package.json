@@ -2,7 +2,9 @@
   "name": "doko-list",
   "version": "0.0.1",
   "author": "Lennart Hensler",
+  "private": true,
   "homepage": "https://github.com/LennartH/doko-list",
+  "description": "An app to easily calculate the points when playing Doppelkopf",
   "scripts": {
     "ng": "ng",
     "start": "ionic serve --no-open",
@@ -12,7 +14,11 @@
     "app": "ionic capacitor run android",
     "sync": "ionic capacitor sync"
   },
-  "private": true,
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged && ng lint --fix"
+    }
+  },
   "dependencies": {
     "@angular/common": "^9.1.12",
     "@angular/core": "^9.1.12",
@@ -48,6 +54,7 @@
     "@types/node": "^12.12.62",
     "@types/uuid": "^7.0.4",
     "codelyzer": "^5.1.2",
+    "husky": "^4.3.0",
     "jasmine-core": "~3.4.0",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "^5.2.2",
@@ -55,10 +62,11 @@
     "karma-coverage-istanbul-reporter": "~2.0.1",
     "karma-jasmine": "~2.0.1",
     "karma-jasmine-html-reporter": "^1.5.4",
+    "prettier": "^2.1.2",
+    "pretty-quick": "^3.0.2",
     "protractor": "^7.0.0",
     "ts-node": "~7.0.0",
     "tslint": "~5.15.0",
     "typescript": "~3.8.3"
-  },
-  "description": "An Ionic project"
+  }
 }

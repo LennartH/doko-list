@@ -27,8 +27,8 @@ export class MessagesService {
       end: 'Beenden',
       none: 'Keine',
 
-      deletePromptHeader: "{0} Löschen?",
-      deletePromptMessage: "{0} endgültig löschen?",
+      deletePromptHeader: '{0} Löschen?',
+      deletePromptMessage: '{0} endgültig löschen?',
 
       list: 'Liste',
       yourLists: 'Deine Listen',
@@ -47,8 +47,8 @@ export class MessagesService {
       addRound: 'Runde hinzufügen',
       round: 'Runde',
       roundNumber: 'Runde {0}',
-      endListPromptHeader: "Liste Beenden?",
-      endListPromptMessage: "Liste wirklich beenden? Danach können keine weiteren Runden hinzugefügt werden.",
+      endListPromptHeader: 'Liste Beenden?',
+      endListPromptMessage: 'Liste wirklich beenden? Danach können keine weiteren Runden hinzugefügt werden.',
       newRound: 'Neue Runde',
       editRound: 'Runde {0} Ändern',
       parties: 'Parteien',
@@ -62,7 +62,7 @@ export class MessagesService {
       ruleSets: 'Regelsätze',
       newRuleSet: 'Neuer Regelsatz',
       editRuleSet: 'Regelsatz Bearbeiten',
-    
+
       re: 'Re',
       contra: 'Contra',
       schwarz: 'Schwarz',
@@ -125,7 +125,7 @@ export class MessagesService {
       args = useObject ? [{...args1, ...args2}] : [...args1, ...args2];
     }
 
-    let message = this.messages[key];
+    const message = this.messages[key];
     if (message === undefined) {
       console.error(`Unknown message key ${key}`);
       return key;

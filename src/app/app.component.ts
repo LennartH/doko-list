@@ -15,7 +15,7 @@ export class AppComponent {
     this.initializeApp();
   }
 
-  @HostListener("contextmenu", ['$event'])
+  @HostListener('contextmenu', ['$event'])
   preventContextMenuGlobally(event: MouseEvent) {
     // Right click events on mobile have button 0 but coordinates (1, 1)
     if (event.button === 0 && event.screenX !== 1 && event.screenY !== 1) {

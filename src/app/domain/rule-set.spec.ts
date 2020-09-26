@@ -190,7 +190,7 @@ describe(`RuleSet using announcement behaviour ${AnnouncementBehaviour.FirstGets
       const expectedResult: RoundResult = {
         ...expected,
         details: []
-      }
+      };
       expect(ruleSet.calculateScore(data.builder.build())).toEqual(expectedResult);
     });
   });

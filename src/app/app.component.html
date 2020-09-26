@@ -9,7 +9,7 @@
             </ion-button>
           </ion-menu-toggle>
         </ion-buttons>
-        <ion-title> Doppelkopf Listen </ion-title>
+        <ion-title>{{ "appTitle" | message }}</ion-title>
       </ion-toolbar>
     </ion-header>
 
@@ -18,15 +18,15 @@
         <ion-menu-toggle>
           <ion-item routerLink="/lists" lines="full">
             <ion-icon name="reader" slot="start"></ion-icon>
-            <ion-label>Listen</ion-label>
+            <ion-label>{{ "lists" | message }}</ion-label>
           </ion-item>
           <ion-item routerLink="/rule-set">
             <ion-icon name="options" slot="start"></ion-icon>
-            <ion-label>Regeln</ion-label>
+            <ion-label>{{ "rules" | message }}</ion-label>
           </ion-item>
           <ion-item routerLink="/groups" button>
             <ion-icon name="people" slot="start"></ion-icon>
-            <ion-label>Gruppen</ion-label>
+            <ion-label>{{ "groups" | message }}</ion-label>
           </ion-item>
         </ion-menu-toggle>
       </ion-list>

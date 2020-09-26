@@ -17,6 +17,8 @@ export class MessagesService {
 
   constructor() {
     this.messages = {
+      appTitle: 'Doppelkopf Listen',
+
       cancel: 'Abbrechen',
       delete: 'Löschen',
       copy: 'Kopieren',
@@ -29,6 +31,7 @@ export class MessagesService {
       deletePromptMessage: '{0} endgültig löschen?',
 
       list: 'Liste',
+      lists: 'Listen',
       yourLists: 'Deine Listen',
       noListsAvailable: 'Keine Listen vorhanden',
       noActiveListsAvailable: 'Keine aktiven Listen vorhanden',
@@ -78,6 +81,8 @@ export class MessagesService {
       lessThan0: 'Schwarz',
       lessThan0Announced: 'Schwarz angesagt',
       lessThan0AnnouncedLost: 'Schwarz Ansage verloren',
+
+      groups: 'Gruppen',
     };
 
     $enum(AnnouncementBehaviour).forEach((value) => {

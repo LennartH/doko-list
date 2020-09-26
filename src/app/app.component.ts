@@ -1,6 +1,7 @@
 import { Component, HostListener } from '@angular/core';
 import { Capacitor } from '@capacitor/core';
 import { Platform } from '@ionic/angular';
+import { MessagePipe } from './pipes/message.pipe';
 
 @Component({
   selector: 'app-root',

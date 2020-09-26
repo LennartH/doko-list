@@ -1,0 +1,9 @@
+.gitignore
+.angular.json
+.browserslist
+.capacitor.config.json
+.ionic.config.json
+.karma.conf.json
+package*.json
+tsconfig*.json
+tslint.json

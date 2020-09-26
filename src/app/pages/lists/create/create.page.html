@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/lists"></ion-back-button>
     </ion-buttons>
-    <ion-title>Neue Liste</ion-title>
+    <ion-title>{{ 'newList' | message }}</ion-title>
     <ion-buttons slot="primary">
       <ion-button (click)="onConfirm()" [disabled]="form.invalid">
         <ion-icon name="checkmark" slot="icon-only"></ion-icon>
@@ -20,7 +20,7 @@
           <ion-item-group>
             <ion-item-divider>
               <ion-text color="primary">
-                <h2>Spieler</h2>
+                <h2>{{ 'player' | message }}</h2>
               </ion-text>
             </ion-item-divider>
 
@@ -36,7 +36,7 @@
       <ion-row *ngIf="form.get('players').errors?.duplicatedNames && (form.dirty || form.touched)">
         <ion-col>
           <ion-item class="error-item" lines="none">
-            Die Spielernamen müssen eindeutig sein.
+            {{ 'duplicatedPlayerNamesError' | message }}
           </ion-item>
         </ion-col>
       </ion-row>
@@ -45,7 +45,7 @@
         <ion-col class="ion-no-padding">
           <ion-item-divider>
             <ion-text color="primary">
-              <h2>Regeln</h2>
+              <h2>{{ 'rules' | message }}</h2>
             </ion-text>
           </ion-item-divider>
 
@@ -57,7 +57,7 @@
       <ion-row>
         <ion-col>
           <ion-button class="add-rule-set-button" expand="block" strong (click)="onCreateRuleSet()">
-            Neuer Regelsatz
+            {{ 'newRuleSet' | message }}
           </ion-button>
         </ion-col>
       </ion-row>
@@ -71,13 +71,13 @@
       <ion-col class="ion-no-padding">
         <ion-button class="big-footer-button" strong expand="block" color="danger" fill="outline" routerLink="/lists"
           routerDirection="back">
-          Abbrechen
+          {{ 'cancel' | message }}
         </ion-button>
       </ion-col>
       <ion-col>
         <ion-button class="big-footer-button" strong expand="block" color="primary" [disabled]="form.invalid"
           (click)="onConfirm()">
-          Fertig
+          {{ 'done' | message }}
         </ion-button>
       </ion-col>
     </ion-row>

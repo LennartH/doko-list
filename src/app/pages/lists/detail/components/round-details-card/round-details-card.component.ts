@@ -13,6 +13,6 @@ export class RoundDetailsCardComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
 }

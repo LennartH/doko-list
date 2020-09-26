@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController, ModalController, PopoverController } from '@ionic/angular';
 import { GameList } from 'src/app/domain/list';
 import { ListsService } from 'src/app/services/lists.service';
+import { MessagesService } from 'src/app/services/messages.service';
 import { AddRoundModalComponent } from './components/add-round-modal/add-round-modal.component';
 import { ListDetailMenuComponent } from './components/list-detail-menu/list-detail-menu.component';
 import { RoundDetailsCardComponent } from './components/round-details-card/round-details-card.component';
@@ -22,7 +23,8 @@ export class DetailPage implements OnInit {
     private router: Router,
     private modalController: ModalController,
     private popoverController: PopoverController,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private messages: MessagesService,
   ) {}
 
   ngOnInit() {
@@ -130,15 +132,15 @@ export class DetailPage implements OnInit {
 
   async deleteRound(roundNumber: number) {
     const alert = await this.alertController.create({
-      header: 'Runde Löschen?',
-      message: `Runde ${roundNumber + 1} wirklich dauerhaft löschen?`,
+      header: this.messages.get('deletePromptHeader', this.messages.get('round')),
+      message: this.messages.get('deletePromptMessage', `${this.messages.get('round')} ${roundNumber + 1}`),
       buttons: [
         {
-          text: 'Abbrechen',
+          text: this.messages.get('cancel'),
           role: 'cancel',
         },
         {
-          text: 'Löschen',
+          text: this.messages.get('delete'),
           cssClass: 'danger',
           handler: () => {
             this.list.removeRound(roundNumber);

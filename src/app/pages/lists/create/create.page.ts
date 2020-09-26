@@ -63,7 +63,7 @@ export class CreatePage implements OnInit, OnDestroy {
   }
 
   private isPlayerNameUnique(index: number, names: string[]): boolean {
-    if (names[index].length === 0) {
+    if (names[index]?.length === 0) {
       return true;
     }
     return !names.some((name, i) => i !== index && name === names[index]);

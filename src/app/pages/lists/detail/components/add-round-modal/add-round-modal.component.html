@@ -5,8 +5,8 @@
         <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title *ngIf="roundNumber === undefined">Neue Runde</ion-title>
-    <ion-title *ngIf="roundNumber !== undefined">Runde {{ roundNumber + 1 }} Ändern</ion-title>
+    <ion-title *ngIf="roundNumber === undefined">{{ 'newRound' | message }}</ion-title>
+    <ion-title *ngIf="roundNumber !== undefined">{{ 'editRound' | message: roundNumber + 1 }}</ion-title>
     <ion-buttons slot="primary">
       <ion-button (click)="onConfirm()" [disabled]="invalid">
         <ion-icon name="checkmark" slot="icon-only"></ion-icon>
@@ -21,7 +21,7 @@
       <ion-col class="ion-no-padding">
         <ion-item-divider>
           <ion-text color="primary">
-            <h2>Parteien</h2>
+            <h2>{{ 'parties' | message }}</h2>
           </ion-text>
         </ion-item-divider>
 
@@ -55,12 +55,12 @@
         <ng-container *ngIf="calculateResult() as result">
           <ion-item-divider class="result-preview-header" [class.ripple-parent]="valid" [class.ion-activatable]="valid"
             (click)="onResultPreviewHeaderClicked()">
-            <h2>Punkte</h2>
+            <h2>{{ 'points' | message }}</h2>
             <ion-grid *ngIf="!displayResultDetails" class="ion-no-padding result-preview">
               <ion-row>
-                <ion-col offset="1" size="2" class="ion-text-center">{{ 're' | message}}</ion-col>
+                <ion-col offset="1" size="2" class="ion-text-center">{{ 're' | message }}</ion-col>
                 <ion-col size=2>{{ result.re || '-' }}</ion-col>
-                <ion-col size="3" class="ion-text-center">{{ 'contra' | message}}</ion-col>
+                <ion-col size="3" class="ion-text-center">{{ 'contra' | message }}</ion-col>
                 <ion-col size=2>{{ result.contra || '-' }}</ion-col>
               </ion-row>
             </ion-grid>
@@ -77,13 +77,13 @@
     <ion-row>
       <ion-col class="ion-no-padding">
         <ion-button class="big-footer-button" strong expand="block" color="danger" fill="outline" (click)="onCancel()">
-          Abbrechen
+          {{ 'cancel' | message }}
         </ion-button>
       </ion-col>
       <ion-col>
         <ion-button class="big-footer-button" strong expand="block" color="primary" [disabled]="invalid"
           (click)="onConfirm()">
-          Fertig
+          {{ 'done' | message }}
         </ion-button>
       </ion-col>
     </ion-row>

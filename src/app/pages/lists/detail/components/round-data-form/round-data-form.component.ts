@@ -31,8 +31,6 @@ export class RoundDataFormComponent implements OnInit, AfterViewInit {
 
   private partyRotation: Party[] = [undefined, 're', 'contra'];
 
-  constructor(public messages: MessagesService) {}
-
   ngOnInit() {
     if (this.initialRoundData) {
       this.rePoints = this.initialRoundData.points.re;

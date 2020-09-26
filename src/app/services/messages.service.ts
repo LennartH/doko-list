@@ -1,11 +1,19 @@
 import { Injectable } from '@angular/core';
 import { $enum } from 'ts-enum-util';
-import { AnnouncementBehaviour, BonusScore, BockroundAfter, PointThreshold, Party } from '../domain/common';
+import { AnnouncementBehaviour, BockroundAfter, BonusScore } from '../domain/common';
+
+
+export interface Message {
+  key: string;
+  args?: any[];
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class MessagesService {
+
+  private readonly variablePrefix = '$';
 
   private readonly messages: {[key: string]: string};
 
@@ -16,35 +24,63 @@ export class MessagesService {
       copy: 'Kopieren',
       edit: 'Ändern',
       done: 'Fertig',
-      
+      end: 'Beenden',
+      none: 'Keine',
+
+      deletePromptHeader: "{0} Löschen?",
+      deletePromptMessage: "{0} endgültig löschen?",
+
+      list: 'Liste',
+      yourLists: 'Deine Listen',
+      noListsAvailable: 'Keine Listen vorhanden',
+      noActiveListsAvailable: 'Keine aktiven Listen vorhanden',
+      activeLists: 'Aktive Listen',
+      finishedLists: 'Abgeschlossene Listen',
+      startNewList: 'Neue Liste beginnen',
       newList: 'Neue Liste',
+      player: 'Spieler',
+      duplicatedPlayerNamesError: 'Die Spielernamen müssen eindeutig sein.',
+      rules: 'Regeln',
+      endList: 'Liste beenden',
+      listOfThe: 'Liste vom',
+      noRoundAdded: 'Keine Runden eingetragen',
+      addRound: 'Runde hinzufügen',
+      round: 'Runde',
+      roundNumber: 'Runde {0}',
+      endListPromptHeader: "Liste Beenden?",
+      endListPromptMessage: "Liste wirklich beenden? Danach können keine weiteren Runden hinzugefügt werden.",
+      newRound: 'Neue Runde',
+      editRound: 'Runde {0} Ändern',
+      parties: 'Parteien',
+      points: 'Punkte',
+      eyes: 'Augen',
+      announcements: 'An- und Absagen',
+      bonusScores: 'Sonderpunkte',
+      doppelkopf: 'Doppelkopf',
+
+      ruleSet: 'Regelsatz',
       ruleSets: 'Regelsätze',
       newRuleSet: 'Neuer Regelsatz',
       editRuleSet: 'Regelsatz Bearbeiten',
     
-      deleteRuleSetHeader: "'{0}' Löschen?",
-      deleteRuleSetPrompt: "Regelsatz '{0}' endgültig löschen?",
-    
       re: 'Re',
       contra: 'Contra',
-    
       schwarz: 'Schwarz',
       won: 'Gewonnen',
-      reAnnounced: 'Re angesagt',
-      reAnnouncedLost: 'Re Ansage verloren',
-      contraAnnounced: 'Contra angesagt',
-      contraAnnouncedLost: 'Contra Ansage verloren',
       bockround: 'Bockrunde',
       bockrounds: 'Bockrunden',
+
+      noAnnouncementBy: 'Keine Ansage von {0}',
+      noAnnouncement: 'Keine Absage',
+      partyAnnounced: '{0} angesagt',
+      partyAnnouncedLost: '{0} Ansage verloren',
+      lessThanThreshold: 'Keine {0}',
+      lessThanThresholdAnnounced: 'Keine {0} angesagt',
+      lessThanThresholdAnnouncedLost: 'Keine {0} Absage verloren',
+      lessThan0: 'Schwarz',
       lessThan0Announced: 'Schwarz angesagt',
       lessThan0AnnouncedLost: 'Schwarz Ansage verloren'
     };
-
-    PointThreshold.values().slice(1, -1).forEach(threshold => {
-      this.messages[`lessThan${threshold}`] = `Keine ${threshold}`;
-      this.messages[`lessThan${threshold}Announced`] = `${threshold} abgesagt`;
-      this.messages[`lessThan${threshold}AnnouncedLost`] = `Keine ${threshold} Absage verloren`;
-    });
 
     $enum(AnnouncementBehaviour).forEach(value => {
       this.messages[value] = $enum.mapValue(value).with({
@@ -75,7 +111,20 @@ export class MessagesService {
     });
   }
 
-  get(key: string, ...args: any[]): string {
+  get(keyOrMessage: string | Message, ...args: any[]): string {
+    let key: string;
+    if (typeof keyOrMessage === 'string') {
+      key = keyOrMessage;
+    } else {
+      key = keyOrMessage.key;
+      const messageArgsIsObject = this.areArgsSingleObject(keyOrMessage.args);
+      const argsIsObject = this.areArgsSingleObject(args);
+      const useObject = messageArgsIsObject || argsIsObject;
+      const args1 = messageArgsIsObject ? keyOrMessage.args[0] : keyOrMessage.args;
+      const args2 = argsIsObject ? args[0] : args;
+      args = useObject ? [{...args1, ...args2}] : [...args1, ...args2];
+    }
+
     let message = this.messages[key];
     if (message === undefined) {
       console.error(`Unknown message key ${key}`);
@@ -90,25 +139,48 @@ export class MessagesService {
       return message;
     }
 
-    const argsType = typeof args[0];
-    if (argsType === 'string' || argsType === 'number') {
-      return message.replace(/{(\d+)}/gi, (match, number) => {
-        number = Number(number);
-        return number in args ? args[number] : match;
-      });
-    } else {
+    if (this.areArgsSingleObject(args)) {
       args = args[0];
       const keys = Object.keys(args);
       const regex = /{(\d?[a-zA-Z]\w*)}|{(\d+)}/gi;
       return message.replace(regex, (match, key, number) => {
+        let arg: any;
         if (key && key in args) {
-          return args[key];
+          arg = args[key];
         }
         if (number && number < keys.length) {
-          return args[keys[Number(number)]];
+          arg = args[keys[Number(number)]];
         }
-        return match;
+
+        if (arg) {
+          return this.argReplacement(arg);
+        } else {
+          return match;
+        }
+      });
+    } else {
+      return message.replace(/{(\d+)}/gi, (match, number) => {
+        number = Number(number);
+        return number in args ? this.argReplacement(args[number]) : match;
       });
     }
+  }
+
+  private argReplacement(arg: any): string {
+    if (typeof arg !== 'string') {
+      return arg;
+    }
+    if (!arg.startsWith(this.variablePrefix)) {
+      return arg.replace(/^\\\$/, '$');
+    }
+
+    return this.get(arg.substr(1));
+  }
+
+  private areArgsSingleObject(args: any[]): boolean {
+    if (!args || args.length !== 1) {
+      return false;
+    }
+    return typeof args[0] === 'object';
   }
 }

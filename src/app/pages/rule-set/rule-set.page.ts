@@ -68,8 +68,8 @@ export class RuleSetPage implements OnInit, OnDestroy {
 
   async deleteRuleSet(ruleSet: RuleSet) {
     const alert = await this.alertController.create({
-      header: this.messages.get('deleteRuleSetHeader', ruleSet.name),
-      message: this.messages.get('deleteRuleSetPrompt', ruleSet.name),
+      header: this.messages.get('deletePromptHeader', this.messages.get('ruleSet')),
+      message: this.messages.get('deletePromptMessage', `${this.messages.get('ruleSet')} '${ruleSet.name}'`),
       buttons: [
         {
           text: this.messages.get('cancel'),

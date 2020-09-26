@@ -3,13 +3,13 @@
     <ion-col class="ion-no-padding">
       <ion-item-divider>
         <ion-text color="primary">
-          <h2>Augen</h2>
+          <h2>{{ 'eyes' | message }}</h2>
         </ion-text>
       </ion-item-divider>
 
       <ion-range color="primary" max="240" [value]="rePoints" (ionChange)="rePoints = $event.detail.value">
-        <ion-text class="point-label" slot="start">Re<br />{{ rePoints }}</ion-text>
-        <ion-text class="point-label" slot="end">Contra<br />{{ 240 - rePoints }}</ion-text>
+        <ion-text class="point-label" slot="start">{{ 're' | message }}<br />{{ rePoints }}</ion-text>
+        <ion-text class="point-label" slot="end">{{ 'contra' | message }}<br />{{ 240 - rePoints }}</ion-text>
       </ion-range>
     </ion-col>
   </ion-row>
@@ -18,7 +18,7 @@
     <ion-col class="ion-no-padding">
       <ion-item-divider>
         <ion-text color="primary">
-          <h2>An- und Absagen</h2>
+          <h2>{{ 'announcements' | message }}</h2>
         </ion-text>
       </ion-item-divider>
 
@@ -36,7 +36,7 @@
       <ion-col class="ion-no-padding">
         <ion-item-divider>
           <ion-text color="primary">
-            <h2>Sonderpunkte</h2>
+            <h2>{{ 'bonusScores' | message }}</h2>
           </ion-text>
         </ion-item-divider>
       </ion-col>
@@ -44,75 +44,75 @@
     <ion-row class="ion-padding-horizontal ion-align-items-center padded-row top-row"
       *ngIf="isBonusScore('ForDoppelkopf')">
       <ion-col size="3">
-        Doppelkopf
+        {{ 'doppelkopf' | message }}
       </ion-col>
       <ion-col class="column-chip">
         <ion-chip (click)="rotateDoppelkopfs('re')" [class.selected-chip]="doppelkopfs.re"
           [color]="doppelkopfsValid ? undefined : 'danger'" [class.invalid-chip]="!doppelkopfsValid">
-          <ion-text>Re {{ doppelkopfs.re === 0 ? 'Keine' : doppelkopfs.re }}</ion-text>
+          <ion-text>{{ 're' | message }} {{ doppelkopfs.re || ('none' | message) }}</ion-text>
         </ion-chip>
       </ion-col>
       <ion-col class="column-chip">
         <ion-chip (click)="rotateDoppelkopfs('contra')" [class.selected-chip]="doppelkopfs.contra"
           [color]="doppelkopfsValid ? undefined : 'danger'" [class.invalid-chip]="!doppelkopfsValid">
-          <ion-text>Contra {{ doppelkopfs.contra === 0 ? 'Keine' : doppelkopfs.contra }}</ion-text>
+          <ion-text>{{ 'contra' | message }} {{ doppelkopfs.contra || ('none' | message) }}</ion-text>
         </ion-chip>
       </ion-col>
     </ion-row>
     <ion-row class="ion-padding-horizontal ion-align-items-center padded-row" *ngIf="isBonusScore('ForCaughtFox')">
       <ion-col size="5">
-        Fuchs gefangen
+        {{ 'ForCaughtFox' | message }}
       </ion-col>
       <ion-col class="column-chip" *ngFor="let index of [0, 1]">
         <ion-chip (click)="rotateParty('foxCaught', index)" [class.selected-chip]="foxesCaught[index]"
           [color]="foxesValid ? undefined : 'danger'" [class.invalid-chip]="!foxesValid">
-          <ion-text>{{ foxesCaught[index] ? messages.get(foxesCaught[index]) : noParty }}</ion-text>
+          <ion-text>{{ foxesCaught[index] ? (foxesCaught[index] | message) : noParty }}</ion-text>
         </ion-chip>
       </ion-col>
     </ion-row>
     <ion-row class="ion-padding-horizontal ion-align-items-center padded-row"
       *ngIf="isBonusScore('WhenFoxTakesLastTrick')">
       <ion-col size="6">
-        Letzter Stich mit Fuchs
+        {{ 'WhenFoxTakesLastTrick' | message }}
       </ion-col>
       <ion-col class="column-chip">
         <ion-chip (click)="rotateParty('foxGotLastTrick')" [class.selected-chip]="foxGotLastTrick"
           [color]="foxesValid ? undefined : 'danger'" [class.invalid-chip]="!foxesValid">
-          <ion-text>{{ foxGotLastTrick ? messages.get(foxGotLastTrick) : noParty }}</ion-text>
+          <ion-text>{{ foxGotLastTrick ? (foxGotLastTrick | message) : noParty }}</ion-text>
         </ion-chip>
       </ion-col>
     </ion-row>
     <ion-row class="ion-padding-horizontal ion-align-items-center padded-row" *ngIf="isBonusScore('ForCaughtCharlie')">
       <ion-col size="5">
-        Karlchen gefangen
+        {{ 'ForCaughtCharlie' | message }}
       </ion-col>
       <ion-col class="column-chip" *ngFor="let index of [0, 1]">
         <ion-chip (click)="rotateParty('charlyCaught', index)" [class.selected-chip]="charliesCaught[index]"
           [color]="charliesValid ? undefined : 'danger'" [class.invalid-chip]="!charliesValid">
-          <ion-text>{{ charliesCaught[index] ? messages.get(charliesCaught[index]) : noParty }}</ion-text>
+          <ion-text>{{ charliesCaught[index] ? (charliesCaught[index] | message) : noParty }}</ion-text>
         </ion-chip>
       </ion-col>
     </ion-row>
     <ion-row class="ion-padding-horizontal ion-align-items-center padded-row"
       *ngIf="isBonusScore('WhenCharlieTakesLastTrick')">
       <ion-col size="6">
-        Letzter Stich mit Karlchen
+        {{ 'WhenCharlieTakesLastTrick' | message }}
       </ion-col>
       <ion-col class="column-chip">
         <ion-chip (click)="rotateParty('charlyGotLastTrick')" [class.selected-chip]="charlyGotLastTrick"
           [color]="charliesValid ? undefined : 'danger'" [class.invalid-chip]="!charliesValid">
-          <ion-text>{{ charlyGotLastTrick ? messages.get(charlyGotLastTrick) : noParty }}</ion-text>
+          <ion-text>{{ charlyGotLastTrick ? (charlyGotLastTrick | message) : noParty }}</ion-text>
         </ion-chip>
       </ion-col>
     </ion-row>
     <ion-row class="ion-padding-horizontal ion-align-items-center padded-row"
       *ngIf="isBonusScore('WhenDulleCapturesDulle')">
       <ion-col size="5">
-        Dulle gefangen
+        {{ 'WhenDulleCapturesDulle' | message }}
       </ion-col>
       <ion-col class="column-chip">
         <ion-chip (click)="rotateParty('dulleCaughtDulle')" [class.selected-chip]="dulleCaughtDulle">
-          <ion-text>{{ dulleCaughtDulle ? messages.get(dulleCaughtDulle) : noParty }}</ion-text>
+          <ion-text>{{ dulleCaughtDulle ? (dulleCaughtDulle | message) : noParty }}</ion-text>
         </ion-chip>
       </ion-col>
     </ion-row>

@@ -3,7 +3,9 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/lists"></ion-back-button>
     </ion-buttons>
-    <ion-title>Liste vom {{ list?.startDate | date:'shortDate' }}</ion-title>
+    <ion-title>
+      {{'listOfThe' | message }} {{ list?.startDate | date:'shortDate' }}
+    </ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="onMenuClicked($event)">
         <ion-icon slot="icon-only" name="ellipsis-vertical"></ion-icon>
@@ -30,8 +32,9 @@
     <ion-grid id="main-grid" class="ion-no-padding">
       <ion-row *ngIf="scores.length === 0">
         <ion-col class="ion-padding-horizontal ion-text-center">
-          <p class="ion-no-margin" class="no-rounds-message">Keine Runden eingetragen</p>
-          <ion-button class="ion-padding-horizontal" expand="block" strong (click)="onAddRound()">Runde hinzufügen
+          <p class="ion-no-margin" class="no-rounds-message">{{ 'noRoundAdded' | message }}</p>
+          <ion-button *ngIf="!list.isFinished" class="ion-padding-horizontal" expand="block" strong (click)="onAddRound()">
+            {{ 'addRound' | message }}
           </ion-button>
         </ion-col>
       </ion-row>

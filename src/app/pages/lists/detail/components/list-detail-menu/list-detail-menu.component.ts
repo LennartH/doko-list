@@ -4,6 +4,7 @@ import { GameList } from 'src/app/domain/list';
 import { ListsService } from 'src/app/services/lists.service';
 import { Router } from '@angular/router';
 import { RuleSetCardComponent } from 'src/app/shared/components/rule-set-card/rule-set-card.component';
+import { MessagesService } from 'src/app/services/messages.service';
 
 @Component({
   selector: 'app-list-detail-menu',
@@ -17,7 +18,8 @@ export class ListDetailMenuComponent implements OnInit {
     private popoverController: PopoverController,
     private alertController: AlertController,
     private listsService: ListsService,
-    private router: Router
+    private router: Router,
+    private messages: MessagesService,
   ) {}
 
   ngOnInit() {}
@@ -37,16 +39,16 @@ export class ListDetailMenuComponent implements OnInit {
 
   async onFinishClicked() {
     const alert = await this.alertController.create({
-      header: 'Liste beenden?',
-      message: 'Liste wirklich beenden? Danach können keine weiteren Runden hinzugefügt werden.',
+      header: this.messages.get('endListPromptHeader'),
+      message: this.messages.get('endListPromptMessage'),
       buttons: [
         {
-          text: 'Abbrechen',
+          text: this.messages.get('cancel'),
           role: 'cancel'
         },
         {
-          text: 'Beenden',
-          cssClass: 'primary',
+          text: this.messages.get('end'),
+          cssClass: 'tertiary',
           handler: () => this.listsService.finishList(this.list.id)
         }
       ]
@@ -57,15 +59,15 @@ export class ListDetailMenuComponent implements OnInit {
 
   async onDeleteClicked() {
     const alert = await this.alertController.create({
-      header: 'Liste Löschen?',
-      message: 'Liste wirklich dauerhaft löschen?',
+      header: this.messages.get('deletePromptHeader', this.messages.get('list')),
+      message: this.messages.get('deletePromptMessage', this.messages.get('list')),
       buttons: [
         {
-          text: 'Abbrechen',
+          text: this.messages.get('cancel'),
           role: 'cancel'
         },
         {
-          text: 'Löschen',
+          text: this.messages.get('delete'),
           cssClass: 'danger',
           handler: () => {
             this.listsService.deleteList(this.list.id);

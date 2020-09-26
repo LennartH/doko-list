@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>Deine Listen</ion-title>
+    <ion-title>{{ 'yourLists' | message }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -13,7 +13,7 @@
       <ion-col class="ion-no-padding">
         <ion-item-divider>
           <ion-text color="primary">
-            <h2>Aktive Listen</h2>
+            <h2>{{ 'activeLists' | message }}</h2>
           </ion-text>
         </ion-item-divider>
       </ion-col>
@@ -21,9 +21,15 @@
     <ion-row *ngIf="activeLists.length === 0">
       <ion-col class="ion-padding-horizontal ion-text-center">
         <p class="ion-no-margin" [class]="finishedLists.length === 0 ? 'no-lists-message' : 'no-active-lists-message'">
-          Keine {{ finishedLists.length > 0 ? 'aktiven' : '' }} Listen vorhanden
+          <ng-container *ngIf="finishedLists.length > 0; else noListsMessage">
+            {{ 'noActiveListsAvailable' | message }}
+          </ng-container>
+          <ng-template #noListsMessage>
+            {{ 'noListsAvailable' | message }}
+          </ng-template>
         </p>
-        <ion-button class="ion-padding-horizontal" expand="block" strong routerLink="create">Neue Liste beginnen
+        <ion-button class="ion-padding-horizontal" expand="block" strong routerLink="create">
+          {{ 'startNewList' | message }}
         </ion-button>
       </ion-col>
     </ion-row>
@@ -38,7 +44,7 @@
         <ion-col class="ion-no-padding">
           <ion-item-divider>
             <ion-text color="primary">
-              <h2>Abgeschlossene Listen</h2>
+              <h2>{{ 'finishedLists' | message }}</h2>
             </ion-text>
           </ion-item-divider>
         </ion-col>

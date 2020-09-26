@@ -1,3 +1,4 @@
+import { Message } from '../services/messages.service';
 import { AnnouncementBehaviour, BockroundAfter, BonusScore, Party, PointThreshold } from './common';
 import { RoundData } from './round-data';
 
@@ -46,17 +47,17 @@ export class RuleSet {
     const losingPartyPoints = roundData.points[losingParty];
     if (losingPartyPoints === 0) {
       winningPartyPoints++;
-      details.push({message: 'schwarz', delta: 1, intermediatePoints: winningPartyPoints});
+      details.push({message: this.message('schwarz'), delta: 1, intermediatePoints: winningPartyPoints});
       isBockroundNext = isBockroundNext || this.bockroundAfter(BockroundAfter.WonSchwarz);
     }
     for (const pointThreshold of PointThreshold.values().slice(1, -1)) {
       if (losingPartyPoints < pointThreshold) {
         winningPartyPoints++;
-        details.push({message: `lessThan${pointThreshold}`, delta: 1, intermediatePoints: winningPartyPoints});
+        details.push({message: this.message('lessThanThreshold', pointThreshold), delta: 1, intermediatePoints: winningPartyPoints});
       }
     }
     winningPartyPoints++;
-    details.push({message: 'won', delta: 1, intermediatePoints: winningPartyPoints});
+    details.push({message: this.message('won'), delta: 1, intermediatePoints: winningPartyPoints});
 
     // TODO Cleanup
     // Score based on announcements
@@ -65,12 +66,12 @@ export class RuleSet {
       switch (this.config.announcementBehaviour) {
         case AnnouncementBehaviour.FirstGetsPlusTwo:
           winningPartyPoints += 2;
-          details.push({message: `${winningParty}Announced`, delta: 2, intermediatePoints: winningPartyPoints});
+          details.push({message: this.message('partyAnnounced', winningParty), delta: 2, intermediatePoints: winningPartyPoints});
           break;
         case AnnouncementBehaviour.FirstDoubles:
         case AnnouncementBehaviour.AllDouble:
           winningPartyPoints *= 2;
-          details.push({message: `${winningParty}Announced`, factor: 2, intermediatePoints: winningPartyPoints});
+          details.push({message: this.message('partyAnnounced', winningParty), factor: 2, intermediatePoints: winningPartyPoints});
           break;
         default:
           throw new Error(`Unknown announcement behaviour ${this.config.announcementBehaviour}`);
@@ -81,11 +82,11 @@ export class RuleSet {
             case AnnouncementBehaviour.FirstGetsPlusTwo:
             case AnnouncementBehaviour.FirstDoubles:
               winningPartyPoints++;
-              details.push({message: `lessThan${threshold}Announced`, delta: 1, intermediatePoints: winningPartyPoints});
+              details.push({message: this.message('lessThanThresholdAnnounced', threshold), delta: 1, intermediatePoints: winningPartyPoints});
               break;
             case AnnouncementBehaviour.AllDouble:
               winningPartyPoints *= 2;
-              details.push({message: `lessThan${threshold}Announced`, factor: 2, intermediatePoints: winningPartyPoints});
+              details.push({message: this.message('lessThanThresholdAnnounced', threshold), factor: 2, intermediatePoints: winningPartyPoints});
               break;
             default:
               throw new Error(`Unknown announcement behaviour ${this.config.announcementBehaviour}`);
@@ -97,7 +98,7 @@ export class RuleSet {
       const losingPartyAnnouncement = roundData.announcements[losingParty];
       for (const threshold of PointThreshold.values()) {
         if (threshold >= losingPartyAnnouncement.lessThan) {
-          const message = threshold === 120 ? `${losingParty}AnnouncedLost` : `lessThan${threshold}AnnouncedLost`;
+          const message = threshold === 120 ? this.message('partyAnnouncedLost', losingParty) : this.message('lessThanThresholdAnnouncedLost', threshold);
           switch (this.config.announcementBehaviour) {
             case AnnouncementBehaviour.FirstGetsPlusTwo:
             case AnnouncementBehaviour.FirstDoubles:
@@ -122,7 +123,7 @@ export class RuleSet {
         if (delta !== 0) {
           // TODO Separate positive and negative bonus scores
           winningPartyPoints += delta;
-          details.push({message: bonusScoreRule, delta, intermediatePoints: winningPartyPoints});
+          details.push({message: this.message(bonusScoreRule), delta, intermediatePoints: winningPartyPoints});
         }
       }
     }
@@ -133,9 +134,9 @@ export class RuleSet {
       if (this.config.consecutiveBockroundsStack) {
         bockroundFactor **= roundData.consecutiveBockrounds;
       }
-      const message = bockroundFactor > 2 ? 'bockrounds' : 'bockround';
+      const key = bockroundFactor > 2 ? 'bockrounds' : 'bockround';
       winningPartyPoints *= bockroundFactor;
-      details.push({message, factor: bockroundFactor, intermediatePoints: winningPartyPoints});
+      details.push({message: this.message(key), factor: bockroundFactor, intermediatePoints: winningPartyPoints});
     }
 
     // Finalizing result
@@ -156,6 +157,16 @@ export class RuleSet {
       details,
       isBockroundNext
     };
+  }
+
+  private message(key: string, ...args: any[]) {
+    if (args.length === 0) {
+      return { key };
+    }
+
+    const parties = Party.values();
+    args = args.map(arg => parties.includes(arg) ? `$${arg}`: arg);
+    return {key, args};
   }
 
   private determineWinningParty(roundData: RoundData): [Party, boolean] {
@@ -250,7 +261,7 @@ export interface RoundResult {
 }
 
 export interface RoundResultDetail {
-  message: string;
+  message: Message;
   delta?: number;
   factor?: number;
   intermediatePoints: number;

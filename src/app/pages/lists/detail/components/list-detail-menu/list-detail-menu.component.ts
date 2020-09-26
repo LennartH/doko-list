@@ -58,6 +58,7 @@ export class ListDetailMenuComponent implements OnInit {
   }
 
   async onDeleteClicked() {
+    // TODO Check if the current set is complete
     const alert = await this.alertController.create({
       header: this.messages.get('deletePromptHeader', this.messages.get('list')),
       message: this.messages.get('deletePromptMessage', this.messages.get('list')),

@@ -11,7 +11,7 @@ import { SharedModule } from './shared/shared.module';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, SharedModule],
+  imports: [BrowserModule, IonicModule.forRoot({ mode: 'md' }), AppRoutingModule, SharedModule],
   providers: [StatusBar, SplashScreen, { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
 })

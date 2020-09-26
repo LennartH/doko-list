@@ -14,6 +14,14 @@ export class GameListCardComponent implements OnInit {
 
   ngOnInit() {}
 
+  score(player: string): number {
+    return this.list.finalScores[player].total;
+  }
+
+  isWinner(player: string): boolean {
+    return player === this.list.winner;
+  }
+
   onClick() {
     this.router.navigate(['/lists/detail', this.list.id]);
   }

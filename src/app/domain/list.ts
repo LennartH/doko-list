@@ -8,10 +8,16 @@ export interface Round {
   result: RoundResult;
 }
 
+export interface Scores {
+  [player: string]: { total: number; delta: number };
+}
+
 export class GameList {
   readonly players: string[];
   readonly rounds: Round[];
-  endDate: Date;
+
+  private _endDate: Date;
+  private _finalScores: Scores;
 
   ruleSet: RuleSet;
 
@@ -33,7 +39,8 @@ export class GameList {
       }
     }
     if ('endDate' in json) {
-      list.endDate = new Date(json.endDate);
+      list._endDate = new Date(json.endDate);
+      list._finalScores = json.finalScores;
     }
     return list;
   }
@@ -46,6 +53,38 @@ export class GameList {
 
   get isFinished(): boolean {
     return this.endDate !== undefined;
+  }
+
+  get endDate(): Date {
+    return this._endDate;
+  }
+
+  set endDate(date: Date) {
+    if (!date) {
+      throw new Error("The given date mustn't be null or undefined");
+    }
+
+    this._endDate = date;
+    const scores = this.scores;
+    this._finalScores = scores[scores.length - 1];
+  }
+
+  get finalScores(): Scores {
+    return this._finalScores;
+  }
+
+  get winner(): string {
+    if (!this.finalScores) {
+      return null;
+    }
+
+    return Object.keys(this.finalScores)
+      .map((p) => {
+        return { player: p, total: this.finalScores[p].total };
+      })
+      .reduce((previous, current) => {
+        return !previous || current.total > previous.total ? current : previous;
+      }).player;
   }
 
   getConsecutiveBockrounds(): number {
@@ -102,6 +141,7 @@ export class GameList {
     }
     if (this.endDate) {
       data.endDate = this.endDate;
+      data.finalScores = this.finalScores;
     }
     return JSON.stringify(data);
   }

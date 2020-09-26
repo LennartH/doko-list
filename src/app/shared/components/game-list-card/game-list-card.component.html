@@ -1,7 +1,18 @@
 <!-- TODO Show player scores for finished lists -->
 <ion-card button (click)="onClick()">
   <ion-card-header>
-    <ion-card-subtitle>{{ list.players.join(', ') }}</ion-card-subtitle>
+    <ion-card-subtitle [class.finished-list-scores]="list.isFinished">
+      <ng-container *ngFor="let player of list.players; last as isLast">
+        <ng-container *ngIf="!list.isFinished; else finishedPlayers"> {{ player }}{{ isLast ? '' : ',' }} </ng-container>
+        <ng-template #finishedPlayers>
+          <div class="finished-list-player">
+            <ion-icon *ngIf="isWinner(player)" name="trophy"></ion-icon>
+            <ion-text>{{ player }}</ion-text>
+            <ion-text>{{ score(player) }}</ion-text>
+          </div>
+        </ng-template>
+      </ng-container>
+    </ion-card-subtitle>
     <ion-card-title>
       {{ list.startDate | date: 'longDate' }}
       <ng-container *ngIf="list.isFinished && list.startDate.getTime() !== list.endDate.getTime()">

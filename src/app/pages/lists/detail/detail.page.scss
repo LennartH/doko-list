@@ -10,14 +10,15 @@ ion-grid {
   font-weight: bold;
   color: var(--ion-color-dark-contrast);
   background-color: var(--ion-color-dark-tint);
+
+  ion-text {
+    vertical-align: top;
+  }
 }
 
-.title-row ion-text {
-  vertical-align: top;
-}
-
-.dealer-icon {
+.title-icon {
   font-size: larger;
+  margin-right: 0.2em;
 }
 
 .separator-row {

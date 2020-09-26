@@ -134,12 +134,14 @@ export class MessagesService {
       key = keyOrMessage;
     } else {
       key = keyOrMessage.key;
-      const messageArgsIsObject = this.areArgsSingleObject(keyOrMessage.args);
-      const argsIsObject = this.areArgsSingleObject(args);
-      const useObject = messageArgsIsObject || argsIsObject;
-      const args1 = messageArgsIsObject ? keyOrMessage.args[0] : keyOrMessage.args;
-      const args2 = argsIsObject ? args[0] : args;
-      args = useObject ? [{ ...args1, ...args2 }] : [...args1, ...args2];
+      if (keyOrMessage.args) {
+        const messageArgsIsObject = this.areArgsSingleObject(keyOrMessage.args);
+        const argsIsObject = this.areArgsSingleObject(args);
+        const useObject = messageArgsIsObject || argsIsObject;
+        const args1 = messageArgsIsObject ? keyOrMessage.args[0] : keyOrMessage.args;
+        const args2 = argsIsObject ? args[0] : args;
+        args = useObject ? [{ ...args1, ...args2 }] : [...args1, ...args2];
+      }
     }
 
     const message = this.messages[key];

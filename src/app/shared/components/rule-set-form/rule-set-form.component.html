@@ -3,14 +3,14 @@
     <ion-row>
       <ion-col>
         <ion-item class="name-input" lines="inset">
-          <ion-label position="floating">Name</ion-label>
+          <ion-label position="floating">{{ 'name' | message }}</ion-label>
           <ion-input type="text" formControlName="name" autocapitalize autofocus></ion-input>
         </ion-item>
       </ion-col>
     </ion-row>
     <ion-row *ngIf="name.invalid && name.errors.duplicateName && (name.dirty || name.touched)">
       <ion-col>
-        <ion-item class="error-item" lines="none"> Ein Regelsatz mit diesem Namen existiert bereits. </ion-item>
+        <ion-item class="error-item" lines="none">{{ 'ruleSetExistsError' | message }}</ion-item>
       </ion-col>
     </ion-row>
 
@@ -19,16 +19,16 @@
         <ion-item-group>
           <ion-item-divider>
             <ion-text color="primary">
-              <h2>Allgemeines</h2>
+              <h2>{{ 'general' | message }}</h2>
             </ion-text>
           </ion-item-divider>
 
           <ion-item lines="none">
-            <ion-label>Verlierer bekommen Minuspunkte</ion-label>
+            <ion-label>{{ 'losingPartyGetsNegatedScore' | message }}</ion-label>
             <ion-toggle color="primary" formControlName="losingPartyGetsNegatedScore"></ion-toggle>
           </ion-item>
           <ion-item lines="none">
-            <ion-label>Solo gewinnt bei Gleichstand</ion-label>
+            <ion-label>{{ 'soloWinsOnTie' | message }}</ion-label>
             <ion-toggle color="primary" formControlName="soloWinsOnTie"></ion-toggle>
           </ion-item>
         </ion-item-group>
@@ -40,12 +40,12 @@
         <ion-item-group>
           <ion-item-divider>
             <ion-text color="primary">
-              <h2>An- und Absagen</h2>
+              <h2>{{ 'announcements' | message }}</h2>
             </ion-text>
           </ion-item-divider>
 
           <ion-item lines="none">
-            <ion-label position="floating">Verhalten</ion-label>
+            <ion-label position="floating">{{ 'behaviour' | message }}</ion-label>
             <ion-select interface="popover" [interfaceOptions]="{ cssClass: 'broad-popover' }" formControlName="announcementBehaviour">
               <ion-select-option *ngFor="let behaviour of possibleBehaviours" [value]="behaviour">
                 <ion-text>{{ behaviour | message }}</ion-text>
@@ -53,7 +53,7 @@
             </ion-select>
           </ion-item>
           <ion-item lines="none">
-            <ion-label>Verlorene An-/Absagen geben Punkte</ion-label>
+            <ion-label>{{ 'losingAnnouncementsGivesScore' | message }}</ion-label>
             <ion-toggle color="primary" formControlName="losingAnnouncementsGivesScore"></ion-toggle>
           </ion-item>
         </ion-item-group>
@@ -65,7 +65,7 @@
         <ion-item-group>
           <ion-item-divider>
             <ion-text color="primary">
-              <h2>Sonderpunkte für</h2>
+              <h2>{{ 'bonusScoresFor' | message }}</h2>
             </ion-text>
           </ion-item-divider>
 
@@ -82,7 +82,7 @@
             </div>
           </ion-item>
           <ion-item lines="none">
-            <ion-label>Auch bei Solo Spielen</ion-label>
+            <ion-label>{{ 'bonusScoresOnSolo' | message }}</ion-label>
             <ion-toggle color="primary" formControlName="bonusScoresOnSolo"></ion-toggle>
           </ion-item>
         </ion-item-group>
@@ -94,7 +94,7 @@
         <ion-item-group>
           <ion-item-divider>
             <ion-text color="primary">
-              <h2>Bockrunden nach</h2>
+              <h2>{{ 'bockroundsAfter' | message }}</h2>
             </ion-text>
           </ion-item-divider>
 
@@ -111,7 +111,7 @@
             </div>
           </ion-item>
           <ion-item lines="none">
-            <ion-label>Bockrunden überlappen sich</ion-label>
+            <ion-label>{{ 'consecutiveBockroundsStack' | message }}</ion-label>
             <ion-toggle color="primary" formControlName="consecutiveBockroundsStack"></ion-toggle>
           </ion-item>
         </ion-item-group>

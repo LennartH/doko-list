@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { faCoffee } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-lists',
@@ -6,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./lists.component.scss'],
 })
 export class ListsComponent implements OnInit {
+  faCoffee = faCoffee;
+
   constructor() {}
 
   ngOnInit(): void {}

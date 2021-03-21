@@ -1,7 +1,0 @@
-{
-  "name": "doko-list",
-  "integrations": {
-    "capacitor": {}
-  },
-  "type": "angular"
-}

@@ -1,9 +1,0 @@
-{
-  "appId": "org.hensler.dokolist",
-  "appName": "doko-list",
-  "bundledWebRuntime": false,
-  "npmClient": "npm",
-  "webDir": "www",
-  "cordova": {},
-  "linuxAndroidStudioPath": "android-studio"
-}

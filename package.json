@@ -62,6 +62,6 @@
     }
   },
   "lint-staged": {
-    "**/*": ["prettier --write --ignore-unknown", "git add -A"]
+    "**/*": "prettier --write --ignore-unknown"
   }
 }

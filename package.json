@@ -58,11 +58,10 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "npm run lint"
     }
   },
   "lint-staged": {
-    "*.{ts,html}": "npm run lint",
-    "**/*": "prettier --write --ignore-unknown"
+    "**/*": ["ng lint --files", "prettier --write --ignore-unknown", "git add -A"]
   }
 }

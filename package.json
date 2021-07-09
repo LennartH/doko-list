@@ -1,11 +1,13 @@
 {
   "name": "doko-list",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "scripts": {
     "ng": "ng",
     "gen": "ng g --skip-tests",
     "start": "ng serve",
     "build": "ng build",
+    "build prod": "NODE_ENV=production ng build --prod",
+    "build --prod": "NODE_ENV=production ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -37,6 +39,7 @@
     "@angular-eslint/template-parser": "12.2.0",
     "@angular/cli": "^12.1.1",
     "@angular/compiler-cli": "^12.1.1",
+    "@tailwindcss/forms": "^0.3.3",
     "@types/jasmine": "^3.8.1",
     "@types/node": "^16.3.0",
     "@typescript-eslint/eslint-plugin": "4.28.2",

@@ -5,23 +5,23 @@ import { BehaviorSubject, Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class NavbarService {
-  private _showSidebar = new BehaviorSubject<boolean>(false);
+  private _showNavbar = new BehaviorSubject<boolean>(false);
 
-  get isSidebarVisible(): Observable<boolean> {
-    return this._showSidebar.asObservable();
+  get isNavbarVisible(): Observable<boolean> {
+    return this._showNavbar.asObservable();
   }
 
-  get showSidebar(): boolean {
-    return this._showSidebar.value;
+  get showNavbar(): boolean {
+    return this._showNavbar.value;
   }
 
-  set showSidebar(value: boolean) {
-    this._showSidebar.next(value);
+  set showNavbar(value: boolean) {
+    this._showNavbar.next(value);
   }
 
   constructor() {}
 
-  toggleSidebar() {
-    this._showSidebar.next(!this._showSidebar.value);
+  toggleNavbar() {
+    this._showNavbar.next(!this._showNavbar.value);
   }
 }

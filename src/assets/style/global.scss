@@ -1,3 +1,8 @@
+body {
+  @apply p-0 m-0 flex absolute top-0 bottom-0 left-0 right-0 w-full h-full bg-gray-200
+}
+
 .btn {
-  @apply py-2 px-4 border border-transparent rounded bg-primary text-primary-foreground
+  @apply py-2 px-4 border border-transparent rounded bg-primary-light text-primary-foreground
+         hover:bg-primary
 }

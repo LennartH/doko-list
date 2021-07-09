@@ -1,5 +1,10 @@
 const colors = require('tailwindcss/colors')
 
+const Color = require('color')
+const lighten = (color, ratio) => Color(color).lighten(ratio).rgb().string()
+const darken = (color, ratio) => Color(color).darken(ratio).rgb().string()
+const alpha = (color, ratio) => Color(color).alpha(ratio).rgb().string()
+
 const primaryDefault = '#4357adff'
 const secondaryDefault = '#48a9a6ff'
 const tertiaryDefault = '#e0c5aa'
@@ -16,6 +21,7 @@ module.exports = {
     extend: {
       colors: {
         primary: {
+          light: lighten(primaryDefault, 0.15),
           DEFAULT: primaryDefault,
           background: primaryDefault,
           foreground: colors.white,
